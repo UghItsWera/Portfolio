@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weronika Michalek</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <script src="script.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1 class="logo">Weronika Michalek</h1>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="Index.html" class="active">Main Menu</a></li>
+        <li><a href="AboutMe.html">About</a></li>
+        <li><a href="MyProjects.html">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
+  </header>
+
+  <section class="hero">
+    <h2>Hello, I'm <span class="typewriter">Weronika!</span></h2>
+    <p>Welcome to my world!</p>
+    <a href="MyProjects.html" class="btn">View My Work</a>
+  </section>
+
+  <section id="contact">
+    <h2>Let's Connect!</h2>
+    <p>Feel free to reach out using the form below.</p>
+  
+    <form id="contact-form" action="https://formspree.io/f/xrblelwy" method="POST">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" required placeholder="Your name" />
+  
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required placeholder="you@example.com" />
+  
+      <label for="message">Message</label>
+      <textarea name="message" id="message" required placeholder="Your message"></textarea>
+  
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  
+    <p class="form-status" id="form-status"></p>
+  </section>  
+
+  <footer>
+    <p>&copy; 2025 Weronika Michalek</p>
+  </footer>
+</body>
+</html>
