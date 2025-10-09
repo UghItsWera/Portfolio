@@ -1,0 +1,67 @@
+@model (List<Project> Projects, AboutSection About)
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<main class="admin-page">
+    <h2>🌷 Admin Dashboard</h2>
+
+    <section class="card">
+        <h3>Add New Project</h3>
+        <form asp-action="AddProject" method="post" enctype="multipart/form-data">
+            <label>Title</label>
+            <input type="text" name="Title" required />
+
+            <label>Description</label>
+            <textarea name="Description" required></textarea>
+
+            <label>Link</label>
+            <input type="url" name="Link" placeholder="https://github.com/..." />
+
+            <label>Video URL (YouTube embed)</label>
+            <input type="url" name="VideoUrl" />
+
+            <label>Upload Images</label>
+            <input type="file" name="images" multiple />
+
+            <button type="submit" class="btn">Add Project ✨</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h3>Update About Section</h3>
+        <form asp-action="UpdateAbout" method="post" enctype="multipart/form-data">
+            <label>Bio Text</label>
+            <textarea name="BioText">@Model.About?.BioText</textarea>
+
+            <label>Profile Image</label>
+            <input type="file" name="profileImage" />
+
+            <button type="submit" class="btn">Update 🌸</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h3>Existing Projects</h3>
+        <ul>
+            @foreach (var project in Model.Projects)
+            {
+                <li>
+                    <strong>@project.Title</strong> - <a href="@project.Link" target="_blank">View</a>
+                    <div>
+                        @if (project.Images != null && project.Images.Count > 0)
+                        {
+                            <div class="slideshow">
+                                @foreach (var img in project.Images)
+                                {
+                                    <img src="@img.ImagePath" class="slide" />
+                                }
+                            </div>
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
+    </section>
+</main>
