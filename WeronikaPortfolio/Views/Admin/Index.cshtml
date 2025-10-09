@@ -1,67 +1,70 @@
-@model (List<Project> Projects, AboutSection About)
+@model WeronikaPortfolio.Models.AdminViewModel
 
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_AdminLayout";
 }
 
-<main class="admin-page">
-    <h2>🌷 Admin Dashboard</h2>
+<link rel="stylesheet" href="~/css/admin.css" />
+<link rel="stylesheet" href="~/css/styles.css" />
+<script src="~/js/admin.js" defer></script>
 
-    <section class="card">
-        <h3>Add New Project</h3>
-        <form asp-action="AddProject" method="post" enctype="multipart/form-data">
-            <label>Title</label>
-            <input type="text" name="Title" required />
+<h2>🌸 Admin Dashboard</h2>
 
-            <label>Description</label>
-            <textarea name="Description" required></textarea>
+<!-- 🌸 ABOUT SECTION -->
+<h3>About Section</h3>
+<form asp-action="UpdateAbout" method="post" enctype="multipart/form-data">
+    <textarea name="BioText" rows="4" placeholder="Bio">@Model.About?.BioText</textarea><br />
+    <label>Profile Image:</label><br />
+    <input type="file" name="ProfileImage" accept="image/*" /><br />
+    <button type="submit" class="btn btn-pink">Update About</button>
+</form>
 
-            <label>Link</label>
-            <input type="url" name="Link" placeholder="https://github.com/..." />
+<hr />
 
-            <label>Video URL (YouTube embed)</label>
-            <input type="url" name="VideoUrl" />
+<!-- 🌸 PROJECTS SECTION -->
+<h3>Projects</h3>
 
-            <label>Upload Images</label>
-            <input type="file" name="images" multiple />
+@foreach (var project in Model.Projects)
+{
+    <div class="project-card">
+        <h4>@project.Title</h4>
+        <p>@project.Description</p>
+        <a href="@project.Link" target="_blank">View Project</a><br />
 
-            <button type="submit" class="btn">Add Project ✨</button>
+        <form asp-action="DeleteProject" method="post" style="display:inline;">
+            <input type="hidden" name="id" value="@project.Id" />
+            <button type="submit" class="btn btn-red">Delete Project</button>
         </form>
-    </section>
 
-    <section class="card">
-        <h3>Update About Section</h3>
-        <form asp-action="UpdateAbout" method="post" enctype="multipart/form-data">
-            <label>Bio Text</label>
-            <textarea name="BioText">@Model.About?.BioText</textarea>
+        <h5>Images</h5>
 
-            <label>Profile Image</label>
-            <input type="file" name="profileImage" />
-
-            <button type="submit" class="btn">Update 🌸</button>
-        </form>
-    </section>
-
-    <section class="card">
-        <h3>Existing Projects</h3>
-        <ul>
-            @foreach (var project in Model.Projects)
-            {
-                <li>
-                    <strong>@project.Title</strong> - <a href="@project.Link" target="_blank">View</a>
-                    <div>
-                        @if (project.Images != null && project.Images.Count > 0)
-                        {
-                            <div class="slideshow">
-                                @foreach (var img in project.Images)
-                                {
-                                    <img src="@img.ImagePath" class="slide" />
-                                }
-                            </div>
-                        }
+        @if (project.Images != null && project.Images.Count > 0)
+        {
+            <div class="slideshow-container" id="slideshow-@project.Id">
+                @foreach (var img in project.Images)
+                {
+                    <div class="slide fade">
+                        <img src="@img.ImagePath" alt="Screenshot" class="slide-image" />
                     </div>
-                </li>
-            }
-        </ul>
-    </section>
-</main>
+                }
+                <a class="prev" onclick="changeSlide(-1, @project.Id)">&#10094;</a>
+                <a class="next" onclick="changeSlide(1, @project.Id)">&#10095;</a>
+            </div>
+        }
+    </div>
+    <hr />
+}
+
+<!-- 🌸 ADD NEW PROJECT -->
+<h3>Add New Project</h3>
+<form asp-action="AddProject" method="post" enctype="multipart/form-data">
+    <input type="text" name="Title" placeholder="Title" required /><br />
+    <textarea name="Description" placeholder="Description" required></textarea><br />
+    <input type="text" name="Link" placeholder="Project Link" /><br />
+    <input type="text" name="VideoUrl" placeholder="Video URL" /><br />
+
+    <label>Upload Images:</label>
+    <input type="file" name="Images" multiple accept="image/*" /><br />
+
+    <button type="submit" class="btn btn-pink">Add Project</button>
+</form>

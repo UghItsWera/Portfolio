@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Dashboard</title>
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="admin-header">
+        <h1>@ViewData["Title"]</h1>
+        <nav>
+            <a href="/Admin">Dashboard</a> |
+            <a href="/Admin/Projects">Projects</a> |
+            <a href="/Admin/About">About Section</a>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        @RenderBody()
+    </main>
+</body>
+</html>

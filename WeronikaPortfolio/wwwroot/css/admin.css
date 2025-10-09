@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.admin-header {
+    background-color: #ffb6c1;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.admin-header nav a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.admin-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}

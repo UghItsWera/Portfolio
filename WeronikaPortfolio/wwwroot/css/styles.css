@@ -323,4 +323,71 @@
   border-radius: 10px;
   margin: 0.3rem;
 }
-  
+.slideshow img {
+  width: 100%;
+  max-width: 200px;
+  margin: 0.3rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
+}
+.project-card {
+  border: 2px solid pink;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  background-color: #fff0f5;
+}
+
+.btn-pink {
+  background-color: #ffb6c1;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-red {
+  background-color: #ff6961;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+} 
+/* 🌸 Slideshow styling */
+.slideshow-container {
+  position: relative;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+.slide {
+  display: none;
+}
+
+.slide img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 8px;
+  color: #fff;
+  background-color: rgba(255, 182, 193, 0.7);
+  border-radius: 50%;
+  user-select: none;
+  transform: translateY(-50%);
+}
+
+.prev:hover, .next:hover {
+  background-color: #ffb6c1;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }

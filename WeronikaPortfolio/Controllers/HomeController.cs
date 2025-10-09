@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WeronikaPortfolio.Data;
 using WeronikaPortfolio.Models;
 
@@ -14,8 +15,25 @@ namespace WeronikaPortfolio.Controllers
         }
 
         public IActionResult Index() => View();
+
         public IActionResult About() => View();
-        public IActionResult Projects() => View();
+
+        public async Task<IActionResult> Projects()
+{
+    var projects = await _context.Projects
+        .Include(p => p.Images)
+        .ToListAsync();
+
+    var about = await _context.AboutSections.FirstOrDefaultAsync() ?? new AboutSection();
+
+    var viewModel = new ProjectsViewModel
+    {
+        Projects = projects,
+        About = about
+    };
+
+    return View(viewModel);
+}
 
         [HttpPost]
         public async Task<IActionResult> Contact(Message message)

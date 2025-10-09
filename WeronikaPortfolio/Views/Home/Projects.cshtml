@@ -1,8 +1,7 @@
-@{
-    ViewData["Title"] = "Projects";
-}
+@model WeronikaPortfolio.Models.ProjectsViewModel
+
 <link rel="stylesheet" href="~/css/styles.css" />
-<script src="~/js/script.js" defer></script>
+<script src="~/js/projects.js" defer></script>
 
 <header>
   <h1 class="logo">Weronika Michalek</h1>
@@ -10,8 +9,42 @@
     <ul class="nav-links">
       <li><a asp-controller="Home" asp-action="Index">Main Menu</a></li>
       <li><a asp-controller="Home" asp-action="About">About</a></li>
-      <li><a asp-controller="Home" asp-action="Projects" class="active">Projects</a></li>
+      <li><a asp-controller="Home" asp-action="Projects" class="active" >Projects</a></li>
     </ul>
   </nav>
   <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
 </header>
+
+<div class="card-grid">
+    @foreach (var project in Model.Projects)
+    {
+        <div class="card">
+            <h3>@project.Title</h3>
+            <p>@project.Description</p>
+
+            @if (!string.IsNullOrEmpty(project.Link))
+            {
+                <a href="@project.Link" target="_blank" class="btn">View Project</a>
+            }
+
+            @if (!string.IsNullOrEmpty(project.VideoUrl))
+            {
+                <iframe width="100%" height="200" src="@project.VideoUrl" frameborder="0" allowfullscreen></iframe>
+            }
+
+            @if (project.Images != null && project.Images.Count > 0)
+            {
+                <div class="slideshow-container" id="slideshow-@project.Id">
+                    @foreach (var img in project.Images)
+                    {
+                        <div class="slide fade">
+                            <img src="@img.ImagePath" alt="Project screenshot" class="slide-image" />
+                        </div>
+                    }
+                    <a class="prev" onclick="changeSlide(-1, @project.Id)">&#10094;</a>
+                    <a class="next" onclick="changeSlide(1, @project.Id)">&#10095;</a>
+                </div>
+            }
+        </div>
+    }
+</div>

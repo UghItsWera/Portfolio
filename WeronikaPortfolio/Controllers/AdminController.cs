@@ -1,84 +1,138 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WeronikaPortfolio.Data;
 using WeronikaPortfolio.Models;
-using Microsoft.EntityFrameworkCore;
 
-public class AdminController : Controller
+namespace WeronikaPortfolio.Controllers
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IWebHostEnvironment _environment;
-
-    public AdminController(ApplicationDbContext context, IWebHostEnvironment environment)
+    public class AdminController : Controller
     {
-        _context = context;
-        _environment = environment;
-    }
+        private readonly ApplicationDbContext _context;
 
-    public async Task<IActionResult> Index()
-    {
-        var projects = await _context.Projects.Include(p => p.Images).ToListAsync();
-        var about = await _context.AboutSections.FirstOrDefaultAsync();
-        return View((projects, about));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddProject(Project project, List<IFormFile> images)
-    {
-        if (ModelState.IsValid)
+        public AdminController(ApplicationDbContext context)
         {
-            _context.Projects.Add(project);
-            await _context.SaveChangesAsync();
-
-            foreach (var image in images)
-            {
-                string path = Path.Combine(_environment.WebRootPath, "uploads", image.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-                _context.ProjectImages.Add(new ProjectImage
-                {
-                    ImagePath = "/uploads/" + image.FileName,
-                    ProjectId = project.Id
-                });
-            }
-
-            await _context.SaveChangesAsync();
+            _context = context;
         }
+
+        // Admin Dashboard
+        public async Task<IActionResult> Index()
+        {
+            var projects = await _context.Projects
+                .Include(p => p.Images)
+                .ToListAsync();
+
+            var about = await _context.AboutSections.FirstOrDefaultAsync() ?? new AboutSection();
+
+            var viewModel = new AdminViewModel
+            {
+                Projects = projects,
+                About = about
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+public async Task<IActionResult> AddProject(Project project, List<IFormFile> Images)
+{
+    if (!ModelState.IsValid)
         return RedirectToAction("Index");
+
+    // Create uploads folder if it doesn't exist
+    var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+    if (!Directory.Exists(uploadDir))
+        Directory.CreateDirectory(uploadDir);
+
+    // Initialize image list
+    project.Images = new List<ProjectImage>();
+
+    // Save uploaded images
+    if (Images != null && Images.Count > 0)
+    {
+        foreach (var image in Images)
+        {
+            var extension = Path.GetExtension(image.FileName);
+            var fileName = $"{Guid.NewGuid()}{extension}";
+            var filePath = Path.Combine(uploadDir, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            project.Images.Add(new ProjectImage
+            {
+                ImagePath = "/uploads/" + fileName
+            });
+        }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> UpdateAbout(AboutSection about, IFormFile? profileImage)
-    {
-        var existing = await _context.AboutSections.FirstOrDefaultAsync();
-        if (existing != null)
+    // Save project to database
+    _context.Projects.Add(project);
+    await _context.SaveChangesAsync();
+
+    return RedirectToAction("Index");
+}
+
+
+        // Delete Project
+        [HttpPost]
+        public async Task<IActionResult> DeleteProject(int id)
         {
-            existing.BioText = about.BioText;
-            if (profileImage != null)
+            var project = await _context.Projects
+                .Include(p => p.Images)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (project != null)
             {
-                string path = Path.Combine(_environment.WebRootPath, "uploads", profileImage.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await profileImage.CopyToAsync(stream);
-                }
-                existing.ProfileImagePath = "/uploads/" + profileImage.FileName;
+                // Remove associated images
+                _context.ProjectImages.RemoveRange(project.Images);
+                _context.Projects.Remove(project);
+                await _context.SaveChangesAsync();
             }
+
+            return RedirectToAction("Index");
         }
-        else
+
+        // Update About Section
+        [HttpPost]
+        public async Task<IActionResult> UpdateAbout(AboutSection about)
         {
-            if (profileImage != null)
+            var existing = await _context.AboutSections.FirstOrDefaultAsync();
+            if (existing != null)
             {
-                string path = Path.Combine(_environment.WebRootPath, "uploads", profileImage.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await profileImage.CopyToAsync(stream);
-                }
-                about.ProfileImagePath = "/uploads/" + profileImage.FileName;
+                existing.BioText = about.BioText;
+                existing.ProfileImagePath = about.ProfileImagePath;
+                _context.AboutSections.Update(existing);
             }
-            _context.AboutSections.Add(about);
+            else
+            {
+                _context.AboutSections.Add(about);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Index");
+
+        // Add Project Images
+        [HttpPost]
+        public async Task<IActionResult> AddProjectImages(int projectId, List<string> imagePaths)
+        {
+            var project = await _context.Projects
+                .Include(p => p.Images)
+                .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project != null)
+            {
+                foreach (var path in imagePaths)
+                {
+                    project.Images.Add(new ProjectImage { ImagePath = path });
+                }
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

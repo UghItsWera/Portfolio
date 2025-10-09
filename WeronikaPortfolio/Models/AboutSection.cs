@@ -1,3 +1,8 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace WeronikaPortfolio.Models;
+
 public class AboutSection
 {
     public int Id { get; set; }
