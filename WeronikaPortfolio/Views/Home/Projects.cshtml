@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Projects";
+}
+<link rel="stylesheet" href="~/css/styles.css" />
+<script src="~/js/script.js" defer></script>
+
+<header>
+  <h1 class="logo">Weronika Michalek</h1>
+  <nav>
+    <ul class="nav-links">
+      <li><a asp-controller="Home" asp-action="Index">Main Menu</a></li>
+      <li><a asp-controller="Home" asp-action="About">About</a></li>
+      <li><a asp-controller="Home" asp-action="Projects" class="active">Projects</a></li>
+    </ul>
+  </nav>
+  <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
+</header>

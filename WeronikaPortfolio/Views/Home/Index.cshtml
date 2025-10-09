@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<link rel="stylesheet" href="~/css/styles.css" />
+<script src="~/js/script.js" defer></script>
+
+<header>
+  <h1 class="logo">Weronika Michalek</h1>
+  <nav>
+    <ul class="nav-links">
+      <li><a asp-controller="Home" asp-action="Index" class="active">Main Menu</a></li>
+      <li><a asp-controller="Home" asp-action="About">About</a></li>
+      <li><a asp-controller="Home" asp-action="Projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <button id="theme-toggle" aria-label="Toggle Theme">🌓</button>
+</header>
+
+<section class="hero">
+  <h2>Hello, I'm <span class="typewriter">Weronika!</span></h2>
+  <p>Welcome to my world!</p>
+  <a asp-controller="Home" asp-action="Projects" class="btn">View My Work</a>
+</section>
+
+<section id="contact">
+  <h2>Let's Connect!</h2>
+  <p>Feel free to reach out using the form below.</p>
+
+  <form asp-action="Contact" method="post">
+    <label for="Name">Name</label>
+    <input type="text" name="Name" required placeholder="Your name" />
+
+    <label for="Email">Email</label>
+    <input type="email" name="Email" required placeholder="you@example.com" />
+
+    <label for="Content">Message</label>
+    <textarea name="Content" required placeholder="Your message"></textarea>
+
+    <button type="submit" class="btn">Send Message</button>
+  </form>
+
+  <p class="form-status">@ViewBag.Status</p>
+</section>
+
+<footer>
+  <p>&copy; 2025 Weronika Michalek</p>
+</footer>
