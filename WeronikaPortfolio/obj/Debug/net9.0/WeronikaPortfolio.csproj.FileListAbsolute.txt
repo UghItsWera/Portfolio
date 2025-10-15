@@ -228,6 +228,6 @@ C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\
 C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\Debug\net9.0\ref\WeronikaPortfolio.dll
 C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\Debug\net9.0\compressed\6jgwz5g6hi-fv9rd0ymjo.gz
 C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\Debug\net9.0\compressed\xtr5r5pa23-kjzvauw1lf.gz
-C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\Debug\net9.0\compressed\4pu0yzqdj9-6dg6ptxky6.gz
 C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\Debug\net9.0\compressed\l8lm0y8xqt-emiivz6umm.gz
 C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\Debug\net9.0\compressed\aw6ue5srkj-emiivz6umm.gz
+C:\Users\weron\OneDrive\Documents\CVs\Portfolio\Portfolio\WeronikaPortfolio\obj\Debug\net9.0\compressed\4pu0yzqdj9-h57ot86ckn.gz
