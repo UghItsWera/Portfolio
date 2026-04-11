@@ -1,0 +1,105 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Dashboard";
+    ViewData["ActiveNav"] = "dashboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/dashboard.css" />
+}
+
+<div class="page-header">
+    <div>
+        <h1>Content Manager</h1>
+        <p>Manage your creative work, track progress, and publish new works.</p>
+    </div>
+    <div class="page-actions">
+        <a href="/Admin/Projects/Create" class="btn-primary-admin">+ Add New</a>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+
+    <!-- Recent Works -->
+    <div class="card-admin recent-works">
+        <div class="section-header">
+            <span>Recent Works</span>
+            <a href="/Admin/Projects" class="view-all">View All →</a>
+        </div>
+        <div class="recent-list">
+            @if (ViewBag.RecentProjects != null)
+            {
+                foreach (var project in ViewBag.RecentProjects)
+                {
+                    <div class="recent-item">
+                        <div class="recent-item-info">
+                            <span class="recent-item-title">@project.Title</span>
+                            <span class="badge-category">@project.Category</span>
+                        </div>
+                        <div class="recent-item-actions">
+                            @if (project.IsPublished)
+                            {
+                                <span class="badge-published">Published</span>
+                            }
+                            else
+                            {
+                                <span class="badge-draft">Draft</span>
+                            }
+                            <a href="/Admin/Projects/Edit/@project.Id" class="action-link">Edit</a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="empty-state">No projects yet. Add your first one.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="card-admin stat-card">
+            <span class="stat-label">Games</span>
+            <span class="stat-value">@ViewBag.Stats.TotalGames</span>
+        </div>
+        <div class="card-admin stat-card">
+            <span class="stat-label">Websites</span>
+            <span class="stat-value">@ViewBag.Stats.TotalWebsites</span>
+        </div>
+        <div class="card-admin stat-card">
+            <span class="stat-label">Books</span>
+            <span class="stat-value">@ViewBag.Stats.TotalBooks</span>
+        </div>
+        <div class="card-admin stat-card">
+            <span class="stat-label">Published</span>
+            <span class="stat-value">@ViewBag.Stats.TotalPublished</span>
+        </div>
+    </div>
+
+    <!-- Announcements -->
+    <div class="card-admin announcements">
+        <div class="section-header">
+            <span>Recent Announcements</span>
+            <a href="/Admin/Announcements" class="view-all">View All →</a>
+        </div>
+        <div class="announcement-list">
+            @if (ViewBag.Announcements != null)
+            {
+                foreach (var announcement in ViewBag.Announcements)
+                {
+                    <div class="announcement-item">
+                        <span class="announcement-title">@announcement.Title</span>
+                        <span class="announcement-date">@announcement.CreatedAt.ToString("MMM dd")</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="empty-state">No announcements yet.</p>
+            }
+        </div>
+        <a href="/Admin/Announcements/Create" class="btn-secondary-admin mt-3">+ Add Announcement</a>
+    </div>
+
+</div>

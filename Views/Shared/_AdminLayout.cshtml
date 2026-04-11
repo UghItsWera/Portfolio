@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — The Chromatic Gallery</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin/layout.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="admin-shell">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <span class="sidebar-brand">The Chromatic Gallery</span>
+                <nav class="sidebar-nav">
+                    <a href="/Admin/Dashboard" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "dashboard" ? "active" : "")">
+                        <span class="nav-icon">⊞</span> Dashboard
+                    </a>
+                    <a href="/Admin/Books" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "books" ? "active" : "")">
+                        <span class="nav-icon">📖</span> Books
+                    </a>
+                    <a href="/Admin/Games" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "games" ? "active" : "")">
+                        <span class="nav-icon">🎮</span> Games
+                    </a>
+                    <a href="/Admin/Websites" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "websites" ? "active" : "")">
+                        <span class="nav-icon">🌐</span> Websites
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <span class="sidebar-user">@User.Identity?.Name</span>
+                <form method="post" asp-action="Logout" asp-controller="Admin">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="admin-main">
+
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-search">
+                    <input type="text" placeholder="Search projects..." class="search-input" />
+                </div>
+                <div class="topbar-right">
+                    <span class="topbar-avatar">A</span>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="admin-content">
+                @RenderBody()
+            </main>
+
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

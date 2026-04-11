@@ -1,0 +1,39 @@
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin/login.css" />
+</head>
+<body>
+    <div class="login-box">
+        <span class="brand">The Chromatic Gallery</span>
+        <h1>Admin Login</h1>
+        <p>Sign in to manage your portfolio content.</p>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        <form method="post" asp-action="Login" asp-controller="Admin">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" autocomplete="username" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" autocomplete="current-password" required />
+            </div>
+            <button type="submit" class="btn btn-admin">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>

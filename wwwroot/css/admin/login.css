@@ -1,0 +1,82 @@
+body {
+    background: #fce4ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.login-box {
+    background: #fdf0f5;
+    border: 1px solid #f8bbd0;
+    border-radius: 12px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h1 {
+    color: #1a0a10;
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+}
+
+.login-box p {
+    color: #6d3050;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    color: #1a0a10;
+    font-size: 0.85rem;
+}
+
+.form-control {
+    background: #fff0f6;
+    border: 1px solid #f8bbd0;
+    color: #1a0a10;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    background: #fff0f6;
+    border-color: #c2185b;
+    color: #1a0a10;
+    box-shadow: 0 0 0 0.2rem rgba(194, 24, 91, 0.15);
+}
+
+.btn-admin {
+    background: #c2185b;
+    border: none;
+    color: #fff;
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.btn-admin:hover {
+    background: #880e4f;
+    color: #fff;
+}
+
+.alert-danger {
+    background: rgba(194, 24, 91, 0.1);
+    border-color: #c2185b;
+    color: #880e4f;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.brand {
+    color: #c2185b;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+}
