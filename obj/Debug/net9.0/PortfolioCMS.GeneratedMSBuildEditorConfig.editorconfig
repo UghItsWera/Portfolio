@@ -44,12 +44,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvamVjdExpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/About.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXEFib3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Book.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXEJvb2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Books.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXEJvb2tzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Game.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXEdhbWUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Games.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXEdhbWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXFByaXZhY3kuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Website.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXFdlYnNpdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Public/Websites.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHVibGljXFdlYnNpdGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Shared/Error.cshtml]
@@ -58,6 +86,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Shared/_AdminLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Shared/_PublicLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QdWJsaWNMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Shared/_ValidationScriptsPartial.cshtml]
@@ -71,7 +103,3 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/weron/MyPortfolio/Portfolio/PortfolioCMS/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-2bep0254d6

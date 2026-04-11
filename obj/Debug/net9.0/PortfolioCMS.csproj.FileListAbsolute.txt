@@ -19,9 +19,7 @@ C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\PortfolioCMS.
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\rjimswa.dswa.cache.json
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
-C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\scopedcss\bundle\PortfolioCMS.styles.css
-C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\scopedcss\projectbundle\PortfolioCMS.bundle.scp.css
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\zkrt4437ka-61n19gt1b8.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\jzmlh5vbbp-xtxxf3hu2r.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\2hedbptszv-bqjiyaj88i.gz
@@ -83,8 +81,6 @@ C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\vw
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\kd94hsib9z-muycvpuwrr.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\98qzcc59ww-87fc7y1x7t.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\z5g32tqg8w-mlv21k5csn.gz
-C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\axysxmof7z-qnv7xopia1.gz
-C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\2sok2y36ok-qnv7xopia1.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\staticwebassets.development.json
@@ -225,3 +221,6 @@ c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\dg
 c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\sdb5tkwibo-fr8s87cv1s.gz
 c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\jhomhy569k-nbjiuu4846.gz
 c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\ak2qglwwbt-pevrmend12.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\5w72kfsgrl-26u84hbqjx.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\sl3u0r6uvq-p855dk259l.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\q1wc0si174-844a8acqzy.gz

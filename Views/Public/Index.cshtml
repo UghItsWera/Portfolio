@@ -1,0 +1,140 @@
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = "Home";
+    var games = ViewBag.RecentGames as List<Project> ?? new List<Project>();
+    var books = ViewBag.RecentBooks as List<Project> ?? new List<Project>();
+    var websites = ViewBag.RecentWebsites as List<Project> ?? new List<Project>();
+    var announcements = ViewBag.Announcements as List<Announcement> ?? new List<Announcement>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/index.css" asp-append-version="true" />
+}
+
+<div class="home-index">
+    <header class="home-hero text-center">
+        <h1 class="display-lg">Weronika's <strong>Portfolio</strong></h1>
+        <p class="body-lg home-subheading">
+            A collection presenting all the work I have done so far with an additional section for my side project which is writing books.
+        </p>
+    </header>
+
+    <section class="home-section announcements-section" aria-labelledby="announcements-heading">
+        <h2 id="announcements-heading" class="headline-md text-center home-section-title">Announcements</h2>
+        @if (!announcements.Any())
+        {
+            <p class="body-lg text-center home-empty">No announcements yet. Add them from the admin dashboard.</p>
+        }
+        else
+        {
+            <div class="announcements-list">
+                @foreach (var item in announcements)
+                {
+                    <article class="announcement-card card">
+                        <div class="card-body">
+                            <h3 class="title-md">@item.Title</h3>
+                            @if (!string.IsNullOrWhiteSpace(item.Body))
+                            {
+                                <p class="body-lg announcement-excerpt">@item.Body</p>
+                            }
+                            <p class="label-md announcement-date">@item.CreatedAt.ToString("MMMM d, yyyy")</p>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+    </section>
+
+    <section class="home-section games-section" aria-labelledby="games-heading">
+        <div class="home-section-head">
+            <h2 id="games-heading" class="headline-md home-section-title">Games</h2>
+            <a asp-controller="Public" asp-action="Games" class="body-lg home-see-all">See all →</a>
+        </div>
+        @if (!games.Any())
+        {
+            <p class="body-lg home-empty">No published games yet.</p>
+        }
+        else
+        {
+            <div class="games-list">
+                @foreach (var project in games)
+                {
+                    <a asp-controller="Public" asp-action="Game" asp-route-slug="@project.Slug" class="game-card card">
+                        <img class="game-image card-img" src="@ProjectDisplayHelper.CoverOrPlaceholder(project)" alt="@project.Title" />
+                        <div class="game-content card-body">
+                            <h4 class="label-md">@ProjectDisplayHelper.TeaserSubtitle(project)</h4>
+                            <h3 class="card-title">@project.Title</h3>
+                            @if (!string.IsNullOrWhiteSpace(project.Summary))
+                            {
+                                <p class="card-summary">@project.Summary</p>
+                            }
+                            <span class="redirect-link title-md">View game</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </section>
+
+    <section class="home-section website-section" aria-labelledby="websites-heading">
+        <div class="home-section-head">
+            <h2 id="websites-heading" class="headline-md home-section-title">Websites</h2>
+            <a asp-controller="Public" asp-action="Websites" class="body-lg home-see-all">See all →</a>
+        </div>
+        @if (!websites.Any())
+        {
+            <p class="body-lg home-empty">No published websites yet.</p>
+        }
+        else
+        {
+            <div class="websites-list">
+                @foreach (var project in websites)
+                {
+                    <a asp-controller="Public" asp-action="Website" asp-route-slug="@project.Slug" class="website-card card">
+                        <img class="website-image card-img" src="@ProjectDisplayHelper.CoverOrPlaceholder(project)" alt="@project.Title" />
+                        <div class="website-content card-body">
+                            <h4 class="label-md">@ProjectDisplayHelper.TeaserSubtitle(project)</h4>
+                            <h3 class="card-title">@project.Title</h3>
+                            @if (!string.IsNullOrWhiteSpace(project.Summary))
+                            {
+                                <p class="card-summary">@project.Summary</p>
+                            }
+                            <span class="redirect-link title-md">View website</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </section>
+
+    <section class="home-section books-section" aria-labelledby="books-heading">
+        <div class="home-section-head">
+            <h2 id="books-heading" class="headline-md home-section-title">Books</h2>
+            <a asp-controller="Public" asp-action="Books" class="body-lg home-see-all">See all →</a>
+        </div>
+        @if (!books.Any())
+        {
+            <p class="body-lg home-empty">No published books yet.</p>
+        }
+        else
+        {
+            <div class="books-list">
+                @foreach (var project in books)
+                {
+                    <a asp-controller="Public" asp-action="Book" asp-route-slug="@project.Slug" class="book-card card">
+                        <img class="book-image card-img" src="@ProjectDisplayHelper.CoverOrPlaceholder(project)" alt="@project.Title" />
+                        <div class="book-content card-body">
+                            <h4 class="label-md">@ProjectDisplayHelper.TeaserSubtitle(project)</h4>
+                            <h3 class="card-title">@project.Title</h3>
+                            @if (!string.IsNullOrWhiteSpace(project.Summary))
+                            {
+                                <p class="card-summary">@project.Summary</p>
+                            }
+                            <span class="redirect-link title-md">View book</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </section>
+</div>

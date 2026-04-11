@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — Weronika's Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/public/layout.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="site-header">
+        <nav class="site-nav">
+            <a asp-controller="Public" asp-action="Index" class="site-brand">Weronika's Portfolio</a>
+            <div class="nav-links">
+                <a asp-controller="Public" asp-action="Games" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Games" ? "active" : "")">Games</a>
+                <a asp-controller="Public" asp-action="Books" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Books" ? "active" : "")">Books</a>
+                <a asp-controller="Public" asp-action="Websites" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Websites" ? "active" : "")">Websites</a>
+                <a asp-controller="Public" asp-action="About" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")">About</a>
+            </div>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <span class="theme-icon-light">☀</span>
+                <span class="theme-icon-dark">☽</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Page Content -->
+    <main class="site-main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">Weronika Michalek</span>
+            <span class="footer-copy">© @DateTime.Now.Year — All rights reserved</span>
+            <div class="footer-links">
+                <a asp-controller="Public" asp-action="Games">Games</a>
+                <a asp-controller="Public" asp-action="Books">Books</a>
+                <a asp-controller="Public" asp-action="Websites">Websites</a>
+                <a asp-controller="Public" asp-action="About">About</a>
+            </div>
+        </div>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/public/theme.js" asp-append-version="true"></script>
+</body>
+</html>

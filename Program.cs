@@ -37,9 +37,16 @@ app.UseMiddleware<PortfolioCMS.Middleware.VisitTrackingMiddleware>();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+// Short public URLs (must be registered before the generic {controller}/{action} route)
+app.MapControllerRoute(name: "public-about", pattern: "about", defaults: new { controller = "Public", action = "About" });
+app.MapControllerRoute(name: "public-games", pattern: "games", defaults: new { controller = "Public", action = "Games" });
+app.MapControllerRoute(name: "public-books", pattern: "books", defaults: new { controller = "Public", action = "Books" });
+app.MapControllerRoute(name: "public-websites", pattern: "websites", defaults: new { controller = "Public", action = "Websites" });
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(name: "game-detail", pattern: "games/{slug}", defaults: new { controller = "Public", action = "Game" });
+app.MapControllerRoute(name: "book-detail", pattern: "books/{slug}", defaults: new { controller = "Public", action = "Book" });
+app.MapControllerRoute(name: "website-detail", pattern: "websites/{slug}", defaults: new { controller = "Public", action = "Website" });
+
+app.MapControllerRoute(name: "default", pattern: "{controller=Public}/{action=Index}/{id?}");
 
 app.Run();

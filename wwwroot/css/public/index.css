@@ -1,0 +1,116 @@
+.home-index {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
+}
+
+.home-hero {
+  margin-bottom: 3.5rem;
+}
+.home-hero strong {
+  color: var(--secondary);
+}
+
+.home-subheading {
+  max-width: 42rem;
+  margin: 1rem auto 0;
+}
+
+.home-section {
+  margin-bottom: 4rem;
+}
+
+.home-section-title {
+  margin-bottom: 1.25rem;
+}
+
+.home-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.home-section-head .home-section-title {
+  margin-bottom: 0;
+}
+
+.home-see-all {
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.home-see-all:hover {
+  text-decoration: underline;
+}
+
+.home-empty {
+  text-align: center;
+  color: var(--on-surface-muted);
+}
+
+.announcements-list,
+.games-list,
+.websites-list,
+.books-list {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.announcements-list {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.games-list,
+.websites-list,
+.books-list {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.announcement-card {
+  text-align: left;
+}
+
+.announcement-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.announcement-date {
+  margin-top: 0.75rem;
+}
+
+.game-card,
+.website-card,
+.book-card {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: left;
+}
+.game-card .card-summary,
+.website-card .card-summary,
+.book-card .card-summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.game-card:hover .redirect-link,
+.website-card:hover .redirect-link,
+.book-card:hover .redirect-link {
+  color: var(--secondary);
+}
+
+.redirect-link {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  color: var(--primary);
+  transition: color 0.2s ease;
+}
