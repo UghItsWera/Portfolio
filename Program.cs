@@ -21,6 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddSassCompiler();
 
 var app = builder.Build();
 
@@ -32,6 +33,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseMiddleware<PortfolioCMS.Middleware.VisitTrackingMiddleware>();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,0 +1,173 @@
+@using PortfolioCMS.Models
+@model Project
+
+@{
+    Layout = "_AdminLayout";
+    var isNew = Model.Id == 0;
+    var category = ViewData["Category"]?.ToString() ?? "game";
+    var categoryLabel = char.ToUpper(category[0]) + category[1..] + "s";
+    ViewData["Title"] = isNew ? $"New {category}" : $"Edit {Model.Title}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/project-form.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <div>
+        <a href="/Admin/@categoryLabel" class="back-link">← Back to @categoryLabel</a>
+        <h1>@(isNew ? $"Add New {char.ToUpper(category[0]) + category[1..]}" : $"Edit {Model.Title}")</h1>
+    </div>
+    <div class="page-actions">
+        <button type="submit" form="project-form" class="btn-primary-admin">
+            @(isNew ? "Create" : "Save Changes")
+        </button>
+    </div>
+</div>
+
+<form id="project-form" method="post" action="/Admin/Projects/Save">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="Category" value="@category" />
+    <input type="hidden" name="CreatedAt" value="@Model.CreatedAt.ToString("o")" />
+
+    <div class="form-grid">
+
+        <!-- Left Column -->
+        <div class="form-main">
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Basic Info</h2>
+
+                <div class="form-group">
+                    <label class="form-label">Title <span class="required">*</span></label>
+                    <input type="text" name="Title" value="@Model.Title" class="form-input" required
+                           placeholder="Enter title..." />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Slug</label>
+                    <input type="text" name="Slug" value="@Model.Slug" class="form-input"
+                           placeholder="auto-generated from title if left empty" />
+                    <span class="form-hint">Used in the URL. Leave blank to auto-generate.</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Summary</label>
+                    <textarea name="Summary" class="form-input form-textarea" rows="2"
+                              placeholder="Short description shown in listings...">@Model.Summary</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Body</label>
+                    <textarea name="Body" class="form-input form-textarea" rows="8"
+                              placeholder="Full content, supports HTML...">@Model.Body</textarea>
+                </div>
+            </div>
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Buttons</h2>
+                <p class="section-hint">JSON array — e.g. [{"label":"Play Now","url":"https://...","style":"primary"}]</p>
+                <textarea name="Buttons" class="form-input form-textarea form-mono" rows="4"
+                          placeholder='[{"label":"Play Now","url":"https://...","style":"primary"}]'>@Model.Buttons</textarea>
+            </div>
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Extra Images</h2>
+                <p class="section-hint">JSON array — e.g. [{"url":"https://...","alt":"Screenshot"}]</p>
+                <textarea name="Images" class="form-input form-textarea form-mono" rows="4"
+                          placeholder='[{"url":"https://...","alt":"Screenshot"}]'>@Model.Images</textarea>
+            </div>
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Metadata</h2>
+                <p class="section-hint">Flexible JSON for category-specific fields — e.g. platform, rating, genre, publisher.</p>
+                <textarea name="Metadata" class="form-input form-textarea form-mono" rows="5"
+                          placeholder='{"platform":"PC","genre":"Puzzle","rating":"4.5"}'>@Model.Metadata</textarea>
+            </div>
+
+        </div>
+
+        <!-- Right Column -->
+        <div class="form-sidebar">
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Publishing</h2>
+                <label class="toggle-label">
+                    <input type="checkbox" name="IsPublished" value="true"
+                           @(Model.IsPublished ? "checked" : "") class="toggle-check" />
+                    <span class="toggle-text">Published</span>
+                </label>
+                <div class="form-group mt-2">
+                    <label class="form-label">Sort Order</label>
+                    <input type="number" name="SortOrder" value="@Model.SortOrder" class="form-input" min="0" />
+                    <span class="form-hint">Lower numbers appear first.</span>
+                </div>
+            </div>
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Cover Image</h2>
+                <div class="form-group">
+                    <label class="form-label">Image URL</label>
+                    <input type="text" name="CoverImage" value="@Model.CoverImage" class="form-input"
+                           placeholder="https://..." id="cover-image-input" />
+                </div>
+                <div class="cover-preview" id="cover-preview">
+                    @if (!string.IsNullOrEmpty(Model.CoverImage))
+                    {
+                        <img src="@Model.CoverImage" alt="Cover preview" id="cover-preview-img" />
+                    }
+                    else
+                    {
+                        <span class="cover-placeholder" id="cover-placeholder">No image set</span>
+                    }
+                </div>
+            </div>
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Tags</h2>
+                <p class="section-hint">JSON array — e.g. ["Unity","Puzzle","2D"]</p>
+                <textarea name="Tags" class="form-input form-textarea form-mono" rows="3"
+                          placeholder='["tag1","tag2"]'>@Model.Tags</textarea>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        (function () {
+            function initCoverPreview() {
+                var input = document.getElementById('cover-image-input');
+                var preview = document.getElementById('cover-preview');
+                if (!input || !preview) return;
+
+                function renderPreview(url) {
+                    while (preview.firstChild) preview.removeChild(preview.firstChild);
+                    if (url) {
+                        var img = document.createElement('img');
+                        img.setAttribute('alt', 'Cover preview');
+                        img.src = url;
+                        preview.appendChild(img);
+                    } else {
+                        var span = document.createElement('span');
+                        span.className = 'cover-placeholder';
+                        span.id = 'cover-placeholder';
+                        span.textContent = 'No image set';
+                        preview.appendChild(span);
+                    }
+                }
+
+                input.addEventListener('input', function () {
+                    renderPreview(input.value.trim());
+                });
+            }
+
+            if (document.readyState === 'loading')
+                document.addEventListener('DOMContentLoaded', initCoverPreview);
+            else
+                initCoverPreview();
+        })();
+    </script>
+}

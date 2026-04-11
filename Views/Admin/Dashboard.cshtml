@@ -5,7 +5,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/admin/dashboard.css" />
+    <link rel="stylesheet" href="~/css/admin/dashboard.css" asp-append-version="true" />
 }
 
 <div class="page-header">
@@ -58,25 +58,36 @@
     </div>
 
     <!-- Stats -->
-    <div class="stats-grid">
-        <div class="card-admin stat-card">
-            <span class="stat-label">Games</span>
-            <span class="stat-value">@ViewBag.Stats.TotalGames</span>
-        </div>
-        <div class="card-admin stat-card">
-            <span class="stat-label">Websites</span>
-            <span class="stat-value">@ViewBag.Stats.TotalWebsites</span>
-        </div>
-        <div class="card-admin stat-card">
-            <span class="stat-label">Books</span>
-            <span class="stat-value">@ViewBag.Stats.TotalBooks</span>
-        </div>
-        <div class="card-admin stat-card">
-            <span class="stat-label">Published</span>
-            <span class="stat-value">@ViewBag.Stats.TotalPublished</span>
-        </div>
+<div class="stats-grid">
+    <div class="card-admin stat-card">
+        <span class="stat-label">Games</span>
+        <span class="stat-value">@ViewBag.Stats.TotalGames</span>
     </div>
-
+    <div class="card-admin stat-card">
+        <span class="stat-label">Websites</span>
+        <span class="stat-value">@ViewBag.Stats.TotalWebsites</span>
+    </div>
+    <div class="card-admin stat-card">
+        <span class="stat-label">Books</span>
+        <span class="stat-value">@ViewBag.Stats.TotalBooks</span>
+    </div>
+    <div class="card-admin stat-card">
+        <span class="stat-label">Published</span>
+        <span class="stat-value">@ViewBag.Stats.TotalPublished</span>
+    </div>
+    <div class="card-admin stat-card accent">
+        <span class="stat-label">Visits Today</span>
+        <span class="stat-value">@ViewBag.Stats.VisitsToday</span>
+    </div>
+    <div class="card-admin stat-card accent">
+        <span class="stat-label">This Month</span>
+        <span class="stat-value">@ViewBag.Stats.VisitsThisMonth</span>
+    </div>
+    <div class="card-admin stat-card accent">
+        <span class="stat-label">All Time</span>
+        <span class="stat-value">@ViewBag.Stats.VisitsTotal</span>
+    </div>
+</div>
     <!-- Announcements -->
     <div class="card-admin announcements">
         <div class="section-header">

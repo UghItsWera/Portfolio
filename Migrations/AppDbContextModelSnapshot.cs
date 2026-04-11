@@ -38,6 +38,30 @@ namespace PortfolioCMS.Migrations
                     b.ToTable("Announcements");
                 });
 
+            modelBuilder.Entity("PortfolioCMS.Models.PageVisit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("VisitedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PageVisits");
+                });
+
             modelBuilder.Entity("PortfolioCMS.Models.Project", b =>
                 {
                     b.Property<int>("Id")

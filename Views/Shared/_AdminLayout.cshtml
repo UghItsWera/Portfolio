@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] — The Chromatic Gallery</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/admin/layout.css" />
+    <link rel="stylesheet" href="~/css/admin/layout.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -28,6 +28,9 @@
                     <a href="/Admin/Websites" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "websites" ? "active" : "")">
                         <span class="nav-icon">🌐</span> Websites
                     </a>
+                    <a href="/Admin/Announcements" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "announcements" ? "active" : "")">
+    <span class="nav-icon">📢</span> Announcements
+</a>
                 </nav>
             </div>
             <div class="sidebar-bottom">

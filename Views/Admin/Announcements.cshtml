@@ -1,0 +1,56 @@
+@using PortfolioCMS.Models
+@model List<Announcement>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Announcements";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/announcements.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <div>
+        <h1>Announcements</h1>
+        <p>Manage announcements shown on your dashboard.</p>
+    </div>
+    <div class="page-actions">
+        <a href="/Admin/Announcements/Create" class="btn-primary-admin">+ Add New</a>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card-admin empty-card">
+        <p class="empty-state">No announcements yet.</p>
+        <a href="/Admin/Announcements/Create" class="btn-primary-admin mt-3">+ Add New</a>
+    </div>
+}
+else
+{
+    <div class="announcement-table">
+        @foreach (var item in Model)
+        {
+            <div class="announcement-row card-admin">
+                <div class="announcement-row-info">
+                    <span class="announcement-row-title">@item.Title</span>
+                    @if (!string.IsNullOrEmpty(item.Body))
+                    {
+                        <p class="announcement-row-body">@item.Body</p>
+                    }
+                    <span class="announcement-row-date">@item.CreatedAt.ToString("MMM dd, yyyy")</span>
+                </div>
+                <div class="announcement-row-actions">
+                    <a href="/Admin/Announcements/Edit/@item.Id" class="icon-btn" title="Edit">✎</a>
+                    <form method="post" action="/Admin/Announcements/Delete" style="display:inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="icon-btn danger" title="Delete"
+                            onclick="return confirm('Delete this announcement?')">✕</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+}

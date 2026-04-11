@@ -10,10 +10,13 @@
 using System;
 using System.Reflection;
 
+[assembly: AspNetCore.SassCompiler.SassCompilerAttribute(("C:\\Users\\weron\\.nuget\\packages\\aspnetcore.sasscompiler\\1.99.0\\build\\..\\runtimes\\w" +
+    "in-x64\\src\\dart.exe"), ("C:\\Users\\weron\\.nuget\\packages\\aspnetcore.sasscompiler\\1.99.0\\build\\..\\runtimes\\w" +
+    "in-x64\\src\\sass.snapshot"))]
 [assembly: System.Reflection.AssemblyCompanyAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8878fcdee7e18a3eff4e34c541795c322a2c3c65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce444d401261636e75c74a43d4888565a6615371")]
 [assembly: System.Reflection.AssemblyProductAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

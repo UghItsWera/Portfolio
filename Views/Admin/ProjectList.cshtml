@@ -1,0 +1,95 @@
+@using PortfolioCMS.Models
+@using System.Text.Json
+@model List<Project>
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = ViewData["CategoryLabel"]?.ToString();
+    var category = ViewData["Category"]?.ToString();
+    var returnUrl = $"/Admin/{ViewData["CategoryLabel"]}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/project-list.css" asp-append-version="true" />
+}
+
+<div class="page-header">
+    <div>
+        <h1>@ViewData["CategoryLabel"]</h1>
+        <p>@ViewData["CategoryDescription"]</p>
+    </div>
+    <div class="page-actions">
+        <a href="/Admin/Projects/Create?category=@category" class="btn-primary-admin">+ Add New</a>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card-admin empty-card">
+        <p class="empty-state">No @ViewData["CategoryLabel"]?.ToString()?.ToLower() yet. Add your first one.</p>
+        <a href="/Admin/Projects/Create?category=@category" class="btn-primary-admin mt-3">+ Add New</a>
+    </div>
+}
+else
+{
+    <div class="project-grid">
+        @foreach (var project in Model)
+        {
+            <div class="project-card">
+                <div class="project-card-image">
+                    @if (!string.IsNullOrEmpty(project.CoverImage))
+                    {
+                        <img src="@project.CoverImage" alt="@project.Title" />
+                    }
+                    else
+                    {
+                        <div class="image-placeholder">No Image</div>
+                    }
+                </div>
+                <div class="project-card-body">
+                    <div class="project-card-top">
+                        <div>
+                            <h3 class="project-title">@project.Title</h3>
+                            @if (!string.IsNullOrEmpty(project.Summary))
+                            {
+                                <p class="project-summary">@project.Summary</p>
+                            }
+                        </div>
+                        <div class="project-card-actions">
+                            <a href="/Admin/Projects/Edit/@project.Id" class="icon-btn" title="Edit">✎</a>
+                            <form method="post" action="/Admin/Projects/Delete" style="display:inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@project.Id" />
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                <button type="submit" class="icon-btn danger" title="Delete"
+                                    onclick='return confirm(@Html.Raw(JsonSerializer.Serialize($"Delete {project.Title}?")))'>✕</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(project.Tags))
+                    {
+                        <div class="project-tags">
+                            @foreach (var tag in System.Text.Json.JsonSerializer.Deserialize<List<string>>(project.Tags) ?? new())
+                            {
+                                <span class="tag">@tag</span>
+                            }
+                        </div>
+                    }
+
+                    <div class="project-card-footer">
+                        <span class="project-date">@project.UpdatedAt.ToString("MMM dd, yyyy")</span>
+                        <form method="post" action="/Admin/Projects/TogglePublish" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@project.Id" />
+                            <input type="hidden" name="returnUrl" value="@returnUrl" />
+                            <button type="submit" class="toggle-btn @(project.IsPublished ? "published" : "draft")">
+                                @(project.IsPublished ? "Published" : "Draft")
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

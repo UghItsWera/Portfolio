@@ -9,6 +9,7 @@ namespace PortfolioCMS.Data
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<PageVisit> PageVisits { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
