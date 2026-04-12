@@ -38,6 +38,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 // Short public URLs (must be registered before the generic {controller}/{action} route)
+app.MapControllerRoute(name: "admin-root", pattern: "admin", defaults: new { controller = "Admin", action = "Login" });
 app.MapControllerRoute(name: "public-about", pattern: "about", defaults: new { controller = "Public", action = "About" });
 app.MapControllerRoute(name: "public-games", pattern: "games", defaults: new { controller = "Public", action = "Games" });
 app.MapControllerRoute(name: "public-books", pattern: "books", defaults: new { controller = "Public", action = "Books" });

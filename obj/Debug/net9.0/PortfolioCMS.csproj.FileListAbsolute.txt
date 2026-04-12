@@ -224,3 +224,4 @@ c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\ak
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\5w72kfsgrl-26u84hbqjx.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\sl3u0r6uvq-p855dk259l.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\q1wc0si174-844a8acqzy.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\ibxuafkzas-5f9gcznrkc.gz

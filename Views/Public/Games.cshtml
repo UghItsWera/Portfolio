@@ -1,2 +1,128 @@
-@{ Layout = "_PublicLayout"; ViewData["Title"] = "Games"; }
-<h1>Games coming soon</h1>
+@using PortfolioCMS.Models
+@model List<Project>
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = "Games";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/games.css" />
+}
+
+<section class="games-section">
+    <div class="container">
+
+        <div class="games-header">
+            <h1 class="display-lg">Game Inventory</h1>
+            <p class="body-lg">Interactive experiences, experimental engines, and digital worlds.</p>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <p class="body-lg">No games published yet. Check back soon.</p>
+            </div>
+        }
+        else
+        {
+            <div class="games-grid" id="games-grid">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var game = Model[i];
+                    var tags = new List<string>();
+                    if (!string.IsNullOrEmpty(game.Tags))
+                    {
+                        try { tags = System.Text.Json.JsonSerializer.Deserialize<List<string>>(game.Tags) ?? new(); }
+                        catch { }
+                    }
+
+                    var meta = new GameMetadata();
+                    if (!string.IsNullOrEmpty(game.Metadata))
+                    {
+                        try { meta = System.Text.Json.JsonSerializer.Deserialize<GameMetadata>(game.Metadata) ?? new(); }
+                        catch { }
+                    }
+
+                    <article class="game-card @(i == 0 ? "active" : "")"
+                             data-index="@i"
+                             style="--cover: url('@(string.IsNullOrEmpty(game.CoverImage) ? "/images/general/placeholder.jpg" : game.CoverImage)')">
+
+                        <!-- Collapsed view (shown when not active) -->
+                        <div class="card-collapsed">
+                            <div class="card-thumb">
+                                @if (!string.IsNullOrEmpty(game.CoverImage))
+                                {
+                                    <img src="@game.CoverImage" alt="@game.Title" />
+                                }
+                            </div>
+                            <div class="card-collapsed-info">
+                                <h3 class="card-collapsed-title">@game.Title</h3>
+                                @if (tags.Any())
+                                {
+                                    <div class="tag-list">
+                                        @foreach (var tag in tags.Take(2))
+                                        {
+                                            <span class="tag">@tag</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Expanded view (shown when active) -->
+                        <div class="card-expanded">
+                            <div class="card-expanded-image">
+                                @if (!string.IsNullOrEmpty(game.CoverImage))
+                                {
+                                    <img src="@game.CoverImage" alt="@game.Title" />
+                                }
+                                @if (!string.IsNullOrEmpty(meta.Platform))
+                                {
+                                    <span class="card-badge">● @meta.Platform.ToUpper()</span>
+                                }
+                            </div>
+                            <div class="card-expanded-body">
+                                <div class="card-expanded-main">
+                                    <div>
+                                        <h2 class="card-expanded-title">@game.Title</h2>
+                                        @if (!string.IsNullOrEmpty(meta.ReleaseDate))
+                                        {
+                                            <span class="card-expanded-year">@meta.ReleaseDate</span>
+                                        }
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(game.Summary))
+                                    {
+                                        <p class="card-expanded-summary">@game.Summary</p>
+                                    }
+                                    @if (tags.Any())
+                                    {
+                                        <div class="tag-list">
+                                            @foreach (var tag in tags)
+                                            {
+                                                <span class="tag">@tag</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                <div class="card-expanded-actions">
+                                    <a href="/games/@game.Slug" class="btn btn-primary">View Project</a>
+                                    @if (!string.IsNullOrEmpty(meta.PlayUrl))
+                                    {
+                                        <a href="@meta.PlayUrl" target="_blank" class="btn btn-secondary">Play Now</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </article>
+                }
+            </div>
+        }
+
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/public/games.js"></script>
+}
