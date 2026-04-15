@@ -1,0 +1,11 @@
+﻿@using PortfolioCMS.Models
+@model List<Project>
+
+    @{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = "Games";
+    }
+
+    <section class="game-child">
+
+    </section>

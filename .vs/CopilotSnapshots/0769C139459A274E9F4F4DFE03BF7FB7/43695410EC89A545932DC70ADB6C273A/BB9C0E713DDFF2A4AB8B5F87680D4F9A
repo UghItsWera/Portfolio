@@ -1,0 +1,146 @@
+﻿@using PortfolioCMS.Models
+@model ProjectDetailViewModel
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = Model.Project.Title;
+    var project = Model.Project;
+    var coverSrc = string.IsNullOrEmpty(project.CoverImage) ? "/images/general/placeholder.jpg" : project.CoverImage;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/game-detail.css" />
+}
+
+<section class="game-detail">
+    <div class="container">
+
+        <a href="/games" class="back-link">← Back to Games</a>
+
+        <!-- Hero cover -->
+        <div class="game-hero">
+            <img src="@coverSrc" alt="@project.Title" />
+            @if (Model.GameMeta != null && !string.IsNullOrEmpty(Model.GameMeta.Platform))
+            {
+                <span class="game-hero-badge">● @Model.GameMeta.Platform.ToUpper()</span>
+            }
+        </div>
+
+        <!-- Header -->
+        <div class="game-header">
+            <div class="game-header-main">
+                <h1 class="display-lg">@project.Title</h1>
+                @if (Model.GameMeta != null && !string.IsNullOrEmpty(Model.GameMeta.ReleaseDate))
+                {
+                    <span class="game-year">@Model.GameMeta.ReleaseDate</span>
+                }
+            </div>
+
+            @if (Model.Tags.Any())
+            {
+                <div class="tag-list">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="tag">@tag</span>
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Meta info -->
+        @if (Model.GameMeta != null)
+        {
+            var meta = Model.GameMeta;
+            var hasAnyMeta = !string.IsNullOrEmpty(meta.Genre)
+                || !string.IsNullOrEmpty(meta.Engine)
+                || !string.IsNullOrEmpty(meta.Platform);
+
+            if (hasAnyMeta)
+            {
+                <div class="game-meta-grid">
+                    @if (!string.IsNullOrEmpty(meta.Platform))
+                    {
+                        <div class="meta-item">
+                            <span class="meta-label">Platform</span>
+                            <span class="meta-value">@meta.Platform</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(meta.Genre))
+                    {
+                        <div class="meta-item">
+                            <span class="meta-label">Genre</span>
+                            <span class="meta-value">@meta.Genre</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(meta.Engine))
+                    {
+                        <div class="meta-item">
+                            <span class="meta-label">Engine</span>
+                            <span class="meta-value">@meta.Engine</span>
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+        <!-- Summary -->
+        @if (!string.IsNullOrEmpty(project.Summary))
+        {
+            <p class="game-summary">@project.Summary</p>
+        }
+
+        <!-- Body / description -->
+        @if (!string.IsNullOrEmpty(project.Body))
+        {
+            <div class="game-body">
+                @Html.Raw(project.Body)
+            </div>
+        }
+
+        <!-- Action buttons -->
+        @if (Model.Buttons.Any())
+        {
+            <div class="game-actions">
+                @foreach (var btn in Model.Buttons)
+                {
+                    <a href="@btn.Url" target="_blank" class="btn btn-@btn.Style">@btn.Label</a>
+                }
+            </div>
+        }
+        else if (Model.GameMeta != null)
+        {
+            var meta = Model.GameMeta;
+            var hasLinks = !string.IsNullOrEmpty(meta.PlayUrl) || !string.IsNullOrEmpty(meta.SourceUrl);
+            if (hasLinks)
+            {
+                <div class="game-actions">
+                    @if (!string.IsNullOrEmpty(meta.PlayUrl))
+                    {
+                        <a href="@meta.PlayUrl" target="_blank" class="btn btn-primary">Play Now</a>
+                    }
+                    @if (!string.IsNullOrEmpty(meta.SourceUrl))
+                    {
+                        <a href="@meta.SourceUrl" target="_blank" class="btn btn-secondary">Source Code</a>
+                    }
+                </div>
+            }
+        }
+
+        <!-- Image gallery -->
+        @if (Model.Images.Any())
+        {
+            <div class="game-gallery">
+                <h2 class="headline-md">Screenshots</h2>
+                <div class="gallery-grid">
+                    @foreach (var img in Model.Images)
+                    {
+                        <div class="gallery-item">
+                            <img src="@img.Url" alt="@img.Alt" />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+</section>

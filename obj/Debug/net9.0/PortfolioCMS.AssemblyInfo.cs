@@ -10,13 +10,13 @@
 using System;
 using System.Reflection;
 
-[assembly: AspNetCore.SassCompiler.SassCompilerAttribute(("C:\\Users\\weron\\.nuget\\packages\\aspnetcore.sasscompiler\\1.99.0\\build\\..\\runtimes\\w" +
-    "in-x64\\src\\dart.exe"), ("C:\\Users\\weron\\.nuget\\packages\\aspnetcore.sasscompiler\\1.99.0\\build\\..\\runtimes\\w" +
-    "in-x64\\src\\sass.snapshot"))]
+[assembly: AspNetCore.SassCompiler.SassCompilerAttribute(("C:\\Users\\Weronika.Michalek\\.nuget\\packages\\aspnetcore.sasscompiler\\1.99.0\\build\\." +
+    ".\\runtimes\\win-x64\\src\\dart.exe"), ("C:\\Users\\Weronika.Michalek\\.nuget\\packages\\aspnetcore.sasscompiler\\1.99.0\\build\\." +
+    ".\\runtimes\\win-x64\\src\\sass.snapshot"))]
 [assembly: System.Reflection.AssemblyCompanyAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+963ff28f1ddeb0995bf200e458a4cd67978e1e38")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f7d3e32051a352af8e18c4e4fb01ea3e618e9b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
