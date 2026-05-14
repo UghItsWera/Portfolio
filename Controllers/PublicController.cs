@@ -129,6 +129,18 @@ namespace PortfolioCMS.Controllers
             return View();
         }
 
+        private static T? TryDeserializeJson<T>(string json, JsonSerializerOptions options)
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<T>(json, options);
+            }
+            catch (JsonException)
+            {
+                return default;
+            }
+        }
+
         // Shared helper — deserializes all JSON fields into a clean view model
         private ProjectDetailViewModel BuildDetailViewModel(Project project)
         {
@@ -137,22 +149,30 @@ namespace PortfolioCMS.Controllers
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
             if (!string.IsNullOrEmpty(project.Buttons))
-                vm.Buttons = JsonSerializer.Deserialize<List<ButtonItem>>(project.Buttons, options) ?? new();
+                vm.Buttons = TryDeserializeJson<List<ButtonItem>>(project.Buttons, options) ?? new();
 
             if (!string.IsNullOrEmpty(project.Images))
-                vm.Images = JsonSerializer.Deserialize<List<ImageItem>>(project.Images, options) ?? new();
+                vm.Images = TryDeserializeJson<List<ImageItem>>(project.Images, options) ?? new();
 
             if (!string.IsNullOrEmpty(project.Tags))
-                vm.Tags = JsonSerializer.Deserialize<List<string>>(project.Tags, options) ?? new();
+            {
+                vm.Tags = TryDeserializeJson<List<string>>(project.Tags, options) ?? new();
+                if (vm.Tags.Count == 0)
+                {
+                    var trimmed = project.Tags.Trim();
+                    if (!trimmed.StartsWith('['))
+                        vm.Tags = new List<string>(trimmed.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+                }
+            }
 
             if (!string.IsNullOrEmpty(project.Metadata))
             {
                 if (project.Category == "game")
-                    vm.GameMeta = JsonSerializer.Deserialize<GameMetadata>(project.Metadata, options);
+                    vm.GameMeta = TryDeserializeJson<GameMetadata>(project.Metadata, options);
                 else if (project.Category == "book")
-                    vm.BookMeta = JsonSerializer.Deserialize<BookMetadata>(project.Metadata, options);
+                    vm.BookMeta = TryDeserializeJson<BookMetadata>(project.Metadata, options);
                 else if (project.Category == "website")
-                    vm.WebsiteMeta = JsonSerializer.Deserialize<WebsiteMetadata>(project.Metadata, options);
+                    vm.WebsiteMeta = TryDeserializeJson<WebsiteMetadata>(project.Metadata, options);
             }
 
             return vm;

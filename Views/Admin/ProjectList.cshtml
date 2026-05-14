@@ -69,8 +69,19 @@ else
 
                     @if (!string.IsNullOrEmpty(project.Tags))
                     {
+                        var tags = new List<string>();
+                        var trimmedTags = project.Tags.Trim();
+                        try
+                        {
+                            tags = JsonSerializer.Deserialize<List<string>>(project.Tags) ?? new();
+                        }
+                        catch
+                        {
+                            if (!trimmedTags.StartsWith('['))
+                                tags = new List<string>(trimmedTags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+                        }
                         <div class="project-tags">
-                            @foreach (var tag in System.Text.Json.JsonSerializer.Deserialize<List<string>>(project.Tags) ?? new())
+                            @foreach (var tag in tags)
                             {
                                 <span class="tag">@tag</span>
                             }

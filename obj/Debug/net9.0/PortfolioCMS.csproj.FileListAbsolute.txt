@@ -454,3 +454,5 @@ C:\Users\Weronika.Michalek\Source\Repos\Portfolio\obj\Debug\net9.0\PortfolioCMS.
 C:\Users\Weronika.Michalek\Source\Repos\Portfolio\obj\Debug\net9.0\ref\PortfolioCMS.dll
 C:\Users\Weronika.Michalek\Source\Repos\Portfolio\obj\Debug\net9.0\compressed\1c7axh6zjs-rsfd3w4bs0.gz
 C:\Users\Weronika.Michalek\Source\Repos\Portfolio\obj\Debug\net9.0\compressed\3hzp0i08s2-6au3pj99o2.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\1c7axh6zjs-rsfd3w4bs0.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\3hzp0i08s2-6au3pj99o2.gz

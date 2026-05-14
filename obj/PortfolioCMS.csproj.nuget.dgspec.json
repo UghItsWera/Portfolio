@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Weronika.Michalek\\Source\\Repos\\Portfolio\\PortfolioCMS.csproj": {}
+    "C:\\Users\\weron\\MyPortfolio\\Portfolio\\PortfolioCMS\\PortfolioCMS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Weronika.Michalek\\Source\\Repos\\Portfolio\\PortfolioCMS.csproj": {
+    "C:\\Users\\weron\\MyPortfolio\\Portfolio\\PortfolioCMS\\PortfolioCMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Weronika.Michalek\\Source\\Repos\\Portfolio\\PortfolioCMS.csproj",
+        "projectUniqueName": "C:\\Users\\weron\\MyPortfolio\\Portfolio\\PortfolioCMS\\PortfolioCMS.csproj",
         "projectName": "PortfolioCMS",
-        "projectPath": "C:\\Users\\Weronika.Michalek\\Source\\Repos\\Portfolio\\PortfolioCMS.csproj",
-        "packagesPath": "C:\\Users\\Weronika.Michalek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Weronika.Michalek\\Source\\Repos\\Portfolio\\obj\\",
+        "projectPath": "C:\\Users\\weron\\MyPortfolio\\Portfolio\\PortfolioCMS\\PortfolioCMS.csproj",
+        "packagesPath": "C:\\Users\\weron\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\weron\\MyPortfolio\\Portfolio\\PortfolioCMS\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Weronika.Michalek\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\weron\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "\\\\192.168.0.16\\vNuget\\packages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -89,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
