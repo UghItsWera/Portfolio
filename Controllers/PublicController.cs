@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PortfolioCMS.Data;
+using PortfolioCMS.Helpers;
 using PortfolioCMS.Models;
-using System.Text.Json;
 
 namespace PortfolioCMS.Controllers
 {
@@ -50,6 +50,32 @@ namespace PortfolioCMS.Controllers
 
             return View();
         }
+        // GET /about
+        public IActionResult About()
+        {
+            var about = _db.AboutContent.FirstOrDefault() ?? new AboutContent();
+            return View(about);
+        }
+
+        [HttpPost]
+        [Route("about/contact")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Contact(string fullName, string email, string message)
+        {
+            try
+            {
+                var emailService = HttpContext.RequestServices
+                    .GetRequiredService<PortfolioCMS.Services.EmailService>();
+                await emailService.SendContactEmailAsync(fullName, email, message);
+                TempData["ContactSuccess"] = "Your message has been sent. I'll be in touch.";
+            }
+            catch
+            {
+                TempData["ContactError"] = "Something went wrong. Please try again or email directly.";
+            }
+
+            return RedirectToAction(nameof(About));
+        }
 
         // GET /games
         public IActionResult Games()
@@ -71,8 +97,7 @@ namespace PortfolioCMS.Controllers
 
             if (project == null) return NotFound();
 
-            var vm = BuildDetailViewModel(project);
-            return View(vm);
+            return View(ProjectDisplayHelper.BuildDetailViewModel(project));
         }
 
         // GET /books
@@ -95,8 +120,7 @@ namespace PortfolioCMS.Controllers
 
             if (project == null) return NotFound();
 
-            var vm = BuildDetailViewModel(project);
-            return View(vm);
+            return View(ProjectDisplayHelper.BuildDetailViewModel(project));
         }
 
         // GET /websites
@@ -119,63 +143,7 @@ namespace PortfolioCMS.Controllers
 
             if (project == null) return NotFound();
 
-            var vm = BuildDetailViewModel(project);
-            return View(vm);
-        }
-
-        // GET /about
-        public IActionResult About()
-        {
-            return View();
-        }
-
-        private static T? TryDeserializeJson<T>(string json, JsonSerializerOptions options)
-        {
-            try
-            {
-                return JsonSerializer.Deserialize<T>(json, options);
-            }
-            catch (JsonException)
-            {
-                return default;
-            }
-        }
-
-        // Shared helper — deserializes all JSON fields into a clean view model
-        private ProjectDetailViewModel BuildDetailViewModel(Project project)
-        {
-            var vm = new ProjectDetailViewModel { Project = project };
-
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-            if (!string.IsNullOrEmpty(project.Buttons))
-                vm.Buttons = TryDeserializeJson<List<ButtonItem>>(project.Buttons, options) ?? new();
-
-            if (!string.IsNullOrEmpty(project.Images))
-                vm.Images = TryDeserializeJson<List<ImageItem>>(project.Images, options) ?? new();
-
-            if (!string.IsNullOrEmpty(project.Tags))
-            {
-                vm.Tags = TryDeserializeJson<List<string>>(project.Tags, options) ?? new();
-                if (vm.Tags.Count == 0)
-                {
-                    var trimmed = project.Tags.Trim();
-                    if (!trimmed.StartsWith('['))
-                        vm.Tags = new List<string>(trimmed.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
-                }
-            }
-
-            if (!string.IsNullOrEmpty(project.Metadata))
-            {
-                if (project.Category == "game")
-                    vm.GameMeta = TryDeserializeJson<GameMetadata>(project.Metadata, options);
-                else if (project.Category == "book")
-                    vm.BookMeta = TryDeserializeJson<BookMetadata>(project.Metadata, options);
-                else if (project.Category == "website")
-                    vm.WebsiteMeta = TryDeserializeJson<WebsiteMetadata>(project.Metadata, options);
-            }
-
-            return vm;
+            return View(ProjectDisplayHelper.BuildDetailViewModel(project));
         }
     }
 }

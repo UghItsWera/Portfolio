@@ -1,2 +1,109 @@
-@{ Layout = "_PublicLayout"; ViewData["Title"] = "websites"; }
-<h1>Websites coming soon</h1>
+@using PortfolioCMS.Models
+@model List<Project>
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = "Websites";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/websites.css" asp-append-version="true" />
+}
+
+<section class="websites-section">
+    <div class="container">
+
+        <div class="websites-header">
+            <h1 class="display-lg">Web Portfolio</h1>
+            <p class="body-lg">Sites, apps, and digital experiences built for the open web.</p>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <p class="body-lg">No websites published yet. Check back soon.</p>
+            </div>
+        }
+        else
+        {
+            <div class="websites-grid" id="websites-grid">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var website = Model[i];
+                    var tags = ProjectDisplayHelper.ParseTags(website.Tags);
+                    var meta = ProjectDisplayHelper.TryDeserialize<WebsiteMetadata>(website.Metadata) ?? new WebsiteMetadata();
+                    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(website, "/images/general/placeholder.jpg");
+
+                    <article class="website-card @(i == 0 ? "active" : "")"
+                             data-index="@i">
+
+                        <div class="card-collapsed">
+                            <div class="card-thumb">
+                                <img src="@coverSrc" alt="@website.Title" />
+                            </div>
+                            <div class="card-collapsed-info">
+                                <h3 class="card-collapsed-title">@website.Title</h3>
+                                @if (tags.Any())
+                                {
+                                    <div class="tag-list">
+                                        @foreach (var tag in tags.Take(2))
+                                        {
+                                            <span class="tag">@tag</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="card-expanded">
+                            <div class="card-expanded-image">
+                                <img src="@coverSrc" alt="@website.Title" />
+                                @if (!string.IsNullOrEmpty(meta.Stack))
+                                {
+                                    <span class="card-badge">● @meta.Stack.ToUpper()</span>
+                                }
+                            </div>
+                            <div class="card-expanded-body">
+                                <div class="card-expanded-main">
+                                    <div>
+                                        <h2 class="card-expanded-title">@website.Title</h2>
+                                        @if (!string.IsNullOrEmpty(meta.Year))
+                                        {
+                                            <span class="card-expanded-year">@meta.Year</span>
+                                        }
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(website.Summary))
+                                    {
+                                        <p class="card-expanded-summary">@website.Summary</p>
+                                    }
+                                    @if (tags.Any())
+                                    {
+                                        <div class="tag-list">
+                                            @foreach (var tag in tags)
+                                            {
+                                                <span class="tag">@tag</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                <div class="card-expanded-actions">
+                                    <a href="/websites/@website.Slug" class="btn btn-primary">View Project</a>
+                                    @if (!string.IsNullOrEmpty(meta.LiveUrl))
+                                    {
+                                        <a href="@meta.LiveUrl" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Visit Site</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </article>
+                }
+            </div>
+        }
+
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/public/websites.js" asp-append-version="true"></script>
+}

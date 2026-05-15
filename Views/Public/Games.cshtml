@@ -30,21 +30,9 @@
                 @for (int i = 0; i < Model.Count; i++)
                 {
                     var game = Model[i];
-                    var tags = new List<string>();
-                    if (!string.IsNullOrEmpty(game.Tags))
-                    {
-                        try { tags = System.Text.Json.JsonSerializer.Deserialize<List<string>>(game.Tags) ?? new(); }
-                        catch { }
-                    }
-
-                    var meta = new GameMetadata();
-                    if (!string.IsNullOrEmpty(game.Metadata))
-                    {
-                        try { meta = System.Text.Json.JsonSerializer.Deserialize<GameMetadata>(game.Metadata) ?? new(); }
-                        catch { }
-                    }
-
-                    var coverSrc = string.IsNullOrEmpty(game.CoverImage) ? "/images/general/placeholder.jpg" : game.CoverImage;
+                    var tags = ProjectDisplayHelper.ParseTags(game.Tags);
+                    var meta = ProjectDisplayHelper.TryDeserialize<GameMetadata>(game.Metadata) ?? new GameMetadata();
+                    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(game, "/images/general/placeholder.jpg");
 
                     <article class="game-card @(i == 0 ? "active" : "")"
                              data-index="@i">

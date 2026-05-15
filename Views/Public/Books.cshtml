@@ -1,2 +1,80 @@
-@{ Layout = "_PublicLayout"; ViewData["Title"] = "books"; }
-<h1>Books coming soon</h1>
+@using PortfolioCMS.Models
+@model List<Project>
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = "Books";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/books.css" />
+}
+
+<section class="books-section">
+    <div class="container">
+
+        <div class="books-header">
+            <h1 class="display-lg">Library Archives</h1>
+            <p class="body-lg">
+                Dark fantasies, psychological horrors, and fictional worlds.
+            </p>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <p class="body-lg">No books published yet. Check back soon.</p>
+            </div>
+        }
+        else
+        {
+            <div class="books-grid">
+
+                @foreach (var book in Model)
+                {
+                    var tags = ProjectDisplayHelper.ParseTags(book.Tags);
+                    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(book, "/images/general/book-placeholder.jpg");
+
+                    <article class="book-card">
+
+                        <div class="book-cover">
+                            <img src="@coverSrc" alt="@book.Title" />
+                        </div>
+
+                        <div class="book-content">
+
+                            <h2 class="book-title">@book.Title</h2>
+
+                            @if (!string.IsNullOrEmpty(book.Summary))
+                            {
+                                <p class="book-summary">
+                                    @book.Summary
+                                </p>
+                            }
+
+                            @if (tags.Any())
+                            {
+                                <div class="tag-list">
+                                    @foreach (var tag in tags)
+                                    {
+                                        <span class="tag">@tag</span>
+                                    }
+                                </div>
+                            }
+
+                            <div class="book-actions">
+                                <a href="/books/@book.Slug" class="btn btn-primary">
+                                    Read More
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </article>
+                }
+
+            </div>
+        }
+
+    </div>
+</section>

@@ -17,6 +17,53 @@ namespace PortfolioCMS.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
+            modelBuilder.Entity("PortfolioCMS.Models.AboutContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Bio1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Bio2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Bio3")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CV")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CVDownload")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LinkedIn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LinkedInLink")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MediumLabel")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MediumValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AboutContent");
+                });
+
             modelBuilder.Entity("PortfolioCMS.Models.Announcement", b =>
                 {
                     b.Property<int>("Id")

@@ -2,7 +2,6 @@ C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\appsettings.D
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\appsettings.json
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\PortfolioCMS.staticwebassets.runtime.json
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\PortfolioCMS.staticwebassets.endpoints.json
-C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\PortfolioCMS.exe
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\PortfolioCMS.deps.json
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\PortfolioCMS.runtimeconfig.json
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\PortfolioCMS.dll
@@ -456,3 +455,10 @@ C:\Users\Weronika.Michalek\Source\Repos\Portfolio\obj\Debug\net9.0\compressed\1c
 C:\Users\Weronika.Michalek\Source\Repos\Portfolio\obj\Debug\net9.0\compressed\3hzp0i08s2-6au3pj99o2.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\1c7axh6zjs-rsfd3w4bs0.gz
 C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\3hzp0i08s2-6au3pj99o2.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\5xs2fh4ql4-94n4ymg8wf.gz
+c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\e6kgly20lm-clmfhbp69e.gz
+c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\sq4au2dst9-c3cxn7x7dq.gz
+c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\j5dhcm9swg-ylav2ka61u.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\gg26esybg1-11r0atw21b.gz
+c:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\obj\Debug\net9.0\compressed\i76hlybv9d-j3jm3weye2.gz
+C:\Users\weron\MyPortfolio\Portfolio\PortfolioCMS\bin\Debug\net9.0\PortfolioCMS.exe

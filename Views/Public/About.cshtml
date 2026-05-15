@@ -1,2 +1,182 @@
-@{ Layout = "_PublicLayout"; ViewData["Title"] = "about"; }
-<h1>About Section coming soon</h1>
+@using PortfolioCMS.Models
+@model AboutContent
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = "About";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/about.css" asp-append-version="true" />
+}
+
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <div class="about-hero-grid">
+
+            <!-- Left — Text -->
+            <div class="about-hero-text">
+                <span class="label-md about-eyebrow">About Me</span>
+                <h1 class="display-lg">Weronika Michalek</h1>
+
+                <div class="about-bio">
+                    @if (!string.IsNullOrEmpty(Model.Bio1))
+                    {
+                        <p class="body-lg pull-indent">@Model.Bio1</p>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Bio2))
+                    {
+                        <p class="body-lg">@Model.Bio2</p>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Bio3))
+                    {
+                        <p class="body-lg">@Model.Bio3</p>
+                    }
+                </div>
+
+                <!-- Links -->
+                <div class="about-links">
+                    @if (!string.IsNullOrEmpty(Model.LinkedInLink))
+                    {
+                        <a href="@Model.LinkedInLink" target="_blank" class="btn btn-primary">
+                            @(string.IsNullOrEmpty(Model.LinkedIn) ? "LinkedIn" : Model.LinkedIn)
+                        </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.CVDownload))
+                    {
+                        <a href="@Model.CVDownload" target="_blank" class="btn btn-secondary">
+                            @(string.IsNullOrEmpty(Model.CV) ? "Download CV" : Model.CV)
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Right — Profile Image -->
+            <div class="about-hero-image">
+                <div class="profile-card">
+                    @if (!string.IsNullOrEmpty(Model.ProfileImage))
+                    {
+                        <img src="@Model.ProfileImage" alt="Profile" class="profile-img" />
+                    }
+                    else
+                    {
+                        <div class="profile-img-placeholder"></div>
+                    }
+                    <div class="profile-card-footer">
+                        <span class="profile-caption">Developer, 2026</span>
+                        <span class="label-md">Archival Grade</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Attributes Section -->
+<section class="about-attributes">
+    <div class="container">
+        <div class="attributes-row">
+            @if (!string.IsNullOrEmpty(Model.MediumLabel) || !string.IsNullOrEmpty(Model.MediumValue))
+            {
+                <div class="attribute-item">
+                    <span class="label-md attribute-label">@Model.MediumLabel</span>
+                    <span class="attribute-value">@Model.MediumValue</span>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.EmailAddress))
+            {
+                <div class="attribute-item">
+                    <span class="label-md attribute-label">Email</span>
+                    <a href="mailto:@Model.EmailAddress" class="attribute-value attribute-link">
+                        @Model.EmailAddress
+                    </a>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.Location))
+            {
+                <div class="attribute-item">
+                    <span class="label-md attribute-label">Location</span>
+                    <span class="attribute-value">@Model.Location</span>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="about-contact">
+    <div class="container">
+        <div class="contact-grid">
+
+            <!-- Left — Info -->
+            <div class="contact-info">
+                <h2 class="headline-md">Send a Correspondence</h2>
+                <p class="body-lg">Whether you seek a collaboration or simply wish to discuss the intersection of literature and logic, my inbox is open for thoughtful discourse.</p>
+
+                @if (!string.IsNullOrEmpty(Model.EmailAddress))
+                {
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">✉</div>
+                        <div>
+                            <span class="label-md">Electronic Post</span>
+                            <a href="mailto:@Model.EmailAddress" class="contact-detail-value">
+                                @Model.EmailAddress
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Location))
+                {
+                    <div class="contact-detail">
+                        <div class="contact-detail-icon">◎</div>
+                        <div>
+                            <span class="label-md">Location</span>
+                            <span class="contact-detail-value">@Model.Location</span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Right — Form -->
+            <div class="contact-form-wrap">
+                @if (TempData["ContactSuccess"] != null)
+                {
+                    <div class="contact-alert success">@TempData["ContactSuccess"]</div>
+                }
+                @if (TempData["ContactError"] != null)
+                {
+                    <div class="contact-alert error">@TempData["ContactError"]</div>
+                }
+
+                <form method="post" action="/about/contact" class="contact-form">
+                    @Html.AntiForgeryToken()
+
+                    <div class="field">
+                        <label>Full Name</label>
+                        <input type="text" name="fullName" placeholder="Dr. Julian Thorne" required />
+                    </div>
+
+                    <div class="field">
+                        <label>Return Address (Email)</label>
+                        <input type="email" name="email" placeholder="you@example.com" required />
+                    </div>
+
+                    <div class="field">
+                        <label>The Inquiry</label>
+                        <textarea name="message" rows="5"
+                                  placeholder="Briefly describe your purpose..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary contact-submit">
+                        Dispatch Message
+                    </button>
+                    <p class="contact-footnote">Expect a response within two lunar cycles.</p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>

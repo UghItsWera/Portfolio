@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] — The Chromatic Gallery</title>
+    <title>@ViewData["Title"] — Weronika's Portfolio</title>
+    <link rel="icon" type="image/png" href="~/images/favicon.png" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/admin/layout.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
@@ -14,7 +15,7 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-top">
-                <span class="sidebar-brand">The Chromatic Gallery</span>
+                <span class="sidebar-brand">Weronika's Portfolio</span>
                 <nav class="sidebar-nav">
                     <a href="/Admin/Dashboard" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "dashboard" ? "active" : "")">
                         <span class="nav-icon">⊞</span> Dashboard
@@ -28,6 +29,9 @@
                     <a href="/Admin/Websites" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "websites" ? "active" : "")">
                         <span class="nav-icon">🌐</span> Websites
                     </a>
+                    <a href="/Admin/About" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "about" ? "active" : "")">
+    <span class="nav-icon">👤</span> About
+</a>
                     <a href="/Admin/Announcements" class="nav-item @(ViewData["ActiveNav"]?.ToString() == "announcements" ? "active" : "")">
     <span class="nav-icon">📢</span> Announcements
 </a>

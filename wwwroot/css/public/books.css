@@ -1,0 +1,186 @@
+/* books.css */
+
+.books-section {
+    padding: 3rem 0 6rem;
+}
+
+.books-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.books-header h1 {
+    margin-bottom: 0.75rem;
+}
+
+.books-header p {
+    color: var(--on-surface-variant);
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+
+    background: var(--surface-container-highest);
+    border: 1px solid var(--outline-variant);
+    border-radius: 0.25rem;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+
+    border-color: var(--secondary);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.book-cover {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+
+    overflow: hidden;
+
+    background: var(--surface-container);
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    display: block;
+
+    transition: transform 0.35s ease;
+}
+
+.book-card:hover .book-cover img {
+    transform: scale(1.03);
+}
+
+.book-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    padding: 1.25rem;
+}
+
+.book-title {
+    font-family: 'Noto Serif', serif;
+    font-size: 1.35rem;
+    line-height: 1.3;
+
+    color: var(--on-surface);
+
+    margin-bottom: 0.85rem;
+}
+
+.book-summary {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+
+    color: var(--on-surface-variant);
+
+    margin-bottom: 1.25rem;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.tag {
+    background: var(--tertiary-container);
+    color: var(--on-tertiary-container);
+
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    padding: 0.35rem 0.7rem;
+
+    border-radius: 0.15rem;
+}
+
+.book-actions {
+    margin-top: auto;
+}
+
+.book-actions .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+.empty-state {
+    padding: 3rem 2rem;
+
+    text-align: center;
+
+    border: 1px dashed var(--outline-variant);
+    border-radius: 0.25rem;
+
+    background: var(--surface-container);
+}
+
+.empty-state p {
+    color: var(--on-surface-muted);
+}
+
+/* ----------------------------- */
+/* Responsive */
+/* ----------------------------- */
+
+@media (max-width: 1200px) {
+    .books-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-content {
+        padding: 1rem;
+    }
+
+    .book-title {
+        font-size: 1.15rem;
+    }
+}

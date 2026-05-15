@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioCMS.Data;
-using System.Security.Claims;
 using PortfolioCMS.Models;
+using System.Security.Claims;
 
 namespace PortfolioCMS.Controllers
 {
@@ -42,14 +42,12 @@ namespace PortfolioCMS.Controllers
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, username),
-                    new Claim(ClaimTypes.Role, "Admin")
+                    new(ClaimTypes.Name, username),
+                    new(ClaimTypes.Role, "Admin")
                 };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
                 return RedirectToAction("Dashboard");
             }
@@ -73,21 +71,21 @@ namespace PortfolioCMS.Controllers
         [Authorize]
         public IActionResult Dashboard()
         {
-            var recentProjects = _db.Projects
-                .OrderByDescending(p => p.UpdatedAt)
-                .Take(5)
-                .ToList();
-
-            var announcements = _db.Announcements
-                .OrderByDescending(a => a.CreatedAt)
-                .Take(3)
-                .ToList();
-
             var now = DateTime.UtcNow;
             var todayStart = now.Date;
             var monthStart = new DateTime(now.Year, now.Month, 1);
 
-            var stats = new DashboardStats
+            ViewBag.RecentProjects = _db.Projects
+                .OrderByDescending(p => p.UpdatedAt)
+                .Take(5)
+                .ToList();
+
+            ViewBag.Announcements = _db.Announcements
+                .OrderByDescending(a => a.CreatedAt)
+                .Take(3)
+                .ToList();
+
+            ViewBag.Stats = new DashboardStats
             {
                 TotalGames = _db.Projects.Count(p => p.Category == "game"),
                 TotalWebsites = _db.Projects.Count(p => p.Category == "website"),
@@ -98,237 +96,246 @@ namespace PortfolioCMS.Controllers
                 VisitsThisMonth = _db.PageVisits.Count(v => v.VisitedAt >= monthStart)
             };
 
-            ViewBag.RecentProjects = recentProjects;
-            ViewBag.Announcements = announcements;
-            ViewBag.Stats = stats;
-
             return View();
         }
-        // GET /Admin/Games
-[HttpGet("Games")]
-[Authorize]
-public IActionResult Games()
-{
-    var projects = _db.Projects
-        .Where(p => p.Category == "game")
-        .OrderBy(p => p.SortOrder)
-        .ThenByDescending(p => p.UpdatedAt)
-        .ToList();
 
-    ViewData["ActiveNav"] = "games";
-    ViewData["Category"] = "game";
-    ViewData["CategoryLabel"] = "Games";
-    ViewData["CategoryDescription"] = "Manage your game projects and interactive experiences.";
-    return View("ProjectList", projects);
-}
+        [HttpGet("Games")]
+        [Authorize]
+        public IActionResult Games() =>
+            ProjectList("game", "games", "Games", "Manage your game projects and interactive experiences.");
 
-// GET /Admin/Websites
-[HttpGet("Websites")]
-[Authorize]
-public IActionResult Websites()
-{
-    var projects = _db.Projects
-        .Where(p => p.Category == "website")
-        .OrderBy(p => p.SortOrder)
-        .ThenByDescending(p => p.UpdatedAt)
-        .ToList();
+        [HttpGet("Websites")]
+        [Authorize]
+        public IActionResult Websites() =>
+            ProjectList("website", "websites", "Websites", "Manage your web portfolio and digital projects.");
 
-    ViewData["ActiveNav"] = "websites";
-    ViewData["Category"] = "website";
-    ViewData["CategoryLabel"] = "Websites";
-    ViewData["CategoryDescription"] = "Manage your web portfolio and digital projects.";
-    return View("ProjectList", projects);
-}
+        [HttpGet("Books")]
+        [Authorize]
+        public IActionResult Books() =>
+            ProjectList("book", "books", "Books", "Manage your published manuscripts and written works.");
 
-// GET /Admin/Books
-[HttpGet("Books")]
-[Authorize]
-public IActionResult Books()
-{
-    var projects = _db.Projects
-        .Where(p => p.Category == "book")
-        .OrderBy(p => p.SortOrder)
-        .ThenByDescending(p => p.UpdatedAt)
-        .ToList();
+        [HttpPost("Projects/TogglePublish")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult TogglePublish(int id, string returnUrl)
+        {
+            var project = _db.Projects.Find(id);
+            if (project != null)
+            {
+                project.IsPublished = !project.IsPublished;
+                project.UpdatedAt = DateTime.UtcNow;
+                _db.SaveChanges();
+            }
 
-    ViewData["ActiveNav"] = "books";
-    ViewData["Category"] = "book";
-    ViewData["CategoryLabel"] = "Books";
-    ViewData["CategoryDescription"] = "Manage your published manuscripts and written works.";
-    return View("ProjectList", projects);
-}
+            return Redirect(returnUrl ?? "/Admin/Dashboard");
+        }
 
-// POST /Admin/Projects/TogglePublish
-[HttpPost("Projects/TogglePublish")]
-[Authorize]
-[ValidateAntiForgeryToken]
-public IActionResult TogglePublish(int id, string returnUrl)
-{
-    var project = _db.Projects.Find(id);
-    if (project != null)
-    {
-        project.IsPublished = !project.IsPublished;
-        project.UpdatedAt = DateTime.UtcNow;
-        _db.SaveChanges();
-    }
-    return Redirect(returnUrl ?? "/Admin/Dashboard");
-}
+        [HttpPost("Projects/Delete")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id, string returnUrl)
+        {
+            var project = _db.Projects.Find(id);
+            if (project != null)
+            {
+                _db.Projects.Remove(project);
+                _db.SaveChanges();
+            }
 
-// POST /Admin/Projects/Delete
-[HttpPost("Projects/Delete")]
-[Authorize]
-[ValidateAntiForgeryToken]
-public IActionResult Delete(int id, string returnUrl)
-{
-    var project = _db.Projects.Find(id);
-    if (project != null)
-    {
-        _db.Projects.Remove(project);
-        _db.SaveChanges();
-    }
-    return Redirect(returnUrl ?? "/Admin/Dashboard");
-}
-// GET /Admin/Projects/Create
-[HttpGet("Projects/Create")]
-[Authorize]
-public IActionResult Create(string category = "game")
-{
-    ViewData["ActiveNav"] = category + "s";
-    ViewData["Category"] = category;
-    return View("ProjectForm", new Project { Category = category });
-}
+            return Redirect(returnUrl ?? "/Admin/Dashboard");
+        }
 
-// GET /Admin/Projects/Edit/{id}
-[HttpGet("Projects/Edit/{id}")]
-[Authorize]
-public IActionResult Edit(int id)
-{
-    var project = _db.Projects.Find(id);
-    if (project == null) return NotFound();
+        [HttpGet("Projects/Create")]
+        [Authorize]
+        public IActionResult Create(string category = "game")
+        {
+            ViewData["ActiveNav"] = category + "s";
+            ViewData["Category"] = category;
+            return View("ProjectForm", new Project { Category = category });
+        }
 
-    ViewData["ActiveNav"] = project.Category + "s";
-    ViewData["Category"] = project.Category;
-    return View("ProjectForm", project);
-}
+        [HttpGet("Projects/Edit/{id}")]
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var project = _db.Projects.Find(id);
+            if (project == null) return NotFound();
 
-// POST /Admin/Projects/Save
-[HttpPost("Projects/Save")]
-[Authorize]
-[ValidateAntiForgeryToken]
-public IActionResult Save(Project project)
-{
-    // Auto-generate slug from title if empty
-    if (string.IsNullOrEmpty(project.Slug))
-    {
-        project.Slug = project.Title
-            .ToLower()
-            .Replace(" ", "-")
-            .Replace("'", "")
-            .Replace("\"", "")
-            .Replace("&", "and");
-    }
+            ViewData["ActiveNav"] = project.Category + "s";
+            ViewData["Category"] = project.Category;
+            return View("ProjectForm", project);
+        }
 
-    if (project.Id == 0)
-    {
-        project.CreatedAt = DateTime.UtcNow;
-        project.UpdatedAt = DateTime.UtcNow;
-        _db.Projects.Add(project);
-    }
-    else
-    {
-        var existing = _db.Projects.Find(project.Id);
-        if (existing == null) return NotFound();
+        [HttpPost("Projects/Save")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Save(Project project)
+        {
+            if (string.IsNullOrEmpty(project.Slug))
+                project.Slug = GenerateSlug(project.Title);
 
-        existing.Title = project.Title;
-        existing.Slug = project.Slug;
-        existing.Category = project.Category;
-        existing.Summary = project.Summary;
-        existing.Body = project.Body;
-        existing.CoverImage = project.CoverImage;
-        existing.Images = project.Images;
-        existing.Buttons = project.Buttons;
-        existing.Tags = project.Tags;
-        existing.Metadata = project.Metadata;
-        existing.IsPublished = project.IsPublished;
-        existing.SortOrder = project.SortOrder;
-        existing.UpdatedAt = DateTime.UtcNow;
-    }
+            if (project.Id == 0)
+            {
+                project.CreatedAt = DateTime.UtcNow;
+                project.UpdatedAt = DateTime.UtcNow;
+                _db.Projects.Add(project);
+            }
+            else
+            {
+                var existing = _db.Projects.Find(project.Id);
+                if (existing == null) return NotFound();
 
-    _db.SaveChanges();
+                CopyProjectFields(existing, project);
+                existing.UpdatedAt = DateTime.UtcNow;
+            }
 
-    return Redirect($"/Admin/{char.ToUpper(project.Category[0]) + project.Category[1..]}s");
-}
-// GET /Admin/Announcements
-[HttpGet("Announcements")]
-[Authorize]
-public IActionResult Announcements()
-{
-    var announcements = _db.Announcements
-        .OrderByDescending(a => a.CreatedAt)
-        .ToList();
+            _db.SaveChanges();
+            return Redirect(CategoryListUrl(project.Category));
+        }
 
-    ViewData["ActiveNav"] = "announcements";
-    return View(announcements);
-}
+        [HttpGet("Announcements")]
+        [Authorize]
+        public IActionResult Announcements()
+        {
+            ViewData["ActiveNav"] = "announcements";
+            return View(_db.Announcements.OrderByDescending(a => a.CreatedAt).ToList());
+        }
 
-// GET /Admin/Announcements/Create
-[HttpGet("Announcements/Create")]
-[Authorize]
-public IActionResult CreateAnnouncement()
-{
-    ViewData["ActiveNav"] = "announcements";
-    return View("AnnouncementForm", new Announcement());
-}
+        [HttpGet("Announcements/Create")]
+        [Authorize]
+        public IActionResult CreateAnnouncement()
+        {
+            ViewData["ActiveNav"] = "announcements";
+            return View("AnnouncementForm", new Announcement());
+        }
 
-// GET /Admin/Announcements/Edit/{id}
-[HttpGet("Announcements/Edit/{id}")]
-[Authorize]
-public IActionResult EditAnnouncement(int id)
-{
-    var announcement = _db.Announcements.Find(id);
-    if (announcement == null) return NotFound();
+        [HttpGet("Announcements/Edit/{id}")]
+        [Authorize]
+        public IActionResult EditAnnouncement(int id)
+        {
+            var announcement = _db.Announcements.Find(id);
+            if (announcement == null) return NotFound();
 
-    ViewData["ActiveNav"] = "announcements";
-    return View("AnnouncementForm", announcement);
-}
+            ViewData["ActiveNav"] = "announcements";
+            return View("AnnouncementForm", announcement);
+        }
 
-// POST /Admin/Announcements/Save
-[HttpPost("Announcements/Save")]
-[Authorize]
-[ValidateAntiForgeryToken]
-public IActionResult SaveAnnouncement(Announcement announcement)
-{
-    if (announcement.Id == 0)
-    {
-        announcement.CreatedAt = DateTime.UtcNow;
-        _db.Announcements.Add(announcement);
-    }
-    else
-    {
-        var existing = _db.Announcements.Find(announcement.Id);
-        if (existing == null) return NotFound();
+        [HttpPost("Announcements/Save")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveAnnouncement(Announcement announcement)
+        {
+            if (announcement.Id == 0)
+            {
+                announcement.CreatedAt = DateTime.UtcNow;
+                _db.Announcements.Add(announcement);
+            }
+            else
+            {
+                var existing = _db.Announcements.Find(announcement.Id);
+                if (existing == null) return NotFound();
 
-        existing.Title = announcement.Title;
-        existing.Body = announcement.Body;
-    }
+                existing.Title = announcement.Title;
+                existing.Body = announcement.Body;
+            }
 
-    _db.SaveChanges();
-    return Redirect("/Admin/Announcements");
-}
+            _db.SaveChanges();
+            return Redirect("/Admin/Announcements");
+        }
 
-// POST /Admin/Announcements/Delete
-[HttpPost("Announcements/Delete")]
-[Authorize]
-[ValidateAntiForgeryToken]
-public IActionResult DeleteAnnouncement(int id)
-{
-    var announcement = _db.Announcements.Find(id);
-    if (announcement != null)
-    {
-        _db.Announcements.Remove(announcement);
-        _db.SaveChanges();
-    }
-    return Redirect("/Admin/Announcements");
-}
+        [HttpPost("Announcements/Delete")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteAnnouncement(int id)
+        {
+            var announcement = _db.Announcements.Find(id);
+            if (announcement != null)
+            {
+                _db.Announcements.Remove(announcement);
+                _db.SaveChanges();
+            }
+
+            return Redirect("/Admin/Announcements");
+        }
+
+        [HttpGet("About")]
+        [Authorize]
+        public IActionResult About()
+        {
+            ViewData["ActiveNav"] = "about";
+            return View("AboutForm", _db.AboutContent.FirstOrDefault() ?? new AboutContent());
+        }
+
+        [HttpPost("About/Save")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult SaveAbout(AboutContent content)
+        {
+            var existing = _db.AboutContent.FirstOrDefault();
+            if (existing == null)
+            {
+                _db.AboutContent.Add(content);
+            }
+            else
+            {
+                existing.ProfileImage = content.ProfileImage;
+                existing.Bio1 = content.Bio1;
+                existing.Bio2 = content.Bio2;
+                existing.Bio3 = content.Bio3;
+                existing.LinkedIn = content.LinkedIn;
+                existing.LinkedInLink = content.LinkedInLink;
+                existing.CV = content.CV;
+                existing.CVDownload = content.CVDownload;
+                existing.MediumLabel = content.MediumLabel;
+                existing.MediumValue = content.MediumValue;
+                existing.EmailAddress = content.EmailAddress;
+                existing.Location = content.Location;
+            }
+
+            _db.SaveChanges();
+            TempData["Success"] = "About page saved.";
+            return Redirect("/Admin/About");
+        }
+
+        private IActionResult ProjectList(string category, string activeNav, string label, string description)
+        {
+            var projects = _db.Projects
+                .Where(p => p.Category == category)
+                .OrderBy(p => p.SortOrder)
+                .ThenByDescending(p => p.UpdatedAt)
+                .ToList();
+
+            ViewData["ActiveNav"] = activeNav;
+            ViewData["Category"] = category;
+            ViewData["CategoryLabel"] = label;
+            ViewData["CategoryDescription"] = description;
+            return View("ProjectList", projects);
+        }
+
+        private static void CopyProjectFields(Project target, Project source)
+        {
+            target.Title = source.Title;
+            target.Slug = source.Slug;
+            target.Category = source.Category;
+            target.Summary = source.Summary;
+            target.Body = source.Body;
+            target.CoverImage = source.CoverImage;
+            target.Images = source.Images;
+            target.Buttons = source.Buttons;
+            target.Tags = source.Tags;
+            target.Metadata = source.Metadata;
+            target.IsPublished = source.IsPublished;
+            target.SortOrder = source.SortOrder;
+        }
+
+        private static string GenerateSlug(string title) =>
+            title.ToLower()
+                .Replace(" ", "-")
+                .Replace("'", "")
+                .Replace("\"", "")
+                .Replace("&", "and");
+
+        private static string CategoryListUrl(string category) =>
+            $"/Admin/{char.ToUpper(category[0])}{category[1..]}s";
     }
 }

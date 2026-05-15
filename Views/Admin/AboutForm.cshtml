@@ -1,0 +1,147 @@
+@using PortfolioCMS.Models
+@model AboutContent
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "About & Contact";
+    ViewData["ActiveNav"] = "about";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/project-form.css" />
+    <link rel="stylesheet" href="~/css/admin/about.css" />
+}
+
+<div class="page-header">
+    <div>
+        <h1>About & Contact</h1>
+        <p>Edit your about page content and contact details.</p>
+    </div>
+    <div class="page-actions">
+        <button type="submit" form="about-form" class="btn-primary-admin">Save Changes</button>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success">@TempData["Success"]</div>
+}
+
+<form id="about-form" method="post" action="/Admin/About/Save">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="form-grid">
+
+        <div class="form-main">
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Bio</h2>
+                <div class="form-group">
+                    <label class="form-label">Paragraph 1</label>
+                    <textarea name="Bio1" class="form-input form-textarea" rows="4"
+                              placeholder="Opening paragraph...">@Model.Bio1</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Paragraph 2</label>
+                    <textarea name="Bio2" class="form-input form-textarea" rows="4"
+                              placeholder="Second paragraph...">@Model.Bio2</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Paragraph 3</label>
+                    <textarea name="Bio3" class="form-input form-textarea" rows="4"
+                              placeholder="Third paragraph...">@Model.Bio3</textarea>
+                </div>
+            </div>
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Links</h2>
+                <p class="section-hint">Displayed as buttons on the about page.</p>
+                <div class="attributes-grid">
+                    <div class="form-group">
+                        <label class="form-label">LinkedIn — Label</label>
+                        <input type="text" name="LinkedIn" value="@Model.LinkedIn"
+                               class="form-input" placeholder="e.g. LinkedIn" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">LinkedIn — URL</label>
+                        <input type="text" name="LinkedInLink" value="@Model.LinkedInLink"
+                               class="form-input" placeholder="https://linkedin.com/in/..." />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CV — Label</label>
+                        <input type="text" name="CV" value="@Model.CV"
+                               class="form-input" placeholder="e.g. Download CV" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CV — Download URL</label>
+                        <input type="text" name="CVDownload" value="@Model.CVDownload"
+                               class="form-input" placeholder="/images/general/cv.pdf" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Medium — Label</label>
+                        <input type="text" name="MediumLabel" value="@Model.MediumLabel"
+                               class="form-input" placeholder="e.g. MEDIUM" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Medium — Value</label>
+                        <input type="text" name="MediumValue" value="@Model.MediumValue"
+                               class="form-input" placeholder="e.g. React & Ink" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-admin form-section">
+                <h2 class="section-title">Contact Details</h2>
+                <div class="form-group">
+                    <label class="form-label">Email Address (displayed publicly)</label>
+                    <input type="email" name="EmailAddress" value="@Model.EmailAddress"
+                           class="form-input" placeholder="you@example.com" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="Location" value="@Model.Location"
+                           class="form-input" placeholder="e.g. Edinburgh, Scotland" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-sidebar">
+            <div class="card-admin form-section">
+                <h2 class="section-title">Profile Image</h2>
+                <div class="form-group">
+                    <label class="form-label">Image URL</label>
+                    <input type="text" name="ProfileImage" value="@Model.ProfileImage"
+                           class="form-input" placeholder="/images/general/profile.jpg"
+                           id="profile-image-input" />
+                </div>
+                <div class="cover-preview" id="profile-preview">
+                    @if (!string.IsNullOrEmpty(Model.ProfileImage))
+                    {
+                        <img src="@Model.ProfileImage" alt="Profile preview" />
+                    }
+                    else
+                    {
+                        <span class="cover-placeholder">No image set</span>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        const input = document.getElementById('profile-image-input');
+        const preview = document.getElementById('profile-preview');
+
+        input.addEventListener('input', () => {
+            const url = input.value.trim();
+            preview.innerHTML = url
+                ? `<img src="${url}" alt="Profile preview" />`
+                : `<span class="cover-placeholder">No image set</span>`;
+        });
+    </script>
+}

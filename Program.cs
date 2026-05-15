@@ -5,6 +5,7 @@ using PortfolioCMS.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<PortfolioCMS.Services.EmailService>();
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(options =>

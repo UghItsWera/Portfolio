@@ -67,19 +67,11 @@ else
                         </div>
                     </div>
 
-                    @if (!string.IsNullOrEmpty(project.Tags))
+                    @{
+                        var tags = ProjectDisplayHelper.ParseTags(project.Tags);
+                    }
+                    @if (tags.Count > 0)
                     {
-                        var tags = new List<string>();
-                        var trimmedTags = project.Tags.Trim();
-                        try
-                        {
-                            tags = JsonSerializer.Deserialize<List<string>>(project.Tags) ?? new();
-                        }
-                        catch
-                        {
-                            if (!trimmedTags.StartsWith('['))
-                                tags = new List<string>(trimmedTags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
-                        }
                         <div class="project-tags">
                             @foreach (var tag in tags)
                             {

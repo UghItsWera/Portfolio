@@ -1,2 +1,139 @@
-@{ Layout = "_PublicLayout"; ViewData["Title"] = "website description"; }
-<h1>Website Description coming soon</h1>
+@using PortfolioCMS.Models
+@model ProjectDetailViewModel
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = Model.Project.Title;
+    var project = Model.Project;
+    var coverSrc = string.IsNullOrEmpty(project.CoverImage) ? "/images/general/placeholder.jpg" : project.CoverImage;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/website-detail.css" asp-append-version="true" />
+}
+
+<section class="website-detail">
+    <div class="container">
+
+        <a href="/websites" class="back-link">← Back to Websites</a>
+
+        <div class="website-hero">
+            <img src="@coverSrc" alt="@project.Title" />
+            @if (Model.WebsiteMeta != null && !string.IsNullOrEmpty(Model.WebsiteMeta.Stack))
+            {
+                <span class="website-hero-badge">● @Model.WebsiteMeta.Stack.ToUpper()</span>
+            }
+        </div>
+
+        <div class="website-header">
+            <div class="website-header-main">
+                <h1 class="display-lg">@project.Title</h1>
+                @if (Model.WebsiteMeta != null && !string.IsNullOrEmpty(Model.WebsiteMeta.Year))
+                {
+                    <span class="website-year">@Model.WebsiteMeta.Year</span>
+                }
+            </div>
+
+            @if (Model.Tags.Any())
+            {
+                <div class="tag-list">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="tag">@tag</span>
+                    }
+                </div>
+            }
+        </div>
+
+        @if (Model.WebsiteMeta != null)
+        {
+            var meta = Model.WebsiteMeta;
+            var hasAnyMeta = !string.IsNullOrEmpty(meta.Stack)
+                || !string.IsNullOrEmpty(meta.Role)
+                || !string.IsNullOrEmpty(meta.Year);
+
+            if (hasAnyMeta)
+            {
+                <div class="website-meta-grid">
+                    @if (!string.IsNullOrEmpty(meta.Stack))
+                    {
+                        <div class="meta-item">
+                            <span class="meta-label">Stack</span>
+                            <span class="meta-value">@meta.Stack</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(meta.Role))
+                    {
+                        <div class="meta-item">
+                            <span class="meta-label">Role</span>
+                            <span class="meta-value">@meta.Role</span>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(meta.Year))
+                    {
+                        <div class="meta-item">
+                            <span class="meta-label">Year</span>
+                            <span class="meta-value">@meta.Year</span>
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+        @if (!string.IsNullOrEmpty(project.Summary))
+        {
+            <p class="website-summary">@project.Summary</p>
+        }
+
+        @if (!string.IsNullOrEmpty(project.Body))
+        {
+            <div class="website-body">
+                @Html.Raw(project.Body)
+            </div>
+        }
+
+        @if (Model.Buttons.Any())
+        {
+            <div class="website-actions">
+                @foreach (var btn in Model.Buttons)
+                {
+                    <a href="@btn.Url" target="_blank" rel="noopener noreferrer" class="btn btn-@(string.IsNullOrEmpty(btn.Style) ? "primary" : btn.Style)">@btn.Label</a>
+                }
+            </div>
+        }
+        else if (Model.WebsiteMeta != null)
+        {
+            var meta = Model.WebsiteMeta;
+            var hasLinks = !string.IsNullOrEmpty(meta.LiveUrl) || !string.IsNullOrEmpty(meta.SourceUrl);
+            if (hasLinks)
+            {
+                <div class="website-actions">
+                    @if (!string.IsNullOrEmpty(meta.LiveUrl))
+                    {
+                        <a href="@meta.LiveUrl" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Visit Site</a>
+                    }
+                    @if (!string.IsNullOrEmpty(meta.SourceUrl))
+                    {
+                        <a href="@meta.SourceUrl" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Source Code</a>
+                    }
+                </div>
+            }
+        }
+
+        @if (Model.Images.Any())
+        {
+            <div class="website-gallery">
+                <h2 class="headline-md">Screenshots</h2>
+                <div class="gallery-grid">
+                    @foreach (var img in Model.Images)
+                    {
+                        <div class="gallery-item">
+                            <img src="@img.Url" alt="@img.Alt" />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
