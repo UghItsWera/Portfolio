@@ -1,0 +1,80 @@
+@using PortfolioCMS.Models
+@model ProjectDetailViewModel
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = Model.Project.Title;
+    var project = Model.Project;
+    var coverSrc = string.IsNullOrEmpty(project.CoverImage)
+        ? "/images/general/placeholder.jpg"
+        : project.CoverImage;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/game-detail.css" />
+}
+
+<section class="game-detail">
+    <div class="container">
+
+        <a href="/miscellaneous" class="back-link">← Back to Miscellaneous</a>
+
+        <div class="game-hero">
+            <img src="@coverSrc" alt="@project.Title" />
+        </div>
+
+        <div class="game-header">
+            <div class="game-header-main">
+                <h1 class="display-lg">@project.Title</h1>
+                <span class="game-year">@project.CreatedAt.ToString("yyyy")</span>
+            </div>
+            @if (Model.Tags.Any())
+            {
+                <div class="tag-list">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="tag">@tag</span>
+                    }
+                </div>
+            }
+        </div>
+
+        @if (!string.IsNullOrEmpty(project.Summary))
+        {
+            <p class="game-summary">@project.Summary</p>
+        }
+
+        @if (!string.IsNullOrEmpty(project.Body))
+        {
+            <div class="game-body">
+                @Html.Raw(project.Body)
+            </div>
+        }
+
+        @if (Model.Buttons.Any())
+        {
+            <div class="game-actions">
+                @foreach (var btn in Model.Buttons)
+                {
+                    <a href="@btn.Url" target="_blank" class="btn btn-@btn.Style">@btn.Label</a>
+                }
+            </div>
+        }
+
+        @if (Model.Images.Any())
+        {
+            <div class="game-gallery">
+                <h2 class="headline-md">Screenshots</h2>
+                <div class="gallery-grid">
+                    @foreach (var img in Model.Images)
+                    {
+                        <div class="gallery-item">
+                            <img src="@img.Url" alt="@img.Alt" />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+</section>

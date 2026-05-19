@@ -78,11 +78,13 @@
 <section class="about-attributes">
     <div class="container">
         <div class="attributes-row">
-            @if (!string.IsNullOrEmpty(Model.MediumLabel) || !string.IsNullOrEmpty(Model.MediumValue))
+            @if (!string.IsNullOrEmpty(Model.GithubLink))
             {
                 <div class="attribute-item">
-                    <span class="label-md attribute-label">@Model.MediumLabel</span>
-                    <span class="attribute-value">@Model.MediumValue</span>
+                    <span class="label-md attribute-label">Github</span>
+                    <a href="@Model.GithubLink" target="_blank" class="attribute-value attribute-link">
+                        @Model.Github
+                    </a>
                 </div>
             }
             @if (!string.IsNullOrEmpty(Model.EmailAddress))

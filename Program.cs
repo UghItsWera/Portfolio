@@ -42,13 +42,14 @@ app.UseAuthorization();
 app.MapControllerRoute(name: "admin-root", pattern: "admin", defaults: new { controller = "Admin", action = "Login" });
 app.MapControllerRoute(name: "public-about", pattern: "about", defaults: new { controller = "Public", action = "About" });
 app.MapControllerRoute(name: "public-games", pattern: "games", defaults: new { controller = "Public", action = "Games" });
-app.MapControllerRoute(name: "public-misc", pattern: "misc", defaults: new { controller = "Public", action = "Misc" });
+app.MapControllerRoute(name: "public-misc", pattern: "misc", defaults: new { controller = "Public", action = "Miscellaneous" });
 app.MapControllerRoute(name: "public-books", pattern: "books", defaults: new { controller = "Public", action = "Books" });
 app.MapControllerRoute(name: "public-websites", pattern: "websites", defaults: new { controller = "Public", action = "Websites" });
 
 app.MapControllerRoute(name: "game-detail", pattern: "games/{slug}", defaults: new { controller = "Public", action = "Game" });
 app.MapControllerRoute(name: "book-detail", pattern: "books/{slug}", defaults: new { controller = "Public", action = "Book" });
 app.MapControllerRoute(name: "website-detail", pattern: "websites/{slug}", defaults: new { controller = "Public", action = "Website" });
+app.MapControllerRoute(name: "misc", pattern: "miscellaneous/{slug}", defaults: new { controller = "Public", action = "MiscProject" });
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Public}/{action=Index}/{id?}");
 

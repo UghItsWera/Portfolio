@@ -5,7 +5,16 @@
     Layout = "_AdminLayout";
     var isNew = Model.Id == 0;
     var category = ViewData["Category"]?.ToString() ?? "game";
-    var categoryLabel = char.ToUpper(category[0]) + category[1..] + "s";
+    var categoryLabel = category switch
+    {
+        "misc" => "Miscellaneous",
+        _ => char.ToUpper(category[0]) + category[1..] + "s"
+    };
+    var categoryListPath = category switch
+    {
+        "misc" => "/Admin/Miscellaneous",
+        _ => $"/Admin/{categoryLabel}"
+    };
     ViewData["Title"] = isNew ? $"New {category}" : $"Edit {Model.Title}";
 }
 
@@ -15,7 +24,7 @@
 
 <div class="page-header">
     <div>
-        <a href="/Admin/@categoryLabel" class="back-link">← Back to @categoryLabel</a>
+        <a href="@categoryListPath" class="back-link">← Back to @categoryLabel</a>
         <h1>@(isNew ? $"Add New {char.ToUpper(category[0]) + category[1..]}" : $"Edit {Model.Title}")</h1>
     </div>
     <div class="page-actions">

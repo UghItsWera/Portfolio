@@ -6,10 +6,12 @@ namespace PortfolioCMS.Services
     public class EmailService
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration config)
+        public EmailService(IConfiguration config, ILogger<EmailService> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
         public async Task SendContactEmailAsync(string fromName, string fromEmail, string message)
@@ -19,6 +21,9 @@ namespace PortfolioCMS.Services
             var user = _config["Email:SmtpUser"]!;
             var pass = _config["Email:SmtpPass"]!;
             var to   = _config["Email:ToAddress"]!;
+
+            _logger.LogInformation("Attempting to send email from {FromEmail} to {To} via {Host}:{Port}", 
+                fromEmail, to, host, port);
 
             var client = new SmtpClient(host, port)
             {
@@ -37,7 +42,16 @@ namespace PortfolioCMS.Services
             mail.To.Add(to);
             mail.ReplyToList.Add(new MailAddress(fromEmail, fromName));
 
-            await client.SendMailAsync(mail);
+            try
+            {
+                await client.SendMailAsync(mail);
+                _logger.LogInformation("Email sent successfully to {To}", to);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send email to {To}", to);
+                throw;
+            }
         }
     }
 }

@@ -1,0 +1,108 @@
+@using PortfolioCMS.Models
+@model List<Project>
+
+@{
+    Layout = "_PublicLayout";
+    ViewData["Title"] = "Miscellaneous";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public/games.css" />
+}
+
+<section class="games-section">
+    <div class="container">
+
+        <div class="games-header">
+            <h1 class="display-lg">Miscellaneous</h1>
+            <p class="body-lg">Curiosities, experiments, and everything in between.</p>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <p class="body-lg">Nothing here yet. Check back soon.</p>
+            </div>
+        }
+        else
+        {
+            <div class="games-grid" id="games-grid">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var project = Model[i];
+                    var tags = new List<string>();
+                    if (!string.IsNullOrEmpty(project.Tags))
+                    {
+                        try { tags = System.Text.Json.JsonSerializer.Deserialize<List<string>>(project.Tags) ?? new(); }
+                        catch { }
+                    }
+
+                    var coverSrc = string.IsNullOrEmpty(project.CoverImage)
+                        ? "/images/general/placeholder.jpg"
+                        : project.CoverImage;
+
+                    <article class="game-card @(i == 0 ? "active" : "")" data-index="@i">
+
+                        <div class="card-collapsed">
+                            <div class="card-thumb">
+                                <img src="@coverSrc" alt="@project.Title" />
+                            </div>
+                            <div class="card-collapsed-info">
+                                <h3 class="card-collapsed-title">@project.Title</h3>
+                                @if (tags.Any())
+                                {
+                                    <div class="tag-list">
+                                        @foreach (var tag in tags.Take(2))
+                                        {
+                                            <span class="tag">@tag</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="card-expanded">
+                            <div class="card-expanded-image">
+                                <img src="@coverSrc" alt="@project.Title" />
+                            </div>
+                            <div class="card-expanded-body">
+                                <div class="card-expanded-main">
+                                    <div>
+                                        <h2 class="card-expanded-title">@project.Title</h2>
+                                        <span class="card-expanded-year">
+                                            @project.CreatedAt.ToString("yyyy")
+                                        </span>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(project.Summary))
+                                    {
+                                        <p class="card-expanded-summary">@project.Summary</p>
+                                    }
+                                    @if (tags.Any())
+                                    {
+                                        <div class="tag-list">
+                                            @foreach (var tag in tags)
+                                            {
+                                                <span class="tag">@tag</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                <div class="card-expanded-actions">
+                                    <a href="/miscellaneous/@project.Slug" class="btn btn-primary">
+                                        View Project
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </article>
+                }
+            </div>
+        }
+
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/public/games.js"></script>
+}

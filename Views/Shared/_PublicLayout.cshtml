@@ -21,7 +21,9 @@
                 <a asp-controller="Public" asp-action="Games" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Games" ? "active" : "")">Games</a>
                 <a asp-controller="Public" asp-action="Books" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Books" ? "active" : "")">Books</a>
                 <a asp-controller="Public" asp-action="Websites" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Websites" ? "active" : "")">Websites</a>
+                <a asp-controller="Public" asp-action="Miscellaneous" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Miscellaneous" ? "active" : "")">Miscellaneous</a>
                 <a asp-controller="Public" asp-action="About" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")">About</a>
+                
             </div>
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
                 <span class="theme-icon-light">☀</span>
@@ -44,6 +46,7 @@
                 <a asp-controller="Public" asp-action="Games">Games</a>
                 <a asp-controller="Public" asp-action="Books">Books</a>
                 <a asp-controller="Public" asp-action="Websites">Websites</a>
+                <a asp-controller="Public" asp-action="Miscellaneous">Miscellaneous</a>
                 <a asp-controller="Public" asp-action="About">About</a>
             </div>
         </div>

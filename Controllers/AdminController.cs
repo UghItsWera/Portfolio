@@ -114,6 +114,11 @@ namespace PortfolioCMS.Controllers
         public IActionResult Books() =>
             ProjectList("book", "books", "Books", "Manage your published manuscripts and written works.");
 
+        [HttpGet("Miscellaneous")]
+        [Authorize]
+        public IActionResult Miscellaneous() =>
+            ProjectList("misc", "miscellaneous", "Miscellaneous", "Curiosities, experiments, and everything in between.");
+
         [HttpPost("Projects/TogglePublish")]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -149,7 +154,7 @@ namespace PortfolioCMS.Controllers
         [Authorize]
         public IActionResult Create(string category = "game")
         {
-            ViewData["ActiveNav"] = category + "s";
+            ViewData["ActiveNav"] = ActiveNavForCategory(category);
             ViewData["Category"] = category;
             return View("ProjectForm", new Project { Category = category });
         }
@@ -161,7 +166,7 @@ namespace PortfolioCMS.Controllers
             var project = _db.Projects.Find(id);
             if (project == null) return NotFound();
 
-            ViewData["ActiveNav"] = project.Category + "s";
+            ViewData["ActiveNav"] = ActiveNavForCategory(project.Category);
             ViewData["Category"] = project.Category;
             return View("ProjectForm", project);
         }
@@ -286,10 +291,10 @@ namespace PortfolioCMS.Controllers
                 existing.LinkedInLink = content.LinkedInLink;
                 existing.CV = content.CV;
                 existing.CVDownload = content.CVDownload;
-                existing.MediumLabel = content.MediumLabel;
-                existing.MediumValue = content.MediumValue;
                 existing.EmailAddress = content.EmailAddress;
                 existing.Location = content.Location;
+                existing.Github = content.Github;
+                existing.GithubLink = content.GithubLink;
             }
 
             _db.SaveChanges();
@@ -335,7 +340,18 @@ namespace PortfolioCMS.Controllers
                 .Replace("\"", "")
                 .Replace("&", "and");
 
+        private static string ActiveNavForCategory(string category) =>
+            category switch
+            {
+                "misc" => "miscellaneous",
+                _ => category + "s"
+            };
+
         private static string CategoryListUrl(string category) =>
-            $"/Admin/{char.ToUpper(category[0])}{category[1..]}s";
+            category switch
+            {
+                "misc" => "/Admin/Miscellaneous",
+                _ => $"/Admin/{char.ToUpper(category[0])}{category[1..]}s"
+            };
     }
 }

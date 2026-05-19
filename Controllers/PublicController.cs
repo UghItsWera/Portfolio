@@ -58,25 +58,24 @@ namespace PortfolioCMS.Controllers
         }
 
         [HttpPost]
-        [Route("about/contact")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Contact(string fullName, string email, string message)
-        {
-            try
-            {
-                var emailService = HttpContext.RequestServices
-                    .GetRequiredService<PortfolioCMS.Services.EmailService>();
-                await emailService.SendContactEmailAsync(fullName, email, message);
-                TempData["ContactSuccess"] = "Your message has been sent. I'll be in touch.";
-            }
-            catch
-            {
-                TempData["ContactError"] = "Something went wrong. Please try again or email directly.";
-            }
+[Route("about/contact")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Contact(string fullName, string email, string message)
+{
+    try
+    {
+        var emailService = HttpContext.RequestServices
+            .GetRequiredService<PortfolioCMS.Services.EmailService>();
+        await emailService.SendContactEmailAsync(fullName, email, message);
+        TempData["ContactSuccess"] = "Your message has been sent. I'll be in touch.";
+    }
+    catch (Exception ex)
+    {
+        TempData["ContactError"] = $"Error: {ex.Message}";
+    }
 
-            return RedirectToAction(nameof(About));
-        }
-
+    return RedirectToAction("About");
+}
         // GET /games
         public IActionResult Games()
         {
@@ -140,6 +139,29 @@ namespace PortfolioCMS.Controllers
         {
             var project = _db.Projects
                 .FirstOrDefault(p => p.Slug == slug && p.Category == "website" && p.IsPublished);
+
+            if (project == null) return NotFound();
+
+            return View(ProjectDisplayHelper.BuildDetailViewModel(project));
+        }
+
+        // GET /misc
+        public IActionResult Miscellaneous()
+        {
+            var projects = _db.Projects
+                .Where(p => p.Category == "misc" && p.IsPublished)
+                .OrderBy(p => p.SortOrder)
+                .ThenByDescending(p => p.CreatedAt)
+                .ToList();
+
+            return View(projects);
+        }
+
+        // GET /misc/{slug}
+        public IActionResult MiscProject(string slug)
+        {
+            var project = _db.Projects
+                .FirstOrDefault(p => p.Slug == slug && p.Category == "misc" && p.IsPublished);
 
             if (project == null) return NotFound();
 

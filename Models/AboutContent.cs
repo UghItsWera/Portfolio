@@ -11,9 +11,9 @@ namespace PortfolioCMS.Models
         public string? LinkedInLink { get; set; }
         public string? CV { get; set; }
         public string? CVDownload { get; set; }
-        public string? MediumLabel { get; set; }
-        public string? MediumValue { get; set; }
         public string? EmailAddress { get; set; }
         public string? Location { get; set; }
+        public string? Github { get; set; }
+        public string? GithubLink { get; set; }
     }
 }
