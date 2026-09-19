@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8498aad2fe5c7878a0a0f56a4919feaf1572d9b3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+372b9b448cf8e0faed089e73d7d0c5e4aee42b3c")]
 [assembly: System.Reflection.AssemblyProductAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PortfolioCMS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

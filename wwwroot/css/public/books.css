@@ -2,7 +2,7 @@
    BOOKS ARCHIVE
    ========================================================= */
 
-   .books-page {
+.books-page {
     padding: 3rem 0 7rem;
     overflow: hidden;
 }
@@ -117,8 +117,18 @@
    ========================================================= */
 
 .book-card {
-    --card-bg: #1f3429;
-    --card-accent: #9bbcac;
+    /*
+       These values come from the admin CategoryTheme.
+       The page itself is NOT affected.
+    */
+
+    --card-bg: var(--book-light-background, #D8B9C5);
+    --card-surface: var(--book-light-card, #EAD8DE);
+    --card-accent: var(--book-light-accent, #795260);
+
+    --card-text: #30262b;
+    --card-muted: rgba(48, 38, 43, 0.72);
+    --card-border: rgba(48, 38, 43, 0.18);
 
     display: flex;
     flex-direction: column;
@@ -138,40 +148,28 @@
 
     transition:
         transform 0.45s var(--ease-smooth),
-        box-shadow 0.45s var(--ease-smooth);
+        box-shadow 0.45s var(--ease-smooth),
+        background-color 0.4s ease,
+        color 0.4s ease;
 }
 
-/* Individual archival colours */
+/* =========================================================
+   DARK MODE CARD COLOURS
+   ========================================================= */
 
-.book-card:nth-child(6n + 1) {
-    --card-bg: #1d342a;
-    --card-accent: #9bbcac;
+html[data-theme="dark"] .book-card {
+    --card-bg: var(--book-dark-background, #3A2931);
+    --card-surface: var(--book-dark-card, #4B3740);
+    --card-accent: var(--book-dark-accent, #D5AEBB);
+
+    --card-text: #ffffff;
+    --card-muted: rgba(255, 255, 255, 0.78);
+    --card-border: rgba(255, 255, 255, 0.2);
 }
 
-.book-card:nth-child(6n + 2) {
-    --card-bg: #4b1f2b;
-    --card-accent: #d58b98;
-}
-
-.book-card:nth-child(6n + 3) {
-    --card-bg: #26394b;
-    --card-accent: #9ebbd1;
-}
-
-.book-card:nth-child(6n + 4) {
-    --card-bg: #56301f;
-    --card-accent: #d6a06e;
-}
-
-.book-card:nth-child(6n + 5) {
-    --card-bg: #24434a;
-    --card-accent: #8cc9c5;
-}
-
-.book-card:nth-child(6n + 6) {
-    --card-bg: #412746;
-    --card-accent: #c79aca;
-}
+/* =========================================================
+   BOOK CARD HOVER
+   ========================================================= */
 
 .book-card:hover {
     transform: translateY(-8px);
@@ -262,7 +260,8 @@
     z-index: 2;
 
     transition:
-        height 0.35s var(--ease-smooth);
+        height 0.35s var(--ease-smooth),
+        background-color 0.4s ease;
 }
 
 .book-card:hover .book-cover::after {
@@ -358,7 +357,13 @@
 
     padding: 1.5rem 1.5rem 1.25rem;
 
-    color: #ffffff;
+    background: var(--card-surface);
+
+    color: var(--card-text);
+
+    transition:
+        background-color 0.4s ease,
+        color 0.4s ease;
 }
 
 .book-content-top {
@@ -378,6 +383,8 @@
     text-transform: uppercase;
 
     color: var(--card-accent);
+
+    transition: color 0.4s ease;
 }
 
 .book-title {
@@ -388,7 +395,9 @@
     font-weight: 600;
     line-height: 1.2;
 
-    color: #ffffff;
+    color: var(--card-text);
+
+    transition: color 0.4s ease;
 }
 
 .book-title a {
@@ -416,7 +425,9 @@
     font-size: 0.9rem;
     line-height: 1.7;
 
-    color: rgba(255, 255, 255, 0.78);
+    color: var(--card-muted);
+
+    transition: color 0.4s ease;
 }
 
 /* =========================================================
@@ -434,9 +445,9 @@
 .tag {
     padding: 0.35rem 0.6rem;
 
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1px solid var(--card-border);
 
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.08);
 
     font-family: "Work Sans", sans-serif;
     font-size: 0.58rem;
@@ -445,7 +456,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
 
-    color: rgba(255, 255, 255, 0.82);
+    color: var(--card-text);
 
     transition:
         background 0.25s ease,
@@ -455,7 +466,7 @@
 
 .book-card:hover .tag {
     border-color: var(--card-accent);
-    background: rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.12);
     color: var(--card-accent);
 }
 
@@ -468,7 +479,9 @@
 
     padding-top: 0.8rem;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid var(--card-border);
+
+    transition: border-color 0.4s ease;
 }
 
 .book-link {
@@ -487,7 +500,7 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
 
-    color: #ffffff;
+    color: var(--card-text);
 
     text-decoration: none;
 
@@ -502,7 +515,8 @@
     color: var(--card-accent);
 
     transition:
-        transform 0.3s var(--ease-smooth);
+        transform 0.3s var(--ease-smooth),
+        color 0.4s ease;
 }
 
 .book-link:hover {

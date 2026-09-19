@@ -4,6 +4,8 @@
 @{
     Layout = "_PublicLayout";
     ViewData["Title"] = "Books";
+
+    var theme = ViewBag.CategoryTheme as CategoryTheme;
 }
 
 @section Styles {
@@ -73,7 +75,15 @@
                         "/images/general/book-placeholder.jpg"
                     );
 
-                    <article class="book-card">
+                    <article class="book-card"
+                             style="
+                                --book-light-background: @(theme?.LightBackground ?? "#D8B9C5");
+                                --book-light-accent: @(theme?.LightAccent ?? "#795260");
+                                --book-light-card: @(theme?.LightCard ?? "#EAD8DE");
+                                --book-dark-background: @(theme?.DarkBackground ?? "#3A2931");
+                                --book-dark-accent: @(theme?.DarkAccent ?? "#D5AEBB");
+                                --book-dark-card: @(theme?.DarkCard ?? "#4B3740");
+                             ">
 
                         <a href="/books/@book.Slug" class="book-cover-link">
 

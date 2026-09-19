@@ -9,9 +9,11 @@ builder.Services.AddScoped<PortfolioCMS.Services.EmailService>();
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 
-// Auth
+// Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -22,6 +24,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddAuthorization();
+
 builder.Services.AddSassCompiler();
 
 var app = builder.Build();
@@ -33,24 +36,71 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
 app.UseMiddleware<PortfolioCMS.Middleware.VisitTrackingMiddleware>();
+
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
-// Short public URLs (must be registered before the generic {controller}/{action} route)
-app.MapControllerRoute(name: "admin-root", pattern: "admin", defaults: new { controller = "Admin", action = "Login" });
-app.MapControllerRoute(name: "public-about", pattern: "about", defaults: new { controller = "Public", action = "About" });
-app.MapControllerRoute(name: "public-games", pattern: "games", defaults: new { controller = "Public", action = "Games" });
-app.MapControllerRoute(name: "public-misc", pattern: "misc", defaults: new { controller = "Public", action = "Miscellaneous" });
-app.MapControllerRoute(name: "public-books", pattern: "books", defaults: new { controller = "Public", action = "Books" });
-app.MapControllerRoute(name: "public-websites", pattern: "websites", defaults: new { controller = "Public", action = "Websites" });
 
-app.MapControllerRoute(name: "game-detail", pattern: "games/{slug}", defaults: new { controller = "Public", action = "Game" });
-app.MapControllerRoute(name: "book-detail", pattern: "books/{slug}", defaults: new { controller = "Public", action = "Book" });
-app.MapControllerRoute(name: "website-detail", pattern: "websites/{slug}", defaults: new { controller = "Public", action = "Website" });
-app.MapControllerRoute(name: "misc", pattern: "miscellaneous/{slug}", defaults: new { controller = "Public", action = "MiscProject" });
+// Short public URLs
+app.MapControllerRoute(
+    name: "admin-root",
+    pattern: "admin",
+    defaults: new { controller = "Admin", action = "Login" });
 
-app.MapControllerRoute(name: "default", pattern: "{controller=Public}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "public-about",
+    pattern: "about",
+    defaults: new { controller = "Public", action = "About" });
+
+app.MapControllerRoute(
+    name: "public-games",
+    pattern: "games",
+    defaults: new { controller = "Public", action = "Games" });
+
+app.MapControllerRoute(
+    name: "public-misc",
+    pattern: "misc",
+    defaults: new { controller = "Public", action = "Miscellaneous" });
+
+app.MapControllerRoute(
+    name: "public-books",
+    pattern: "books",
+    defaults: new { controller = "Public", action = "Books" });
+
+app.MapControllerRoute(
+    name: "public-websites",
+    pattern: "websites",
+    defaults: new { controller = "Public", action = "Websites" });
+
+// Detail pages
+app.MapControllerRoute(
+    name: "game-detail",
+    pattern: "games/{slug}",
+    defaults: new { controller = "Public", action = "Game" });
+
+app.MapControllerRoute(
+    name: "book-detail",
+    pattern: "books/{slug}",
+    defaults: new { controller = "Public", action = "Book" });
+
+app.MapControllerRoute(
+    name: "website-detail",
+    pattern: "websites/{slug}",
+    defaults: new { controller = "Public", action = "Website" });
+
+app.MapControllerRoute(
+    name: "misc",
+    pattern: "miscellaneous/{slug}",
+    defaults: new { controller = "Public", action = "MiscProject" });
+
+// Default route
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Public}/{action=Index}/{id?}");
 
 app.Run();

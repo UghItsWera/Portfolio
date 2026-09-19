@@ -11,6 +11,7 @@ namespace PortfolioCMS.Data
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<PageVisit> PageVisits { get; set; }
         public DbSet<AboutContent> AboutContent { get; set; }
+        public DbSet<CategoryTheme> CategoryThemes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,10 @@ namespace PortfolioCMS.Data
 
             modelBuilder.Entity<Project>()
                 .HasIndex(p => p.Category);
+
+            modelBuilder.Entity<CategoryTheme>()
+                .HasIndex(t => t.Category)
+                .IsUnique();
         }
     }
 }

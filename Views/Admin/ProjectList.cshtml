@@ -4,95 +4,444 @@
 
 @{
     Layout = "_AdminLayout";
+
     ViewData["Title"] = ViewData["CategoryLabel"]?.ToString();
-    var category = ViewData["Category"]?.ToString();
-    var returnUrl = $"/Admin/{ViewData["CategoryLabel"]}";
+
+    var category = ViewData["Category"]?.ToString() ?? "game";
+    var categoryLabel = ViewData["CategoryLabel"]?.ToString() ?? "Projects";
+    var categoryDescription = ViewData["CategoryDescription"]?.ToString() ?? "";
+
+    var returnUrl = category switch
+    {
+        "misc" => "/Admin/Miscellaneous",
+        _ => $"/Admin/{categoryLabel}"
+    };
+
+    var theme = ViewData["CategoryTheme"] as CategoryTheme;
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/admin/project-list.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/css/admin/project-list.css"
+          asp-append-version="true" />
 }
 
 <div class="page-header">
     <div>
-        <h1>@ViewData["CategoryLabel"]</h1>
-        <p>@ViewData["CategoryDescription"]</p>
+        <h1>@categoryLabel</h1>
+        <p>@categoryDescription</p>
     </div>
+
     <div class="page-actions">
-        <a href="/Admin/Projects/Create?category=@category" class="btn-primary-admin">+ Add New</a>
+        <a href="/Admin/Projects/Create?category=@category"
+           class="btn-primary-admin">
+            + Add New
+        </a>
     </div>
 </div>
+
+@if (TempData["ThemeSuccess"] != null)
+{
+    <div class="admin-alert success">
+        @TempData["ThemeSuccess"]
+    </div>
+}
+
+@if (theme != null)
+{
+    <section class="theme-editor card-admin">
+
+        <div class="theme-editor-header">
+            <div>
+                <span class="theme-editor-kicker">Section appearance</span>
+
+                <h2 class="theme-editor-title">
+                    @categoryLabel colours
+                </h2>
+
+                <p class="theme-editor-description">
+                    Choose the colours used by this section on the public portfolio.
+                    Light and dark mode can have completely different shades.
+                </p>
+            </div>
+        </div>
+
+        <form method="post"
+              action="/Admin/CategoryTheme/Save"
+              class="theme-form">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="Category"
+                   value="@category" />
+
+            <input type="hidden"
+                   name="returnUrl"
+                   value="@returnUrl" />
+
+            <div class="theme-mode-grid">
+
+                <!-- LIGHT MODE -->
+
+                <div class="theme-mode light-mode">
+
+                    <div class="theme-mode-heading">
+                        <div>
+                            <span class="theme-mode-label">Light mode</span>
+                            <h3>Day palette</h3>
+                        </div>
+
+                        <span class="theme-mode-indicator light">
+                            Light
+                        </span>
+                    </div>
+
+                    <div class="colour-fields">
+
+                        <div class="colour-field">
+                            <label for="light-background">
+                                Background
+                            </label>
+
+                            <div class="colour-input-wrap">
+                                <input type="color"
+                                       id="light-background"
+                                       name="LightBackground"
+                                       value="@theme.LightBackground"
+                                       class="colour-picker" />
+
+                                <input type="text"
+                                       value="@theme.LightBackground"
+                                       class="hex-input"
+                                       data-colour-target="light-background"
+                                       maxlength="7" />
+                            </div>
+                        </div>
+
+                        <div class="colour-field">
+                            <label for="light-accent">
+                                Accent
+                            </label>
+
+                            <div class="colour-input-wrap">
+                                <input type="color"
+                                       id="light-accent"
+                                       name="LightAccent"
+                                       value="@theme.LightAccent"
+                                       class="colour-picker" />
+
+                                <input type="text"
+                                       value="@theme.LightAccent"
+                                       class="hex-input"
+                                       data-colour-target="light-accent"
+                                       maxlength="7" />
+                            </div>
+                        </div>
+
+                        <div class="colour-field">
+                            <label for="light-card">
+                                Card
+                            </label>
+
+                            <div class="colour-input-wrap">
+                                <input type="color"
+                                       id="light-card"
+                                       name="LightCard"
+                                       value="@theme.LightCard"
+                                       class="colour-picker" />
+
+                                <input type="text"
+                                       value="@theme.LightCard"
+                                       class="hex-input"
+                                       data-colour-target="light-card"
+                                       maxlength="7" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="theme-preview light-preview"
+                         id="light-theme-preview">
+
+                        <span>Preview</span>
+
+                        <div class="preview-card">
+                            <strong>@categoryLabel</strong>
+                            <small>Public section preview</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DARK MODE -->
+
+                <div class="theme-mode dark-mode">
+
+                    <div class="theme-mode-heading">
+                        <div>
+                            <span class="theme-mode-label">Dark mode</span>
+                            <h3>Night palette</h3>
+                        </div>
+
+                        <span class="theme-mode-indicator dark">
+                            Dark
+                        </span>
+                    </div>
+
+                    <div class="colour-fields">
+
+                        <div class="colour-field">
+                            <label for="dark-background">
+                                Background
+                            </label>
+
+                            <div class="colour-input-wrap">
+                                <input type="color"
+                                       id="dark-background"
+                                       name="DarkBackground"
+                                       value="@theme.DarkBackground"
+                                       class="colour-picker" />
+
+                                <input type="text"
+                                       value="@theme.DarkBackground"
+                                       class="hex-input"
+                                       data-colour-target="dark-background"
+                                       maxlength="7" />
+                            </div>
+                        </div>
+
+                        <div class="colour-field">
+                            <label for="dark-accent">
+                                Accent
+                            </label>
+
+                            <div class="colour-input-wrap">
+                                <input type="color"
+                                       id="dark-accent"
+                                       name="DarkAccent"
+                                       value="@theme.DarkAccent"
+                                       class="colour-picker" />
+
+                                <input type="text"
+                                       value="@theme.DarkAccent"
+                                       class="hex-input"
+                                       data-colour-target="dark-accent"
+                                       maxlength="7" />
+                            </div>
+                        </div>
+
+                        <div class="colour-field">
+                            <label for="dark-card">
+                                Card
+                            </label>
+
+                            <div class="colour-input-wrap">
+                                <input type="color"
+                                       id="dark-card"
+                                       name="DarkCard"
+                                       value="@theme.DarkCard"
+                                       class="colour-picker" />
+
+                                <input type="text"
+                                       value="@theme.DarkCard"
+                                       class="hex-input"
+                                       data-colour-target="dark-card"
+                                       maxlength="7" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="theme-preview dark-preview"
+                         id="dark-theme-preview">
+
+                        <span>Preview</span>
+
+                        <div class="preview-card">
+                            <strong>@categoryLabel</strong>
+                            <small>Public section preview</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="theme-form-footer">
+                <p>
+                    These colours affect the public
+                    <strong>@categoryLabel</strong> section.
+                </p>
+
+                <button type="submit"
+                        class="btn-primary-admin">
+                    Save Colours
+                </button>
+            </div>
+
+        </form>
+
+    </section>
+}
+
 
 @if (!Model.Any())
 {
     <div class="card-admin empty-card">
-        <p class="empty-state">No @ViewData["CategoryLabel"]?.ToString()?.ToLower() yet. Add your first one.</p>
-        <a href="/Admin/Projects/Create?category=@category" class="btn-primary-admin mt-3">+ Add New</a>
+
+        <p class="empty-state">
+            No @categoryLabel.ToLower() yet. Add your first one.
+        </p>
+
+        <a href="/Admin/Projects/Create?category=@category"
+           class="btn-primary-admin mt-3">
+            + Add New
+        </a>
+
     </div>
 }
 else
 {
     <div class="project-grid">
+
         @foreach (var project in Model)
         {
             <div class="project-card">
+
                 <div class="project-card-image">
+
                     @if (!string.IsNullOrEmpty(project.CoverImage))
                     {
-                        <img src="@project.CoverImage" alt="@project.Title" />
+                        <img src="@project.CoverImage"
+                             alt="@project.Title" />
                     }
                     else
                     {
-                        <div class="image-placeholder">No Image</div>
+                        <div class="image-placeholder">
+                            No Image
+                        </div>
                     }
+
                 </div>
+
                 <div class="project-card-body">
+
                     <div class="project-card-top">
+
                         <div>
-                            <h3 class="project-title">@project.Title</h3>
+                            <h3 class="project-title">
+                                @project.Title
+                            </h3>
+
                             @if (!string.IsNullOrEmpty(project.Summary))
                             {
-                                <p class="project-summary">@project.Summary</p>
+                                <p class="project-summary">
+                                    @project.Summary
+                                </p>
                             }
                         </div>
+
                         <div class="project-card-actions">
-                            <a href="/Admin/Projects/Edit/@project.Id" class="icon-btn" title="Edit">✎</a>
-                            <form method="post" action="/Admin/Projects/Delete" style="display:inline">
+
+                            <a href="/Admin/Projects/Edit/@project.Id"
+                               class="icon-btn"
+                               title="Edit">
+                                ✎
+                            </a>
+
+                            <form method="post"
+                                  action="/Admin/Projects/Delete"
+                                  style="display:inline">
+
                                 @Html.AntiForgeryToken()
-                                <input type="hidden" name="id" value="@project.Id" />
-                                <input type="hidden" name="returnUrl" value="@returnUrl" />
-                                <button type="submit" class="icon-btn danger" title="Delete"
-                                    onclick='return confirm(@Html.Raw(JsonSerializer.Serialize($"Delete {project.Title}?")))'>✕</button>
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@project.Id" />
+
+                                <input type="hidden"
+                                       name="returnUrl"
+                                       value="@returnUrl" />
+
+                                <button type="submit"
+                                        class="icon-btn danger"
+                                        title="Delete"
+                                        onclick='return confirm(@Html.Raw(JsonSerializer.Serialize($"Delete {project.Title}?")))'>
+                                    ✕
+                                </button>
+
                             </form>
+
                         </div>
+
                     </div>
 
                     @{
-                        var tags = ProjectDisplayHelper.ParseTags(project.Tags);
+                        var tags =
+                            ProjectDisplayHelper.ParseTags(project.Tags);
                     }
+
                     @if (tags.Count > 0)
                     {
                         <div class="project-tags">
+
                             @foreach (var tag in tags)
                             {
-                                <span class="tag">@tag</span>
+                                <span class="tag">
+                                    @tag
+                                </span>
                             }
+
                         </div>
                     }
 
                     <div class="project-card-footer">
-                        <span class="project-date">@project.UpdatedAt.ToString("MMM dd, yyyy")</span>
-                        <form method="post" action="/Admin/Projects/TogglePublish" style="display:inline">
+
+                        <span class="project-date">
+                            @project.UpdatedAt.ToString("MMM dd, yyyy")
+                        </span>
+
+                        <form method="post"
+                              action="/Admin/Projects/TogglePublish"
+                              style="display:inline">
+
                             @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@project.Id" />
-                            <input type="hidden" name="returnUrl" value="@returnUrl" />
-                            <button type="submit" class="toggle-btn @(project.IsPublished ? "published" : "draft")">
-                                @(project.IsPublished ? "Published" : "Draft")
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@project.Id" />
+
+                            <input type="hidden"
+                                   name="returnUrl"
+                                   value="@returnUrl" />
+
+                            <button type="submit"
+                                    class="toggle-btn @(project.IsPublished ? "published" : "draft")">
+
+                                @(project.IsPublished
+                                    ? "Published"
+                                    : "Draft")
+
                             </button>
+
                         </form>
+
                     </div>
+
                 </div>
+
             </div>
         }
+
     </div>
+}
+
+@section Scripts {
+
+    <script src="~/js/admin/category-theme.js"
+            asp-append-version="true"></script>
 }
