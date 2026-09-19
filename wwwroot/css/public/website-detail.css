@@ -1,165 +1,575 @@
 .website-detail {
   padding: 3rem 0 6rem;
+  color: var(--on-surface);
 }
+
+.website-detail .container {
+  max-width: 1180px;
+}
+
+/* --------------------------------------------------
+ Header
+-------------------------------------------------- */
+
+.website-detail-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
 .website-detail .back-link {
-  display: inline-block;
-  font-family: 'Work Sans', sans-serif;
-  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--on-surface-variant);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: var(--on-surface-muted);
+  letter-spacing: 0.06em;
   text-decoration: none;
-  margin-bottom: 1.5rem;
-  transition: color 0.2s ease;
+  transition:
+      color 0.25s ease,
+      transform 0.25s ease;
 }
+
 .website-detail .back-link:hover {
   color: var(--secondary);
+  transform: translateX(-3px);
 }
-.website-detail .website-hero {
+
+.website-detail .back-arrow {
+  font-size: 1rem;
+}
+
+.website-detail-meta {
+  display: flex;
+  gap: 2rem;
+  color: var(--on-surface-muted);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------
+ Main feature
+-------------------------------------------------- */
+
+.website-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.75fr);
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.website-preview {
   position: relative;
-  width: 100%;
-  height: 400px;
-  border-radius: 0.25rem;
   overflow: hidden;
-  margin-bottom: 2rem;
+  background: var(--surface-container-high);
+  border: 1px solid var(--outline-variant);
+  box-shadow: var(--shadow-elevated);
+  animation: websiteFadeUp 0.7s var(--ease-smooth, ease) both;
+}
+
+.website-preview-bar {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--outline-variant);
+  background: var(--surface-container);
+}
+
+.preview-dots {
+  display: flex;
+  gap: 0.35rem;
+  margin-right: 1rem;
+}
+
+.preview-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--outline);
+}
+
+.preview-label,
+.preview-year {
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-surface-muted);
+}
+
+.preview-year {
+  margin-left: auto;
+}
+
+.website-preview-image {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
   background: var(--surface-container-highest);
 }
-.website-detail .website-hero img {
+
+.website-preview-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-smooth, ease);
 }
-.website-detail .website-hero .website-hero-badge {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  background: var(--tertiary-container);
-  color: var(--on-tertiary-container);
-  font-family: 'Work Sans', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.7rem;
-  border-radius: 0.15rem;
+
+.website-preview:hover .website-preview-image img {
+  transform: scale(1.025);
 }
-.website-detail .website-header {
-  margin-bottom: 2rem;
-}
-.website-detail .website-header .website-header-main {
+
+.website-preview-stack {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
+  color: var(--on-surface-variant);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
-.website-detail .website-header .website-year {
-  font-family: 'Work Sans', sans-serif;
-  font-size: 0.875rem;
+
+.stack-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--secondary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--secondary) 14%, transparent);
+}
+
+.website-main {
+  animation: websiteFadeUp 0.7s 0.12s var(--ease-smooth, ease) both;
+}
+
+.website-project-label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+  color: var(--secondary);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-number {
+  color: var(--secondary);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.website-title {
+  margin: 0;
+  color: var(--on-surface);
+  font-family: "Noto Serif", serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.website-year {
+  display: block;
+  margin-top: 0.75rem;
   color: var(--on-surface-muted);
-  flex-shrink: 0;
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
 }
-.website-detail .website-header .tag-list {
-  margin-bottom: 0;
+
+.website-tags {
+  margin-top: 1.5rem;
 }
-.website-detail .website-meta-grid {
+
+.website-detail .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  padding: 1.25rem 0;
+  gap: 0.45rem;
+}
+
+.website-detail .tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
+  color: var(--on-surface-variant);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.website-summary {
+  max-width: 540px;
+  margin: 2rem 0 0;
+  color: var(--on-surface-variant);
+  font-family: "Work Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* --------------------------------------------------
+ Sections
+-------------------------------------------------- */
+
+.website-information,
+.website-content,
+.website-actions-section,
+.website-gallery-section {
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--outline-variant);
+  animation: websiteFadeUp 0.7s 0.2s var(--ease-smooth, ease) both;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: var(--on-surface);
+  font-family: "Noto Serif", serif;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* --------------------------------------------------
+ Project information
+-------------------------------------------------- */
+
+.website-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid var(--outline-variant);
   border-bottom: 1px solid var(--outline-variant);
-  margin-bottom: 2rem;
 }
-.website-detail .website-meta-grid .meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+
+.meta-item {
+  min-height: 120px;
+  padding: 1.5rem;
+  border-right: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
 }
-.website-detail .website-meta-grid .meta-label {
-  font-family: 'Work Sans', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+
+.meta-item:last-child {
+  border-right: 0;
+}
+
+.meta-label {
+  display: block;
+  margin-bottom: 0.65rem;
   color: var(--on-surface-muted);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
 }
-.website-detail .website-meta-grid .meta-value {
-  font-family: 'Work Sans', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 500;
+
+.meta-value {
+  display: block;
   color: var(--on-surface);
-}
-.website-detail .website-summary {
-  font-family: 'Work Sans', sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: var(--on-surface-variant);
-  max-width: 720px;
-  margin-bottom: 2rem;
-}
-.website-detail .website-body {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Noto Serif", serif;
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------
+ Body content
+-------------------------------------------------- */
+
+.website-body {
+  max-width: 820px;
+  color: var(--on-surface-variant);
+  font-family: "Work Sans", sans-serif;
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.website-body p {
+  margin: 0 0 1.4rem;
+}
+
+.website-body p:last-child {
+  margin-bottom: 0;
+}
+
+.website-body h2,
+.website-body h3,
+.website-body h4 {
+  margin: 2.5rem 0 1rem;
   color: var(--on-surface);
-  max-width: 720px;
-  margin-bottom: 2.5rem;
+  font-family: "Noto Serif", serif;
 }
-.website-detail .website-body p {
-  margin-bottom: 1rem;
+
+.website-body ul,
+.website-body ol {
+  margin: 1rem 0 1.5rem;
+  padding-left: 1.5rem;
 }
-.website-detail .website-body h2,
-.website-detail .website-body h3,
-.website-detail .website-body h4 {
-  font-family: 'Noto Serif', serif;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+
+.website-body li {
+  margin-bottom: 0.5rem;
 }
-.website-detail .website-actions {
+
+.website-body a {
+  color: var(--secondary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* --------------------------------------------------
+ Actions
+-------------------------------------------------- */
+
+.website-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 3rem;
 }
-.website-detail .website-gallery .headline-md {
-  margin-bottom: 1.25rem;
+
+.website-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1rem 0.75rem 1.25rem;
+  text-decoration: none;
+  transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      background 0.25s ease;
 }
-.website-detail .website-gallery .gallery-grid {
+
+.website-actions .btn:hover {
+  transform: translateY(-2px);
+}
+
+.button-arrow {
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------
+ Gallery
+-------------------------------------------------- */
+
+.website-gallery-section {
+  margin-top: 6rem;
+}
+
+.gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
-.website-detail .website-gallery .gallery-item {
-  border-radius: 0.25rem;
+
+.gallery-item {
+  margin: 0;
   overflow: hidden;
-  background: var(--surface-container-highest);
+  background: var(--surface-container-high);
+  border: 1px solid var(--outline-variant);
 }
-.website-detail .website-gallery .gallery-item img {
+
+.gallery-item:first-child {
+  grid-column: span 2;
+}
+
+.gallery-image {
   width: 100%;
-  height: 100%;
-  aspect-ratio: 16/9;
-  object-fit: cover;
   display: block;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-smooth, ease);
 }
-@media (max-width: 768px) {
-  .website-detail .website-hero {
-    height: 240px;
+
+.gallery-item:not(:first-child) .gallery-image {
+  aspect-ratio: 4 / 3;
+}
+
+.gallery-item:hover .gallery-image {
+  transform: scale(1.02);
+}
+
+.gallery-caption {
+  padding: 0.65rem 0.8rem;
+  border-top: 1px solid var(--outline-variant);
+  color: var(--on-surface-muted);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+}
+
+/* --------------------------------------------------
+ End
+-------------------------------------------------- */
+
+.website-end {
+  margin-top: 6rem;
+  text-align: center;
+}
+
+.website-end-rule {
+  width: 100%;
+  height: 1px;
+  margin-bottom: 2rem;
+  background: var(--outline-variant);
+}
+
+.website-end-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--on-surface-variant);
+  font-family: "Work Sans", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+      color 0.25s ease,
+      transform 0.25s ease;
+}
+
+.website-end-link:hover {
+  color: var(--secondary);
+  transform: translateX(-3px);
+}
+
+/* --------------------------------------------------
+ Animation
+-------------------------------------------------- */
+
+@keyframes websiteFadeUp {
+  from {
+      opacity: 0;
+      transform: translateY(18px);
   }
-  .website-detail .website-header .website-header-main {
-    flex-direction: column;
-    gap: 0.25rem;
+
+  to {
+      opacity: 1;
+      transform: translateY(0);
   }
-  .website-detail .website-meta-grid {
-    gap: 1.25rem;
+}
+
+/* --------------------------------------------------
+ Responsive
+-------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .website-feature {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
   }
-  .website-detail .website-actions {
-    flex-direction: column;
+
+  .website-main {
+      max-width: 720px;
   }
-  .website-detail .website-actions .btn {
-    justify-content: center;
+
+  .website-meta-grid {
+      grid-template-columns: 1fr;
   }
-  .website-detail .website-gallery .gallery-grid {
-    grid-template-columns: 1fr;
+
+  .meta-item {
+      border-right: 0;
+      border-bottom: 1px solid var(--outline-variant);
+  }
+
+  .meta-item:last-child {
+      border-bottom: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .website-detail {
+      padding: 2rem 0 4rem;
+  }
+
+  .website-detail-header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 1rem;
+  }
+
+  .website-detail-meta {
+      width: 100%;
+      justify-content: space-between;
+      gap: 1rem;
+  }
+
+  .website-title {
+      font-size: clamp(2.25rem, 11vw, 3.5rem);
+  }
+
+  .website-preview-image {
+      aspect-ratio: 4 / 3;
+  }
+
+  .gallery-grid {
+      grid-template-columns: 1fr;
+  }
+
+  .gallery-item:first-child {
+      grid-column: span 1;
+  }
+
+  .gallery-item .gallery-image {
+      aspect-ratio: 4 / 3;
+  }
+
+  .website-actions {
+      flex-direction: column;
+  }
+
+  .website-actions .btn {
+      width: 100%;
+      justify-content: space-between;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .website-preview,
+  .website-main,
+  .website-information,
+  .website-content,
+  .website-actions-section,
+  .website-gallery-section {
+      animation: none;
+  }
+
+  .website-preview-image img,
+  .gallery-image,
+  .website-detail .back-link,
+  .website-end-link,
+  .website-actions .btn {
+      transition: none;
   }
 }

@@ -38,7 +38,7 @@
                              data-index="@i">
 
                         <!-- Collapsed view (shown when not active) -->
-                        <div class="card-collapsed">
+                        <div class="card-collapsed" data-index="@((i + 1).ToString("D2"))">
                             <div class="card-thumb">
                                 <img src="@coverSrc" alt="@game.Title" />
                             </div>
@@ -62,7 +62,7 @@
                                 <img src="@coverSrc" alt="@game.Title" />
                                 @if (!string.IsNullOrEmpty(meta.Platform))
                                 {
-                                    <span class="card-badge">● @meta.Platform.ToUpper()</span>
+                                    <span class="card-badge">@meta.Platform.ToUpper()</span>
                                 }
                             </div>
                             <div class="card-expanded-body">

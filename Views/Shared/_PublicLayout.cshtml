@@ -3,56 +3,182 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] — Weronika's Portfolio</title>
-    <link rel="icon" type="image/png" href="~/images/favicon.png" asp-append-version="true" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/public/layout.css" />
+
+    <link rel="icon"
+          type="image/png"
+          href="~/images/favicon.png"
+          asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="~/css/public/layout.css"
+          asp-append-version="true" />
+
     @RenderSection("Styles", required: false)
 </head>
+
 <body>
+
+    <!-- Ambient library atmosphere -->
+    <div class="ambient-background" aria-hidden="true">
+        <div class="ambient-glow ambient-glow--one"></div>
+        <div class="ambient-glow ambient-glow--two"></div>
+        <div class="ambient-grain"></div>
+    </div>
 
     <!-- Navigation -->
     <header class="site-header">
-        <nav class="site-nav">
-            <a asp-controller="Public" asp-action="Index" class="site-brand">Weronika's Portfolio</a>
+        <nav class="site-nav" aria-label="Main navigation">
+
+            <a asp-controller="Public"
+               asp-action="Index"
+               class="site-brand"
+               aria-label="Weronika's Portfolio home">
+
+                <span class="site-brand__name">Weronika's</span>
+                <span class="site-brand__label">Portfolio</span>
+
+            </a>
+
             <div class="nav-links">
-                <a asp-controller="Public" asp-action="Games" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Games" ? "active" : "")">Games</a>
-                <a asp-controller="Public" asp-action="Books" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Books" ? "active" : "")">Books</a>
-                <a asp-controller="Public" asp-action="Websites" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Websites" ? "active" : "")">Websites</a>
-                <a asp-controller="Public" asp-action="Miscellaneous" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Miscellaneous" ? "active" : "")">Miscellaneous</a>
-                <a asp-controller="Public" asp-action="About" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")">About</a>
-                
+
+                <a asp-controller="Public"
+                   asp-action="Games"
+                   class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Games" ? "active" : "")">
+                    <span>Games</span>
+                </a>
+
+                <a asp-controller="Public"
+                   asp-action="Books"
+                   class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Books" ? "active" : "")">
+                    <span>Books</span>
+                </a>
+
+                <a asp-controller="Public"
+                   asp-action="Websites"
+                   class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Websites" ? "active" : "")">
+                    <span>Websites</span>
+                </a>
+
+                <a asp-controller="Public"
+                   asp-action="Miscellaneous"
+                   class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Miscellaneous" ? "active" : "")">
+                    <span>Miscellaneous</span>
+                </a>
+
+                <a asp-controller="Public"
+                   asp-action="About"
+                   class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")">
+                    <span>About</span>
+                </a>
+
             </div>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-                <span class="theme-icon-light">☀</span>
-                <span class="theme-icon-dark">☽</span>
+
+            <button class="theme-toggle"
+                    id="theme-toggle"
+                    type="button"
+                    aria-label="Switch to dark mode"
+                    title="Switch theme">
+
+                <span class="theme-toggle__track">
+                    <span class="theme-toggle__icon theme-icon-light" aria-hidden="true">
+                        ☼
+                    </span>
+
+                    <span class="theme-toggle__icon theme-icon-dark" aria-hidden="true">
+                        ☾
+                    </span>
+                </span>
+
             </button>
+
         </nav>
     </header>
 
     <!-- Page Content -->
     <main class="site-main">
-        @RenderBody()
+        <div class="page-transition">
+            @RenderBody()
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="site-footer">
-        <div class="footer-inner">
-            <span class="footer-brand">Weronika Michalek</span>
-            <span class="footer-copy">© @DateTime.Now.Year — All rights reserved</span>
-            <div class="footer-links">
-                <a asp-controller="Public" asp-action="Games">Games</a>
-                <a asp-controller="Public" asp-action="Books">Books</a>
-                <a asp-controller="Public" asp-action="Websites">Websites</a>
-                <a asp-controller="Public" asp-action="Miscellaneous">Miscellaneous</a>
-                <a asp-controller="Public" asp-action="About">About</a>
-            </div>
+
+        <div class="footer-decoration" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
+
+        <div class="footer-inner">
+
+            <div class="footer-brand-block">
+
+                <span class="footer-kicker">
+                    End of catalogue
+                </span>
+
+                <span class="footer-brand">
+                    Weronika Michalek
+                </span>
+
+                <p class="footer-tagline">
+                    Games, books, websites, and digital archives.
+                </p>
+
+            </div>
+
+            <nav class="footer-links" aria-label="Footer navigation">
+
+                <a asp-controller="Public" asp-action="Games">
+                    Games
+                </a>
+
+                <a asp-controller="Public" asp-action="Books">
+                    Books
+                </a>
+
+                <a asp-controller="Public" asp-action="Websites">
+                    Websites
+                </a>
+
+                <a asp-controller="Public" asp-action="Miscellaneous">
+                    Miscellaneous
+                </a>
+
+                <a asp-controller="Public" asp-action="About">
+                    About
+                </a>
+
+            </nav>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <span class="footer-copy">
+                © @DateTime.Now.Year — All rights reserved
+            </span>
+
+            <span class="footer-mark" aria-hidden="true">
+                ✦
+            </span>
+
+        </div>
+
     </footer>
 
     @RenderSection("Scripts", required: false)
+
     <script src="~/js/public/theme.js" asp-append-version="true"></script>
+
 </body>
 </html>

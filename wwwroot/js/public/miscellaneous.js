@@ -1,9 +1,11 @@
 (function () {
-    const grid = document.getElementById("games-grid");
+    const grid = document.getElementById("misc-grid");
 
     if (!grid) return;
 
-    const cards = Array.from(grid.querySelectorAll(".game-card"));
+    const cards = Array.from(
+        grid.querySelectorAll(".misc-card")
+    );
 
     function activateCard(card) {
         if (card.classList.contains("active")) {
@@ -49,8 +51,5 @@
 
             activateCard(card);
         });
-
-        card.setAttribute("tabindex", "0");
-        card.setAttribute("role", "button");
     });
 })();

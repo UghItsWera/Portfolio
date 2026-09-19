@@ -1,22 +1,50 @@
 (function () {
-    const grid = document.getElementById('websites-grid');
+    const grid = document.getElementById("websites-grid");
+
     if (!grid) return;
 
-    const cards = Array.from(grid.querySelectorAll('.website-card'));
+    const cards = Array.from(
+        grid.querySelectorAll(".website-card")
+    );
 
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const isAlreadyActive = card.classList.contains('active');
-            if (isAlreadyActive) return;
+    function activateCard(card) {
+        const isAlreadyActive = card.classList.contains("active");
 
-            // Deactivate all
-            cards.forEach(c => c.classList.remove('active'));
+        if (isAlreadyActive) {
+            return;
+        }
 
-            // Activate clicked
-            card.classList.add('active');
+        cards.forEach(function (item) {
+            item.classList.remove("active");
+            item.setAttribute("aria-expanded", "false");
+        });
 
-            // Scroll card into view smoothly
-            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        card.classList.add("active");
+        card.setAttribute("aria-expanded", "true");
+
+        card.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }
+
+    cards.forEach(function (card) {
+
+        card.addEventListener("click", function (event) {
+            const interactiveElement = event.target.closest("a, button");
+
+            if (interactiveElement) {
+                return;
+            }
+
+            activateCard(card);
+        });
+
+        card.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                activateCard(card);
+            }
         });
     });
 })();

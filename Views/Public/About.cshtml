@@ -10,175 +10,381 @@
     <link rel="stylesheet" href="~/css/public/about.css" asp-append-version="true" />
 }
 
-<!-- Hero Section -->
-<section class="about-hero">
-    <div class="container">
-        <div class="about-hero-grid">
+<div class="about-page">
 
-            <!-- Left — Text -->
-            <div class="about-hero-text">
-                <span class="label-md about-eyebrow">About Me</span>
-                <h1 class="display-lg">Weronika Michalek</h1>
+    <!-- =====================================================
+         INTRODUCTION
+         ===================================================== -->
+
+    <section class="about-intro">
+
+        <div class="about-intro-meta">
+            <span>Archive Entry</span>
+            <span>About</span>
+            <span>01 / 01</span>
+        </div>
+
+        <div class="about-intro-grid">
+
+            <div class="about-intro-content">
+
+                <span class="section-label">
+                    The person behind the work
+                </span>
+
+                <h1>
+                    Weronika
+                    <span>Michalek</span>
+                </h1>
 
                 <div class="about-bio">
+
                     @if (!string.IsNullOrEmpty(Model.Bio1))
                     {
-                        <p class="body-lg pull-indent">@Model.Bio1</p>
+                        <p class="about-lead">
+                            @Model.Bio1
+                        </p>
                     }
+
                     @if (!string.IsNullOrEmpty(Model.Bio2))
                     {
-                        <p class="body-lg">@Model.Bio2</p>
+                        <p>
+                            @Model.Bio2
+                        </p>
                     }
+
                     @if (!string.IsNullOrEmpty(Model.Bio3))
                     {
-                        <p class="body-lg">@Model.Bio3</p>
+                        <p>
+                            @Model.Bio3
+                        </p>
                     }
+
                 </div>
 
-                <!-- Links -->
                 <div class="about-links">
+
                     @if (!string.IsNullOrEmpty(Model.LinkedInLink))
                     {
-                        <a href="@Model.LinkedInLink" target="_blank" class="btn btn-primary">
-                            @(string.IsNullOrEmpty(Model.LinkedIn) ? "LinkedIn" : Model.LinkedIn)
+                        <a href="@Model.LinkedInLink"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-primary">
+                            @(string.IsNullOrEmpty(Model.LinkedIn)
+                                ? "LinkedIn"
+                                : Model.LinkedIn)
                         </a>
                     }
+
                     @if (!string.IsNullOrEmpty(Model.CVDownload))
                     {
-                        <a href="@Model.CVDownload" target="_blank" class="btn btn-secondary">
-                            @(string.IsNullOrEmpty(Model.CV) ? "Download CV" : Model.CV)
+                        <a href="@Model.CVDownload"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-secondary">
+                            @(string.IsNullOrEmpty(Model.CV)
+                                ? "Download CV"
+                                : Model.CV)
                         </a>
                     }
+
                 </div>
+
             </div>
 
-            <!-- Right — Profile Image -->
-            <div class="about-hero-image">
-                <div class="profile-card">
-                    @if (!string.IsNullOrEmpty(Model.ProfileImage))
-                    {
-                        <img src="@Model.ProfileImage" alt="Profile" class="profile-img" />
-                    }
-                    else
-                    {
-                        <div class="profile-img-placeholder"></div>
-                    }
-                    <div class="profile-card-footer">
-                        <span class="profile-caption">Developer, 2026</span>
-                        <span class="label-md">Archival Grade</span>
+
+            <!-- PROFILE -->
+
+            <div class="about-profile">
+
+                <div class="profile-frame">
+
+                    <div class="profile-frame-label">
+                        <span>Portrait</span>
+                        <span>2026</span>
                     </div>
+
+                    <div class="profile-image-wrap">
+
+                        @if (!string.IsNullOrEmpty(Model.ProfileImage))
+                        {
+                            <img src="@Model.ProfileImage"
+                                 alt="Portrait of Weronika Michalek"
+                                 class="profile-img" />
+                        }
+                        else
+                        {
+                            <div class="profile-img-placeholder">
+                                <span>WM</span>
+                            </div>
+                        }
+
+                    </div>
+
+                    <div class="profile-caption">
+                        <span>Developer &amp; Creative Technologist</span>
+                        <span>Digital archive</span>
+                    </div>
+
                 </div>
+
             </div>
 
         </div>
-    </div>
-</section>
 
-<!-- Attributes Section -->
-<section class="about-attributes">
-    <div class="container">
-        <div class="attributes-row">
+        <div class="about-intro-rule" aria-hidden="true">
+            <span></span>
+            <i>✦</i>
+            <span></span>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         DETAILS
+         ===================================================== -->
+
+    <section class="about-details" aria-label="Contact information">
+
+        <div class="about-details-inner">
+
             @if (!string.IsNullOrEmpty(Model.GithubLink))
             {
-                <div class="attribute-item">
-                    <span class="label-md attribute-label">Github</span>
-                    <a href="@Model.GithubLink" target="_blank" class="attribute-value attribute-link">
-                        @Model.Github
-                    </a>
+                <div class="detail-item">
+
+                    <span class="detail-number">01</span>
+
+                    <div>
+                        <span class="detail-label">Github</span>
+
+                        <a href="@Model.GithubLink"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="detail-value">
+                            @Model.Github
+                        </a>
+                    </div>
+
                 </div>
             }
+
             @if (!string.IsNullOrEmpty(Model.EmailAddress))
             {
-                <div class="attribute-item">
-                    <span class="label-md attribute-label">Email</span>
-                    <a href="mailto:@Model.EmailAddress" class="attribute-value attribute-link">
-                        @Model.EmailAddress
-                    </a>
+                <div class="detail-item">
+
+                    <span class="detail-number">02</span>
+
+                    <div>
+                        <span class="detail-label">Email</span>
+
+                        <a href="mailto:@Model.EmailAddress"
+                           class="detail-value">
+                            @Model.EmailAddress
+                        </a>
+                    </div>
+
                 </div>
             }
+
             @if (!string.IsNullOrEmpty(Model.Location))
             {
-                <div class="attribute-item">
-                    <span class="label-md attribute-label">Location</span>
-                    <span class="attribute-value">@Model.Location</span>
+                <div class="detail-item">
+
+                    <span class="detail-number">03</span>
+
+                    <div>
+                        <span class="detail-label">Location</span>
+
+                        <span class="detail-value">
+                            @Model.Location
+                        </span>
+                    </div>
+
                 </div>
             }
-        </div>
-    </div>
-</section>
 
-<!-- Contact Section -->
-<section class="about-contact">
-    <div class="container">
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTACT
+         ===================================================== -->
+
+    <section class="about-contact">
+
+        <div class="contact-heading">
+
+            <div>
+                <span class="section-label">Correspondence</span>
+
+                <h2>
+                    Let's make<br />
+                    something.
+                </h2>
+            </div>
+
+            <p>
+                Whether you're interested in a collaboration, a project,
+                or simply want to get in touch, you're welcome to send
+                a message.
+            </p>
+
+        </div>
+
+
         <div class="contact-grid">
 
-            <!-- Left — Info -->
+            <!-- CONTACT INFORMATION -->
+
             <div class="contact-info">
-                <h2 class="headline-md">Send a Correspondence</h2>
-                <p class="body-lg">Whether you seek a collaboration or simply wish to discuss the intersection of literature and logic, my inbox is open for thoughtful discourse.</p>
+
+                <div class="contact-intro">
+                    <span class="contact-index">Contact</span>
+
+                    <p>
+                        I'm always interested in hearing about new ideas,
+                        creative projects, and interesting opportunities.
+                    </p>
+                </div>
+
 
                 @if (!string.IsNullOrEmpty(Model.EmailAddress))
                 {
                     <div class="contact-detail">
-                        <div class="contact-detail-icon">✉</div>
+
+                        <div class="contact-detail-symbol">
+                            ✉
+                        </div>
+
                         <div>
-                            <span class="label-md">Electronic Post</span>
-                            <a href="mailto:@Model.EmailAddress" class="contact-detail-value">
+                            <span class="detail-label">
+                                Email
+                            </span>
+
+                            <a href="mailto:@Model.EmailAddress">
                                 @Model.EmailAddress
                             </a>
                         </div>
+
                     </div>
                 }
+
 
                 @if (!string.IsNullOrEmpty(Model.Location))
                 {
                     <div class="contact-detail">
-                        <div class="contact-detail-icon">◎</div>
-                        <div>
-                            <span class="label-md">Location</span>
-                            <span class="contact-detail-value">@Model.Location</span>
+
+                        <div class="contact-detail-symbol">
+                            ◎
                         </div>
+
+                        <div>
+                            <span class="detail-label">
+                                Location
+                            </span>
+
+                            <span>
+                                @Model.Location
+                            </span>
+                        </div>
+
                     </div>
                 }
+
             </div>
 
-            <!-- Right — Form -->
+
+            <!-- CONTACT FORM -->
+
             <div class="contact-form-wrap">
+
                 @if (TempData["ContactSuccess"] != null)
                 {
-                    <div class="contact-alert success">@TempData["ContactSuccess"]</div>
-                }
-                @if (TempData["ContactError"] != null)
-                {
-                    <div class="contact-alert error">@TempData["ContactError"]</div>
+                    <div class="contact-alert success">
+                        @TempData["ContactSuccess"]
+                    </div>
                 }
 
-                <form method="post" action="/about/contact" class="contact-form">
+                @if (TempData["ContactError"] != null)
+                {
+                    <div class="contact-alert error">
+                        @TempData["ContactError"]
+                    </div>
+                }
+
+
+                <form method="post"
+                      action="/about/contact"
+                      class="contact-form">
+
                     @Html.AntiForgeryToken()
 
                     <div class="field">
-                        <label>Full Name</label>
-                        <input type="text" name="fullName" placeholder="Dr. Julian Thorne" required />
+
+                        <label for="fullName">
+                            Full Name
+                        </label>
+
+                        <input id="fullName"
+                               type="text"
+                               name="fullName"
+                               placeholder="Your name"
+                               autocomplete="name"
+                               required />
+
                     </div>
+
 
                     <div class="field">
-                        <label>Return Address (Email)</label>
-                        <input type="email" name="email" placeholder="you@example.com" required />
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input id="email"
+                               type="email"
+                               name="email"
+                               placeholder="you@example.com"
+                               autocomplete="email"
+                               required />
+
                     </div>
+
 
                     <div class="field">
-                        <label>The Inquiry</label>
-                        <textarea name="message" rows="5"
-                                  placeholder="Briefly describe your purpose..."></textarea>
+
+                        <label for="message">
+                            Message
+                        </label>
+
+                        <textarea id="message"
+                                  name="message"
+                                  rows="6"
+                                  placeholder="Tell me a little about your enquiry..."
+                                  required></textarea>
+
                     </div>
 
-                    <button type="submit" class="btn btn-primary contact-submit">
-                        Dispatch Message
+
+                    <button type="submit"
+                            class="btn btn-primary contact-submit">
+                        Send message
+                        <span aria-hidden="true">→</span>
                     </button>
-                    <p class="contact-footnote">Expect a response within two lunar cycles.</p>
+
+                    <p class="contact-footnote">
+                        I'll get back to you as soon as possible.
+                    </p>
+
                 </form>
+
             </div>
 
         </div>
-    </div>
-</section>
+
+    </section>
+
+</div>

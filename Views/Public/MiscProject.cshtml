@@ -4,77 +4,191 @@
 @{
     Layout = "_PublicLayout";
     ViewData["Title"] = Model.Project.Title;
+
     var project = Model.Project;
+
     var coverSrc = string.IsNullOrEmpty(project.CoverImage)
         ? "/images/general/placeholder.jpg"
         : project.CoverImage;
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/public/game-detail.css" />
+    <link rel="stylesheet"
+          href="~/css/public/misc-detail.css"
+          asp-append-version="true" />
 }
 
-<section class="game-detail">
+<section class="misc-detail">
+
     <div class="container">
 
-        <a href="/miscellaneous" class="back-link">← Back to Miscellaneous</a>
-
-        <div class="game-hero">
-            <img src="@coverSrc" alt="@project.Title" />
+        <!-- Back -->
+        <div class="misc-detail-back">
+            <a href="/miscellaneous" class="back-link">
+                <span class="back-arrow">←</span>
+                <span>Back to Miscellaneous</span>
+            </a>
         </div>
 
-        <div class="game-header">
-            <div class="game-header-main">
-                <h1 class="display-lg">@project.Title</h1>
-                <span class="game-year">@project.CreatedAt.ToString("yyyy")</span>
+        <!-- Archive Header -->
+        <header class="misc-detail-intro">
+
+            <div class="misc-detail-meta">
+                <span>Archive / Miscellaneous</span>
+                <span>Entry / @project.Id.ToString("D2")</span>
             </div>
-            @if (Model.Tags.Any())
-            {
-                <div class="tag-list">
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <span class="tag">@tag</span>
-                    }
+
+            <div class="misc-detail-rule"></div>
+
+        </header>
+
+        <!-- Main Feature -->
+        <section class="misc-detail-feature">
+
+            <div class="misc-detail-image">
+
+                <img src="@coverSrc"
+                     alt="@project.Title" />
+
+                <div class="misc-detail-image-label">
+                    <span>Archive Entry</span>
+                    <span>@project.CreatedAt.ToString("yyyy")</span>
                 </div>
-            }
-        </div>
 
-        @if (!string.IsNullOrEmpty(project.Summary))
-        {
-            <p class="game-summary">@project.Summary</p>
-        }
+            </div>
 
+            <div class="misc-detail-main">
+
+                <div class="misc-detail-number">
+                    <span>01</span>
+                    <i></i>
+                    Miscellaneous Project
+                </div>
+
+                <h1 class="misc-detail-title">
+                    @project.Title
+                </h1>
+
+                <span class="misc-detail-year">
+                    @project.CreatedAt.ToString("yyyy")
+                </span>
+
+                @if (Model.Tags.Any())
+                {
+                    <div class="tag-list">
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <span class="tag">@tag</span>
+                        }
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(project.Summary))
+                {
+                    <p class="misc-detail-summary">
+                        @project.Summary
+                    </p>
+                }
+
+            </div>
+
+        </section>
+
+        <!-- Project Details -->
         @if (!string.IsNullOrEmpty(project.Body))
         {
-            <div class="game-body">
-                @Html.Raw(project.Body)
-            </div>
+            <section class="misc-detail-content">
+
+                <div class="section-heading">
+                    <span class="section-number">02</span>
+                    <h2>About the Project</h2>
+                </div>
+
+                <div class="misc-detail-body">
+                    @Html.Raw(project.Body)
+                </div>
+
+            </section>
         }
 
+        <!-- Links -->
         @if (Model.Buttons.Any())
         {
-            <div class="game-actions">
-                @foreach (var btn in Model.Buttons)
-                {
-                    <a href="@btn.Url" target="_blank" class="btn btn-@btn.Style">@btn.Label</a>
-                }
-            </div>
+            <section class="misc-detail-actions-section">
+
+                <div class="section-heading">
+                    <span class="section-number">03</span>
+                    <h2>Explore</h2>
+                </div>
+
+                <div class="misc-detail-actions">
+
+                    @foreach (var btn in Model.Buttons)
+                    {
+                        <a href="@btn.Url"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-@(string.IsNullOrEmpty(btn.Style) ? "primary" : btn.Style)">
+
+                            <span>@btn.Label</span>
+                            <span class="button-arrow">↗</span>
+
+                        </a>
+                    }
+
+                </div>
+
+            </section>
         }
 
+        <!-- Gallery -->
         @if (Model.Images.Any())
         {
-            <div class="game-gallery">
-                <h2 class="headline-md">Screenshots</h2>
+            <section class="misc-detail-gallery">
+
+                <div class="section-heading">
+                    <span class="section-number">04</span>
+                    <h2>Gallery</h2>
+                </div>
+
                 <div class="gallery-grid">
+
                     @foreach (var img in Model.Images)
                     {
-                        <div class="gallery-item">
-                            <img src="@img.Url" alt="@img.Alt" />
-                        </div>
+                        <figure class="gallery-item">
+
+                            <div class="gallery-image">
+                                <img src="@img.Url"
+                                     alt="@img.Alt" />
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(img.Alt))
+                            {
+                                <figcaption>
+                                    @img.Alt
+                                </figcaption>
+                            }
+
+                        </figure>
                     }
+
                 </div>
-            </div>
+
+            </section>
         }
 
+        <!-- End -->
+        <div class="misc-detail-end">
+
+            <div class="misc-detail-end-rule"></div>
+
+            <a href="/miscellaneous" class="misc-detail-end-link">
+                <span>Return to Miscellaneous</span>
+                <span>→</span>
+            </a>
+
+        </div>
+
     </div>
+
 </section>

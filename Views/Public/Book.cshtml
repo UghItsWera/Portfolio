@@ -4,8 +4,12 @@
 @{
     Layout = "_PublicLayout";
     ViewData["Title"] = Model.Project.Title;
+
     var project = Model.Project;
-    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(project, "/images/general/book-placeholder.jpg");
+    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(
+        project,
+        "/images/general/book-placeholder.jpg"
+    );
 }
 
 @section Styles {
@@ -13,135 +17,304 @@
 }
 
 <section class="book-detail">
+
     <div class="container">
 
-        <a href="/books" class="back-link">← Back to Library</a>
-
-        <div class="book-hero">
-            <img src="@coverSrc" alt="@project.Title" />
-            @if (Model.Tags.Any())
-            {
-                <span class="book-hero-badge">@Model.Tags.First()</span>
-            }
+        <!-- Back -->
+        <div class="book-back-wrap">
+            <a href="/books" class="back-link">
+                <span class="back-arrow">←</span>
+                Back to Library
+            </a>
         </div>
 
-        <div class="book-header">
-            <div class="book-header-main">
-                <h1 class="display-lg">@project.Title</h1>
-                @if (Model.BookMeta != null && !string.IsNullOrEmpty(Model.BookMeta.PublishDate))
-                {
-                    <span class="book-year">@Model.BookMeta.PublishDate</span>
-                }
+        <!-- Intro -->
+        <div class="book-intro">
+
+            <div class="book-intro-meta">
+                <span>Archive / Books</span>
+                <span>01 / 01</span>
             </div>
 
-            @if (Model.Tags.Any())
-            {
-                <div class="tag-list">
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <span class="tag">@tag</span>
-                    }
-                </div>
-            }
+            <div class="book-intro-rule"></div>
+
         </div>
 
+        <!-- Main Book Feature -->
+        <div class="book-feature">
+
+            <!-- Cover -->
+            <div class="book-cover-column">
+                <div class="book-cover-frame">
+
+                    <div class="book-cover-index">
+                        <span>Book</span>
+                        <span>Archive</span>
+                    </div>
+
+                    <div class="book-cover-image">
+                        <img src="@coverSrc" alt="@project.Title" />
+                    </div>
+
+                    @if (Model.Tags.Any())
+                    {
+                        <div class="book-cover-tag">
+                            @Model.Tags.First()
+                        </div>
+                    }
+
+                </div>
+
+                <span class="book-cover-caption">
+                    @project.Title
+                </span>
+            </div>
+
+            <!-- Main Information -->
+            <div class="book-main">
+
+                <div class="book-number">
+                    Book Record
+                    <span>01</span>
+                </div>
+
+                <div class="book-title-row">
+
+                    <div>
+                        <h1 class="book-title">
+                            @project.Title
+                        </h1>
+
+                        @if (Model.BookMeta != null &&
+                            !string.IsNullOrEmpty(Model.BookMeta.PublishDate))
+                        {
+                            <span class="book-year">
+                                @Model.BookMeta.PublishDate
+                            </span>
+                        }
+                    </div>
+
+                </div>
+
+                @if (Model.Tags.Any())
+                {
+                    <div class="tag-list" aria-label="Book tags">
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <span class="tag">@tag</span>
+                        }
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(project.Summary))
+                {
+                    <div class="book-summary">
+                        @project.Summary
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+        <!-- Metadata -->
         @if (Model.BookMeta != null)
         {
             var meta = Model.BookMeta;
-            var hasAnyMeta = !string.IsNullOrEmpty(meta.Publisher)
+
+            var hasAnyMeta =
+                !string.IsNullOrEmpty(meta.Publisher)
                 || !string.IsNullOrEmpty(meta.Genre)
                 || !string.IsNullOrEmpty(meta.Pages)
                 || !string.IsNullOrEmpty(meta.Rating);
 
             if (hasAnyMeta)
             {
-                <div class="book-meta-grid">
-                    @if (!string.IsNullOrEmpty(meta.Publisher))
-                    {
-                        <div class="meta-item">
-                            <span class="meta-label">Publisher</span>
-                            <span class="meta-value">@meta.Publisher</span>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(meta.Genre))
-                    {
-                        <div class="meta-item">
-                            <span class="meta-label">Genre</span>
-                            <span class="meta-value">@meta.Genre</span>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(meta.Pages))
-                    {
-                        <div class="meta-item">
-                            <span class="meta-label">Pages</span>
-                            <span class="meta-value">@meta.Pages</span>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(meta.Rating))
-                    {
-                        <div class="meta-item">
-                            <span class="meta-label">Rating</span>
-                            <span class="meta-value">@meta.Rating</span>
-                        </div>
-                    }
-                </div>
+                <section class="book-meta-section">
+
+                    <div class="section-heading">
+                        <span class="section-number">01</span>
+                        <h2>Bibliographic Details</h2>
+                    </div>
+
+                    <div class="book-meta-grid">
+
+                        @if (!string.IsNullOrEmpty(meta.Publisher))
+                        {
+                            <div class="meta-item">
+                                <span class="meta-label">Publisher</span>
+                                <span class="meta-value">@meta.Publisher</span>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(meta.Genre))
+                        {
+                            <div class="meta-item">
+                                <span class="meta-label">Genre</span>
+                                <span class="meta-value">@meta.Genre</span>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(meta.Pages))
+                        {
+                            <div class="meta-item">
+                                <span class="meta-label">Pages</span>
+                                <span class="meta-value">@meta.Pages</span>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(meta.Rating))
+                        {
+                            <div class="meta-item">
+                                <span class="meta-label">Rating</span>
+                                <span class="meta-value">@meta.Rating</span>
+                            </div>
+                        }
+
+                    </div>
+
+                </section>
             }
         }
 
-        @if (!string.IsNullOrEmpty(project.Summary))
-        {
-            <div class="book-summary">@project.Summary</div>
-        }
-
+        <!-- Description / Body -->
         @if (!string.IsNullOrEmpty(project.Body))
         {
-            <div class="book-body">
-                @Html.Raw(project.Body)
-            </div>
+            <section class="book-content-section">
+
+                <div class="section-heading">
+                    <span class="section-number">02</span>
+                    <h2>About the Book</h2>
+                </div>
+
+                <div class="book-body">
+                    @Html.Raw(project.Body)
+                </div>
+
+            </section>
         }
 
+        <!-- Actions -->
         @if (Model.Buttons.Any())
         {
-            <div class="book-actions">
-                @foreach (var btn in Model.Buttons)
-                {
-                    <a href="@btn.Url" target="_blank" rel="noopener noreferrer" class="btn btn-@(string.IsNullOrEmpty(btn.Style) ? "primary" : btn.Style)">@btn.Label</a>
-                }
-            </div>
+            <section class="book-actions-section">
+
+                <div class="section-heading">
+                    <span class="section-number">03</span>
+                    <h2>Continue Reading</h2>
+                </div>
+
+                <div class="book-actions">
+
+                    @foreach (var btn in Model.Buttons)
+                    {
+                        <a href="@btn.Url"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-@(string.IsNullOrEmpty(btn.Style) ? "primary" : btn.Style)">
+                            @btn.Label
+                            <span class="button-arrow">↗</span>
+                        </a>
+                    }
+
+                </div>
+
+            </section>
         }
         else if (Model.BookMeta != null)
         {
             var meta = Model.BookMeta;
-            var hasLinks = !string.IsNullOrEmpty(meta.BuyUrl) || !string.IsNullOrEmpty(meta.GoodreadsUrl);
+
+            var hasLinks =
+                !string.IsNullOrEmpty(meta.BuyUrl)
+                || !string.IsNullOrEmpty(meta.GoodreadsUrl);
+
             if (hasLinks)
             {
-                <div class="book-actions">
-                    @if (!string.IsNullOrEmpty(meta.BuyUrl))
-                    {
-                        <a href="@meta.BuyUrl" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Buy / Read</a>
-                    }
-                    @if (!string.IsNullOrEmpty(meta.GoodreadsUrl))
-                    {
-                        <a href="@meta.GoodreadsUrl" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Goodreads</a>
-                    }
-                </div>
+                <section class="book-actions-section">
+
+                    <div class="section-heading">
+                        <span class="section-number">03</span>
+                        <h2>Continue Reading</h2>
+                    </div>
+
+                    <div class="book-actions">
+
+                        @if (!string.IsNullOrEmpty(meta.BuyUrl))
+                        {
+                            <a href="@meta.BuyUrl"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn btn-primary">
+                                Buy / Read
+                                <span class="button-arrow">↗</span>
+                            </a>
+                        }
+
+                        @if (!string.IsNullOrEmpty(meta.GoodreadsUrl))
+                        {
+                            <a href="@meta.GoodreadsUrl"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn btn-secondary">
+                                Goodreads
+                                <span class="button-arrow">↗</span>
+                            </a>
+                        }
+
+                    </div>
+
+                </section>
             }
         }
 
+        <!-- Gallery -->
         @if (Model.Images.Any())
         {
-            <div class="book-gallery">
-                <h2 class="headline-md">Gallery</h2>
+            <section class="book-gallery-section">
+
+                <div class="section-heading">
+                    <span class="section-number">04</span>
+                    <h2>Gallery</h2>
+                </div>
+
                 <div class="gallery-grid">
+
                     @foreach (var img in Model.Images)
                     {
                         <div class="gallery-item">
-                            <img src="@img.Url" alt="@img.Alt" />
+
+                            <div class="gallery-image">
+                                <img src="@img.Url" alt="@img.Alt" />
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(img.Alt))
+                            {
+                                <span class="gallery-caption">
+                                    @img.Alt
+                                </span>
+                            }
+
                         </div>
                     }
+
                 </div>
-            </div>
+
+            </section>
         }
 
+        <!-- Bottom -->
+        <div class="book-end">
+
+            <div class="book-end-rule"></div>
+
+            <a href="/books" class="back-link book-end-link">
+                <span class="back-arrow">←</span>
+                Return to Library
+            </a>
+
+        </div>
+
     </div>
+
 </section>

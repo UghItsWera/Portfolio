@@ -1,139 +1,223 @@
 @using PortfolioCMS.Models
-@model ProjectDetailViewModel
+@model List<Project>
 
 @{
     Layout = "_PublicLayout";
-    ViewData["Title"] = Model.Project.Title;
-    var project = Model.Project;
-    var coverSrc = string.IsNullOrEmpty(project.CoverImage) ? "/images/general/placeholder.jpg" : project.CoverImage;
+    ViewData["Title"] = "Websites";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/public/website-detail.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/public/websites.css" asp-append-version="true" />
 }
 
-<section class="website-detail">
+<section class="websites-section">
     <div class="container">
 
-        <a href="/websites" class="back-link">← Back to Websites</a>
+        <div class="websites-header">
+            <div class="websites-header-meta">
+                <span>Archive / Websites</span>
+                <span>Digital Projects</span>
+            </div>
 
-        <div class="website-hero">
-            <img src="@coverSrc" alt="@project.Title" />
-            @if (Model.WebsiteMeta != null && !string.IsNullOrEmpty(Model.WebsiteMeta.Stack))
-            {
-                <span class="website-hero-badge">● @Model.WebsiteMeta.Stack.ToUpper()</span>
-            }
+            <h1 class="display-lg">Web Portfolio</h1>
+
+            <div class="websites-header-bottom">
+                <p class="body-lg">
+                    Sites, apps, and digital experiences built for the open web.
+                </p>
+
+                <span class="websites-count">
+                    @Model.Count.ToString("D2") Projects
+                </span>
+            </div>
+
+            <div class="websites-header-rule"></div>
         </div>
 
-        <div class="website-header">
-            <div class="website-header-main">
-                <h1 class="display-lg">@project.Title</h1>
-                @if (Model.WebsiteMeta != null && !string.IsNullOrEmpty(Model.WebsiteMeta.Year))
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <span class="empty-index">00</span>
+                <p class="body-lg">No websites published yet. Check back soon.</p>
+            </div>
+        }
+        else
+        {
+            <div class="websites-grid" id="websites-grid">
+
+                @for (int i = 0; i < Model.Count; i++)
                 {
-                    <span class="website-year">@Model.WebsiteMeta.Year</span>
+                    var website = Model[i];
+
+                    var tags = ProjectDisplayHelper.ParseTags(website.Tags);
+
+                    var meta = ProjectDisplayHelper.TryDeserialize<WebsiteMetadata>(website.Metadata)
+                        ?? new WebsiteMetadata();
+
+                    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(
+                        website,
+                        "/images/general/placeholder.jpg"
+                    );
+
+                    <article class="website-card @(i == 0 ? "active" : "")"
+                             data-index="@i"
+                             tabindex="0"
+                             role="button"
+                             aria-expanded="@(i == 0 ? "true" : "false")">
+
+                        <div class="card-collapsed">
+
+                            <div class="card-index">
+                                @((i + 1).ToString("D2"))
+                            </div>
+
+                            <div class="card-thumb">
+                                <img src="@coverSrc" alt="@website.Title" />
+                            </div>
+
+                            <div class="card-collapsed-info">
+
+                                <h2 class="card-collapsed-title">
+                                    @website.Title
+                                </h2>
+
+                                @if (tags.Any())
+                                {
+                                    <div class="tag-list">
+                                        @foreach (var tag in tags.Take(2))
+                                        {
+                                            <span class="tag">@tag</span>
+                                        }
+                                    </div>
+                                }
+
+                            </div>
+
+                            <div class="card-collapsed-meta">
+
+                                @if (!string.IsNullOrEmpty(meta.Year))
+                                {
+                                    <span class="card-year">@meta.Year</span>
+                                }
+
+                                <span class="card-expand-icon" aria-hidden="true">
+                                    +
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-expanded">
+
+                            <div class="card-expanded-image">
+
+                                <div class="browser-bar">
+
+                                    <div class="browser-controls" aria-hidden="true">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+
+                                    <span class="browser-address">
+                                        @website.Title
+                                    </span>
+
+                                </div>
+
+                                <div class="website-preview">
+                                    <img src="@coverSrc" alt="@website.Title" />
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(meta.Stack))
+                                {
+                                    <span class="card-badge">
+                                        <span class="badge-dot"></span>
+                                        @meta.Stack
+                                    </span>
+                                }
+
+                            </div>
+
+                            <div class="card-expanded-body">
+
+                                <div class="card-expanded-main">
+
+                                    <div class="card-title-row">
+
+                                        <div>
+                                            <span class="project-label">
+                                                Web Project / @((i + 1).ToString("D2"))
+                                            </span>
+
+                                            <h2 class="card-expanded-title">
+                                                @website.Title
+                                            </h2>
+                                        </div>
+
+                                        @if (!string.IsNullOrEmpty(meta.Year))
+                                        {
+                                            <span class="card-expanded-year">
+                                                @meta.Year
+                                            </span>
+                                        }
+
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(website.Summary))
+                                    {
+                                        <p class="card-expanded-summary">
+                                            @website.Summary
+                                        </p>
+                                    }
+
+                                    @if (tags.Any())
+                                    {
+                                        <div class="tag-list expanded-tags">
+                                            @foreach (var tag in tags)
+                                            {
+                                                <span class="tag">@tag</span>
+                                            }
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="card-expanded-actions">
+
+                                    <a href="/websites/@website.Slug"
+                                       class="btn btn-primary">
+                                        View Project
+                                        <span class="button-arrow">→</span>
+                                    </a>
+
+                                    @if (!string.IsNullOrEmpty(meta.LiveUrl))
+                                    {
+                                        <a href="@meta.LiveUrl"
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           class="btn btn-secondary">
+                                            Visit Site
+                                            <span class="button-arrow">↗</span>
+                                        </a>
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
                 }
-            </div>
 
-            @if (Model.Tags.Any())
-            {
-                <div class="tag-list">
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <span class="tag">@tag</span>
-                    }
-                </div>
-            }
-        </div>
-
-        @if (Model.WebsiteMeta != null)
-        {
-            var meta = Model.WebsiteMeta;
-            var hasAnyMeta = !string.IsNullOrEmpty(meta.Stack)
-                || !string.IsNullOrEmpty(meta.Role)
-                || !string.IsNullOrEmpty(meta.Year);
-
-            if (hasAnyMeta)
-            {
-                <div class="website-meta-grid">
-                    @if (!string.IsNullOrEmpty(meta.Stack))
-                    {
-                        <div class="meta-item">
-                            <span class="meta-label">Stack</span>
-                            <span class="meta-value">@meta.Stack</span>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(meta.Role))
-                    {
-                        <div class="meta-item">
-                            <span class="meta-label">Role</span>
-                            <span class="meta-value">@meta.Role</span>
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(meta.Year))
-                    {
-                        <div class="meta-item">
-                            <span class="meta-label">Year</span>
-                            <span class="meta-value">@meta.Year</span>
-                        </div>
-                    }
-                </div>
-            }
-        }
-
-        @if (!string.IsNullOrEmpty(project.Summary))
-        {
-            <p class="website-summary">@project.Summary</p>
-        }
-
-        @if (!string.IsNullOrEmpty(project.Body))
-        {
-            <div class="website-body">
-                @Html.Raw(project.Body)
-            </div>
-        }
-
-        @if (Model.Buttons.Any())
-        {
-            <div class="website-actions">
-                @foreach (var btn in Model.Buttons)
-                {
-                    <a href="@btn.Url" target="_blank" rel="noopener noreferrer" class="btn btn-@(string.IsNullOrEmpty(btn.Style) ? "primary" : btn.Style)">@btn.Label</a>
-                }
-            </div>
-        }
-        else if (Model.WebsiteMeta != null)
-        {
-            var meta = Model.WebsiteMeta;
-            var hasLinks = !string.IsNullOrEmpty(meta.LiveUrl) || !string.IsNullOrEmpty(meta.SourceUrl);
-            if (hasLinks)
-            {
-                <div class="website-actions">
-                    @if (!string.IsNullOrEmpty(meta.LiveUrl))
-                    {
-                        <a href="@meta.LiveUrl" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Visit Site</a>
-                    }
-                    @if (!string.IsNullOrEmpty(meta.SourceUrl))
-                    {
-                        <a href="@meta.SourceUrl" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Source Code</a>
-                    }
-                </div>
-            }
-        }
-
-        @if (Model.Images.Any())
-        {
-            <div class="website-gallery">
-                <h2 class="headline-md">Screenshots</h2>
-                <div class="gallery-grid">
-                    @foreach (var img in Model.Images)
-                    {
-                        <div class="gallery-item">
-                            <img src="@img.Url" alt="@img.Alt" />
-                        </div>
-                    }
-                </div>
             </div>
         }
 
     </div>
 </section>
+
+@section Scripts {
+    <script src="~/js/public/websites.js" asp-append-version="true"></script>
+}

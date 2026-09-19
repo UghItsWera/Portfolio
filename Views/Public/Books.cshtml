@@ -7,65 +7,144 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/public/books.css" />
+    <link rel="stylesheet" href="~/css/public/books.css" asp-append-version="true" />
 }
 
-<section class="books-section">
+<section class="books-page">
+
     <div class="container">
 
-        <div class="books-header">
-            <h1 class="display-lg">Library Archives</h1>
-            <p class="body-lg">
-                Dark fantasies, psychological horrors, and fictional worlds.
-            </p>
-        </div>
+        <!-- Page Introduction -->
+        <header class="books-header">
+
+            <div class="books-header-meta">
+                <span>Archive / Books</span>
+                <span>Collection</span>
+            </div>
+
+            <div class="books-header-rule"></div>
+
+            <div class="books-header-content">
+
+                <div class="books-header-label">
+                    <span class="header-number">01</span>
+                    <span>Written Works</span>
+                </div>
+
+                <h1>
+                    Library
+                    <em>Archives</em>
+                </h1>
+
+                <p>
+                    Dark fantasies, psychological horrors, and fictional worlds.
+                </p>
+
+            </div>
+
+        </header>
 
         @if (!Model.Any())
         {
             <div class="empty-state">
-                <p class="body-lg">No books published yet. Check back soon.</p>
+
+                <span class="empty-number">01</span>
+
+                <div>
+                    <h2>The shelves are quiet.</h2>
+                    <p>
+                        No books have been published yet. Check back soon.
+                    </p>
+                </div>
+
             </div>
         }
         else
         {
+            <!-- Books -->
             <div class="books-grid">
 
                 @foreach (var book in Model)
                 {
                     var tags = ProjectDisplayHelper.ParseTags(book.Tags);
-                    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(book, "/images/general/book-placeholder.jpg");
+
+                    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(
+                        book,
+                        "/images/general/book-placeholder.jpg"
+                    );
 
                     <article class="book-card">
 
-                        <div class="book-cover">
-                            <img src="@coverSrc" alt="@book.Title" />
-                        </div>
+                        <a href="/books/@book.Slug" class="book-cover-link">
+
+                            <div class="book-cover">
+
+                                <div class="book-index">
+                                    <span>Book</span>
+                                </div>
+
+                                <img src="@coverSrc"
+                                     alt="@book.Title" />
+
+                                <div class="book-cover-overlay">
+                                    <span>View Record</span>
+                                    <span class="overlay-arrow">↗</span>
+                                </div>
+
+                            </div>
+
+                        </a>
 
                         <div class="book-content">
 
-                            <h2 class="book-title">@book.Title</h2>
+                            <div class="book-content-top">
 
-                            @if (!string.IsNullOrEmpty(book.Summary))
-                            {
-                                <p class="book-summary">
-                                    @book.Summary
-                                </p>
-                            }
+                                <span class="book-record">
+                                    Archive Record
+                                </span>
 
-                            @if (tags.Any())
-                            {
-                                <div class="tag-list">
-                                    @foreach (var tag in tags)
-                                    {
-                                        <span class="tag">@tag</span>
-                                    }
-                                </div>
-                            }
+                                <h2 class="book-title">
+                                    <a href="/books/@book.Slug">
+                                        @book.Title
+                                    </a>
+                                </h2>
+
+                                @if (!string.IsNullOrEmpty(book.Summary))
+                                {
+                                    <p class="book-summary">
+                                        @book.Summary
+                                    </p>
+                                }
+
+                                @if (tags.Any())
+                                {
+                                    <div class="tag-list">
+
+                                        @foreach (var tag in tags)
+                                        {
+                                            <span class="tag">
+                                                @tag
+                                            </span>
+                                        }
+
+                                    </div>
+                                }
+
+                            </div>
 
                             <div class="book-actions">
-                                <a href="/books/@book.Slug" class="btn btn-primary">
-                                    Read More
+
+                                <a href="/books/@book.Slug"
+                                   class="book-link">
+
+                                    <span>Read More</span>
+
+                                    <span class="book-link-arrow">
+                                        →
+                                    </span>
+
                                 </a>
+
                             </div>
 
                         </div>
@@ -76,5 +155,21 @@
             </div>
         }
 
+        <!-- Closing Archive Detail -->
+        @if (Model.Any())
+        {
+            <div class="books-footer">
+
+                <div class="books-footer-rule"></div>
+
+                <div class="books-footer-content">
+                    <span>End of collection</span>
+                    <span>@Model.Count.ToString("00") records</span>
+                </div>
+
+            </div>
+        }
+
     </div>
+
 </section>
