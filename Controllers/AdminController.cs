@@ -91,7 +91,15 @@ namespace PortfolioCMS.Controllers
         {
             var now = DateTime.UtcNow;
             var todayStart = now.Date;
-            var monthStart = new DateTime(now.Year, now.Month, 1);
+            var monthStart = new DateTime(
+                now.Year,
+                now.Month,
+                1,
+                0,
+                0,
+                0,
+                DateTimeKind.Utc
+            );
 
             ViewBag.RecentProjects = _db.Projects
                 .OrderByDescending(p => p.UpdatedAt)
