@@ -59,12 +59,12 @@ bld/
 # ASP.NET local configuration / secrets
 # ============================================
 
+appsettings.json
 appsettings.Development.json
 appsettings.Local.json
 
 # User secrets
 secrets.json
-
 # ============================================
 # Databases
 # ============================================
