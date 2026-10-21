@@ -1,223 +1,257 @@
 @using PortfolioCMS.Models
-@model List<Project>
+@model ProjectDetailViewModel
 
 @{
     Layout = "_PublicLayout";
-    ViewData["Title"] = "Websites";
+
+    var project = Model.Project;
+    ViewData["Title"] = project.Title;
+
+    var tags = Model.Tags?.Any() == true
+        ? Model.Tags
+        : ProjectDisplayHelper.ParseTags(project.Tags);
+
+    var meta = Model.WebsiteMeta
+        ?? ProjectDisplayHelper.TryDeserialize<WebsiteMetadata>(project.Metadata)
+        ?? new WebsiteMetadata();
+
+    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(
+        project,
+        "/images/general/placeholder.jpg"
+    );
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/public/websites.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/css/public/website-detail.css"
+          asp-append-version="true" />
 }
 
-<section class="websites-section">
+<section class="website-detail">
     <div class="container">
 
-        <div class="websites-header">
-            <div class="websites-header-meta">
-                <span>Archive / Websites</span>
-                <span>Digital Projects</span>
-            </div>
+        <!-- Back navigation -->
+        <nav class="detail-back" aria-label="Breadcrumb">
+            <a href="/websites" class="back-link">
+                <span class="back-arrow" aria-hidden="true">←</span>
+                <span>Back to Websites</span>
+            </a>
 
-            <h1 class="display-lg">Web Portfolio</h1>
+            <span class="breadcrumb-divider">/</span>
+            <span class="breadcrumb-current">@project.Title</span>
+        </nav>
 
-            <div class="websites-header-bottom">
-                <p class="body-lg">
-                    Sites, apps, and digital experiences built for the open web.
-                </p>
+        <!-- Project heading -->
+        <header class="detail-header">
 
-                <span class="websites-count">
-                    @Model.Count.ToString("D2") Projects
-                </span>
-            </div>
+            <div class="detail-eyebrow">
+                <span class="eyebrow-line"></span>
+                <span>Digital Archive / Web Projects</span>
 
-            <div class="websites-header-rule"></div>
-        </div>
-
-        @if (!Model.Any())
-        {
-            <div class="empty-state">
-                <span class="empty-index">00</span>
-                <p class="body-lg">No websites published yet. Check back soon.</p>
-            </div>
-        }
-        else
-        {
-            <div class="websites-grid" id="websites-grid">
-
-                @for (int i = 0; i < Model.Count; i++)
+                @if (!string.IsNullOrWhiteSpace(meta.Year))
                 {
-                    var website = Model[i];
+                    <span class="eyebrow-year">@meta.Year</span>
+                }
+            </div>
 
-                    var tags = ProjectDisplayHelper.ParseTags(website.Tags);
+            <h1 class="detail-title">@project.Title</h1>
 
-                    var meta = ProjectDisplayHelper.TryDeserialize<WebsiteMetadata>(website.Metadata)
-                        ?? new WebsiteMetadata();
+            @if (!string.IsNullOrWhiteSpace(project.Summary))
+            {
+                <p class="detail-summary">@project.Summary</p>
+            }
 
-                    var coverSrc = ProjectDisplayHelper.CoverOrPlaceholder(
-                        website,
-                        "/images/general/placeholder.jpg"
-                    );
+            <div class="detail-header-rule"></div>
 
-                    <article class="website-card @(i == 0 ? "active" : "")"
-                             data-index="@i"
-                             tabindex="0"
-                             role="button"
-                             aria-expanded="@(i == 0 ? "true" : "false")">
+        </header>
 
-                        <div class="card-collapsed">
+        <!-- Main project preview -->
+        <section class="detail-preview" aria-label="Project preview">
 
-                            <div class="card-index">
-                                @((i + 1).ToString("D2"))
-                            </div>
+            <div class="preview-browser-bar">
 
-                            <div class="card-thumb">
-                                <img src="@coverSrc" alt="@website.Title" />
-                            </div>
+                <div class="browser-controls" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
-                            <div class="card-collapsed-info">
+                <div class="browser-address">
+                    <span class="browser-lock" aria-hidden="true">◇</span>
+                    <span>@project.Title</span>
+                </div>
 
-                                <h2 class="card-collapsed-title">
-                                    @website.Title
-                                </h2>
+                <span class="browser-label">PROJECT PREVIEW</span>
 
-                                @if (tags.Any())
-                                {
-                                    <div class="tag-list">
-                                        @foreach (var tag in tags.Take(2))
-                                        {
-                                            <span class="tag">@tag</span>
-                                        }
-                                    </div>
-                                }
+            </div>
 
-                            </div>
+            <div class="preview-image">
+                <img src="@coverSrc"
+                     alt="Preview of @project.Title" />
+            </div>
 
-                            <div class="card-collapsed-meta">
+            <div class="preview-caption">
+                <span>FIG. 01</span>
+                <span>Project documentation and visual reference</span>
+            </div>
 
-                                @if (!string.IsNullOrEmpty(meta.Year))
-                                {
-                                    <span class="card-year">@meta.Year</span>
-                                }
+        </section>
 
-                                <span class="card-expand-icon" aria-hidden="true">
-                                    +
-                                </span>
+        <!-- Project information -->
+        <div class="detail-content">
 
-                            </div>
+            <main class="detail-main">
 
-                        </div>
+                <div class="section-label">
+                    <span class="section-number">01</span>
+                    <span>Project Overview</span>
+                </div>
 
-                        <div class="card-expanded">
+                <h2 class="detail-section-title">
+                    Behind the build
+                </h2>
 
-                            <div class="card-expanded-image">
-
-                                <div class="browser-bar">
-
-                                    <div class="browser-controls" aria-hidden="true">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-
-                                    <span class="browser-address">
-                                        @website.Title
-                                    </span>
-
-                                </div>
-
-                                <div class="website-preview">
-                                    <img src="@coverSrc" alt="@website.Title" />
-                                </div>
-
-                                @if (!string.IsNullOrEmpty(meta.Stack))
-                                {
-                                    <span class="card-badge">
-                                        <span class="badge-dot"></span>
-                                        @meta.Stack
-                                    </span>
-                                }
-
-                            </div>
-
-                            <div class="card-expanded-body">
-
-                                <div class="card-expanded-main">
-
-                                    <div class="card-title-row">
-
-                                        <div>
-                                            <span class="project-label">
-                                                Web Project / @((i + 1).ToString("D2"))
-                                            </span>
-
-                                            <h2 class="card-expanded-title">
-                                                @website.Title
-                                            </h2>
-                                        </div>
-
-                                        @if (!string.IsNullOrEmpty(meta.Year))
-                                        {
-                                            <span class="card-expanded-year">
-                                                @meta.Year
-                                            </span>
-                                        }
-
-                                    </div>
-
-                                    @if (!string.IsNullOrEmpty(website.Summary))
-                                    {
-                                        <p class="card-expanded-summary">
-                                            @website.Summary
-                                        </p>
-                                    }
-
-                                    @if (tags.Any())
-                                    {
-                                        <div class="tag-list expanded-tags">
-                                            @foreach (var tag in tags)
-                                            {
-                                                <span class="tag">@tag</span>
-                                            }
-                                        </div>
-                                    }
-
-                                </div>
-
-                                <div class="card-expanded-actions">
-
-                                    <a href="/websites/@website.Slug"
-                                       class="btn btn-primary">
-                                        View Project
-                                        <span class="button-arrow">→</span>
-                                    </a>
-
-                                    @if (!string.IsNullOrEmpty(meta.LiveUrl))
-                                    {
-                                        <a href="@meta.LiveUrl"
-                                           target="_blank"
-                                           rel="noopener noreferrer"
-                                           class="btn btn-secondary">
-                                            Visit Site
-                                            <span class="button-arrow">↗</span>
-                                        </a>
-                                    }
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </article>
+                @if (!string.IsNullOrWhiteSpace(project.Summary))
+                {
+                    <p class="detail-description">@project.Summary</p>
+                }
+                else
+                {
+                    <p class="detail-description">
+                        Further details about this project will be added to the archive soon.
+                    </p>
                 }
 
-            </div>
-        }
+                @if (tags.Any())
+                {
+                    <div class="detail-technologies">
+
+                        <div class="section-label">
+                            <span class="section-number">02</span>
+                            <span>Technologies &amp; Skills</span>
+                        </div>
+
+                        <div class="detail-tags">
+                            @foreach (var tag in tags)
+                            {
+                                <span class="detail-tag">@tag</span>
+                            }
+                        </div>
+
+                    </div>
+                }
+
+                @if (Model.Images?.Any() == true)
+                {
+                    <div class="detail-gallery">
+
+                        <div class="section-label">
+                            <span class="section-number">03</span>
+                            <span>Project Gallery</span>
+                        </div>
+
+                        <div class="detail-gallery-grid">
+                            @foreach (var image in Model.Images)
+                            {
+                                <figure class="detail-gallery-item">
+                                    <img src="@image.Url"
+     alt="@(string.IsNullOrWhiteSpace(image.Alt) ? $"Project image for {project.Title}" : image.Alt)"
+     loading="lazy" />
+                                </figure>
+                            }
+                        </div>
+
+                    </div>
+                }
+
+            </main>
+
+            <!-- Project facts -->
+            <aside class="detail-sidebar">
+
+                <div class="sidebar-heading">
+                    <span>ARCHIVE RECORD</span>
+                    <span class="record-symbol" aria-hidden="true">✳</span>
+                </div>
+
+                <div class="sidebar-field">
+                    <span class="field-label">Project</span>
+                    <span class="field-value">@project.Title</span>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(meta.Year))
+                {
+                    <div class="sidebar-field">
+                        <span class="field-label">Year</span>
+                        <span class="field-value">@meta.Year</span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(meta.Stack))
+                {
+                    <div class="sidebar-field">
+                        <span class="field-label">Primary Stack</span>
+                        <span class="field-value">@meta.Stack</span>
+                    </div>
+                }
+
+                <div class="sidebar-field">
+                    <span class="field-label">Category</span>
+                    <span class="field-value">Web Development</span>
+                </div>
+
+                <div class="sidebar-actions">
+
+                    @if (!string.IsNullOrWhiteSpace(meta.LiveUrl))
+                    {
+                        <a href="@meta.LiveUrl"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="detail-button detail-button-primary">
+                            Visit Live Website
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    }
+
+                    @if (Model.Buttons?.Any() == true)
+                    {
+                        @foreach (var button in Model.Buttons)
+                        {
+                            <a href="@button.Url"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="detail-button detail-button-secondary">
+                                @button.Label
+                                <span aria-hidden="true">↗</span>
+                            </a>
+                        }
+                    }
+
+                    <a href="/websites"
+                       class="detail-button detail-button-secondary">
+                        Explore All Websites
+                        <span aria-hidden="true">→</span>
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+        <!-- Bottom navigation -->
+        <footer class="detail-footer">
+
+            <span class="footer-note">
+                END OF RECORD — DIGITAL PROJECTS
+            </span>
+
+            <a href="/websites" class="footer-back">
+                <span aria-hidden="true">←</span>
+                Return to Website Archive
+            </a>
+
+        </footer>
 
     </div>
 </section>
-
-@section Scripts {
-    <script src="~/js/public/websites.js" asp-append-version="true"></script>
-}

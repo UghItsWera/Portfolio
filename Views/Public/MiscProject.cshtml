@@ -1,3 +1,4 @@
+
 @using PortfolioCMS.Models
 @model ProjectDetailViewModel
 
@@ -24,8 +25,9 @@
 
         <!-- Back -->
         <div class="misc-detail-back">
-            <a href="/miscellaneous" class="back-link">
-                <span class="back-arrow">←</span>
+            <a asp-controller="Public"
+               asp-action="Miscellaneous"
+               class="back-link">
                 <span>Back to Miscellaneous</span>
             </a>
         </div>
@@ -182,7 +184,9 @@
 
             <div class="misc-detail-end-rule"></div>
 
-            <a href="/miscellaneous" class="misc-detail-end-link">
+            <a asp-controller="Public"
+               asp-action="Miscellaneous"
+               class="misc-detail-end-link">
                 <span>Return to Miscellaneous</span>
                 <span>→</span>
             </a>

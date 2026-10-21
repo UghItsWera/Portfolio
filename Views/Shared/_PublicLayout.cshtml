@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -47,7 +48,7 @@
 
             </a>
 
-            <div class="nav-links">
+            <div class="nav-links" id="public-nav-links">
 
                 <a asp-controller="Public"
                    asp-action="Games"
@@ -81,6 +82,21 @@
 
             </div>
 
+            <!-- Hamburger menu: visible at 1080px and below -->
+            <button class="hamburger-toggle"
+                    id="hamburger-toggle"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="public-nav-links">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+            <!-- Light/dark theme toggle -->
             <button class="theme-toggle"
                     id="theme-toggle"
                     type="button"
@@ -179,6 +195,7 @@
     @RenderSection("Scripts", required: false)
 
     <script src="~/js/public/theme.js" asp-append-version="true"></script>
+    <script src="~/js/public/navigation.js" asp-append-version="true"></script>
 
 </body>
 </html>

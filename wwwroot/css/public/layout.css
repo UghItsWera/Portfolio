@@ -1198,3 +1198,136 @@ body {
         gap: 1rem;
     }
 }
+
+
+/* =========================================================
+   RESPONSIVE HAMBURGER NAVIGATION
+   Visible at 1080px and below
+   ========================================================= */
+
+   .hamburger-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    padding: 10px;
+    margin-left: auto;
+    border: 1px solid var(--nav-border);
+    border-radius: 50%;
+    background: var(--nav-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 0.25s ease,
+                border-color 0.25s ease,
+                transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.hamburger-toggle span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.25s ease,
+                opacity 0.2s ease;
+}
+
+.hamburger-toggle:hover {
+    background: var(--card-bg);
+}
+
+.hamburger-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* Transform the three lines into a cross when open */
+.hamburger-toggle[aria-expanded="true"] span:first-child {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-toggle[aria-expanded="true"] span:last-child {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 1080px) {
+    .site-nav {
+        position: relative;
+    }
+
+    .hamburger-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: calc(100% + 0.65rem);
+        right: 0;
+        left: 0;
+        z-index: 1001;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
+        margin: 0;
+        padding: 0.8rem;
+        border: 1px solid var(--nav-border);
+        border-radius: 0.8rem;
+        background: var(--nav-bg);
+        box-shadow: var(--shadow-nav);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    .nav-links.is-open {
+        display: flex;
+        animation: hamburger-menu-arrive 0.2s ease both;
+    }
+
+    .nav-links .nav-link {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .nav-links .nav-link:hover,
+    .nav-links .nav-link.active {
+        background: var(--card-bg);
+    }
+
+    .theme-toggle {
+        margin-left: 0.65rem;
+        flex-shrink: 0;
+    }
+}
+
+@keyframes hamburger-menu-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hamburger-toggle,
+    .hamburger-toggle span,
+    .nav-links.is-open {
+        animation: none;
+        transition: none;
+    }
+}

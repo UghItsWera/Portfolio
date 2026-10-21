@@ -1,3 +1,4 @@
+
 @using PortfolioCMS.Models
 @model List<Project>
 
@@ -7,7 +8,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/public/games.css" />
+    <link rel="stylesheet" href="~/css/public/games.css" asp-append-version="true" />
 }
 
 <section class="games-section">
@@ -31,10 +32,16 @@
                 {
                     var project = Model[i];
                     var tags = new List<string>();
+
                     if (!string.IsNullOrEmpty(project.Tags))
                     {
-                        try { tags = System.Text.Json.JsonSerializer.Deserialize<List<string>>(project.Tags) ?? new(); }
-                        catch { }
+                        try
+                        {
+                            tags = System.Text.Json.JsonSerializer.Deserialize<List<string>>(project.Tags) ?? new();
+                        }
+                        catch
+                        {
+                        }
                     }
 
                     var coverSrc = string.IsNullOrEmpty(project.CoverImage)
@@ -47,8 +54,10 @@
                             <div class="card-thumb">
                                 <img src="@coverSrc" alt="@project.Title" />
                             </div>
+
                             <div class="card-collapsed-info">
                                 <h3 class="card-collapsed-title">@project.Title</h3>
+
                                 @if (tags.Any())
                                 {
                                     <div class="tag-list">
@@ -65,18 +74,22 @@
                             <div class="card-expanded-image">
                                 <img src="@coverSrc" alt="@project.Title" />
                             </div>
+
                             <div class="card-expanded-body">
                                 <div class="card-expanded-main">
                                     <div>
                                         <h2 class="card-expanded-title">@project.Title</h2>
+
                                         <span class="card-expanded-year">
                                             @project.CreatedAt.ToString("yyyy")
                                         </span>
                                     </div>
+
                                     @if (!string.IsNullOrEmpty(project.Summary))
                                     {
                                         <p class="card-expanded-summary">@project.Summary</p>
                                     }
+
                                     @if (tags.Any())
                                     {
                                         <div class="tag-list">
@@ -87,8 +100,12 @@
                                         </div>
                                     }
                                 </div>
+
                                 <div class="card-expanded-actions">
-                                    <a href="/miscellaneous/@project.Slug" class="btn btn-primary">
+                                    <a asp-controller="Public"
+                                       asp-action="MiscProject"
+                                       asp-route-slug="@project.Slug"
+                                       class="btn btn-primary">
                                         View Project
                                     </a>
                                 </div>
@@ -104,5 +121,5 @@
 </section>
 
 @section Scripts {
-    <script src="~/js/public/miscellaneous.js"></script>
+    <script src="~/js/public/miscellaneous.js" asp-append-version="true"></script>
 }
